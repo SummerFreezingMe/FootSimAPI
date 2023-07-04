@@ -41,8 +41,6 @@ public class Team implements Serializable {
     @Column(name = "ticket_price")
     private String stadium;
 
-    @Column(name = "genre_descriptors")
-    private String genreDescriptors;
 
     @Column(name = "description")
     private String description;
@@ -68,7 +66,6 @@ public class Team implements Serializable {
     public int hashCode() {
         return getClass().hashCode();
     }
-
 
 
 }

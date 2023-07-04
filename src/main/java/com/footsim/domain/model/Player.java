@@ -26,18 +26,18 @@ public class Player {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
     @SequenceGenerator(name = "sequenceGenerator")
     @Column(name = "id")
-    Long id;
+    private Long id;
 
     @Column(name = "club_id")
-    Long clubId;
+    private Long clubId;
 
     @Column(name = "rating")
-    Long rating;
+    private Long rating;
 
     @Column(name = "name")
-    String name;
+    private String name;
 
     @Column(name = "position")
-    PlayerPosition position;
+    private PlayerPosition position;
 
 }

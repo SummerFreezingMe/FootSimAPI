@@ -16,7 +16,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "venue")
+@Table(name = "season")
 @SuppressWarnings("common-java:DuplicatedBlocks")
 public class Season implements Serializable {
 

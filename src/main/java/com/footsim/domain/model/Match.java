@@ -10,7 +10,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
- * A user.
+ * A Match.
  */
 @Getter
 @Setter
@@ -32,14 +32,18 @@ public class Match
     @Column(name = "league_id")
     private Long leagueId;
 
-    @Column(name = "first_team_id")
-    private Long firstTeamId;
+    @Column(name = "home_team_id")
+    private Long homeTeamId;
 
-    @Column(name = "second_team_id")
-    private Long secondTeamId;
+    @Column(name = "away_team_id")
+    private Long awayTeamId;
 
-    @Column(name = "result")
-    private String result;
+    @Column(name = "home_goals")
+    private Long homeGoals;
+
+    @Column(name = "away_goals")
+    private Long AwayGoals;
+
 
     @Column(name = "date")
     private LocalDateTime date;

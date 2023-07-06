@@ -1,9 +1,12 @@
 package com.footsim.service.impl;
 
+import com.footsim.config.Constants;
 import com.footsim.domain.dto.MatchDTO;
 import com.footsim.domain.model.Match;
+import com.footsim.domain.model.Team;
 import com.footsim.mapper.MatchMapper;
 import com.footsim.repository.MatchRepository;
+import com.footsim.repository.TeamRepository;
 import com.footsim.service.MatchService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,11 +21,12 @@ import java.util.stream.Collectors;
 public class MatchServiceImpl implements MatchService {
     private final Logger log = LoggerFactory.getLogger(MatchServiceImpl.class);
     private final MatchRepository matchRepository;
-
+    private final TeamRepository teamRepository;
     private final MatchMapper matchMapper;
 
-    public MatchServiceImpl(MatchRepository matchRepository, MatchMapper matchMapper) {
+    public MatchServiceImpl(MatchRepository matchRepository, TeamRepository teamRepository, MatchMapper matchMapper) {
         this.matchRepository = matchRepository;
+        this.teamRepository = teamRepository;
         this.matchMapper = matchMapper;
     }
 
@@ -77,5 +81,17 @@ public class MatchServiceImpl implements MatchService {
         matchRepository.deleteById(id);
     }
 
-
+@Override
+    public MatchDTO simulateMatch(Long id) {
+        Match match = matchRepository.findById(id).orElseThrow();
+        Team homeTeam = teamRepository.findById(match.getHomeTeamId()).orElseThrow();
+        Team awayTeam = teamRepository.findById(match.getAwayTeamId()).orElseThrow();
+        double matchCoefficient = homeTeam.getRating()*
+                Constants.HOME_CROWD_ADVANTAGE/awayTeam.getRating();
+        long homeGoals =Math.round(Math.random()*matchCoefficient);
+        long awayGoals =  Math.round(Math.random()/matchCoefficient);
+        match.setHomeGoals(homeGoals);
+        match.setAwayGoals(awayGoals);
+        return matchMapper.toDto(match);
+    }
 }

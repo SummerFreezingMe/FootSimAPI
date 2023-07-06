@@ -39,5 +39,10 @@ public class MatchController {
         return matchService.findAll();
     }
 
+    @GetMapping(value = "/simulate/{id}")
+    public MatchDTO simulateMatch(@PathVariable Long id) {
+        return matchService.simulateMatch(id);
+    }
+
 }
 

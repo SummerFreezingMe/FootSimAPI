@@ -4,6 +4,8 @@ import com.footsim.domain.model.Player;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * Spring Data JPA repository for the {@link Player} entity.
  */
@@ -11,4 +13,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PlayerRepository extends JpaRepository<Player, Long> {
 
+    List<Player> findByClubId(Long id);
 }

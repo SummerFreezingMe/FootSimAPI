@@ -16,7 +16,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "ticket")
+@Table(name = "league")
 @SuppressWarnings("common-java:DuplicatedBlocks")
 public class League implements Serializable {
 

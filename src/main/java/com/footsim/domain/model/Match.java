@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "app_user")
+@Table(name = "match")
 public class Match
         implements Serializable {
 

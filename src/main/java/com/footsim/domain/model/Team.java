@@ -35,10 +35,10 @@ public class Team implements Serializable {
     private String name;
 
 
-    @Column(name = "ticket_limit")
+    @Column(name = "rating")
     private String rating;
 
-    @Column(name = "ticket_price")
+    @Column(name = "stadium")
     private String stadium;
 
 

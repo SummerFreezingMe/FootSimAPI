@@ -2,6 +2,7 @@ package com.footsim.domain.model;
 
 
 import com.footsim.domain.enumeration.PlayerPosition;
+import com.footsim.domain.enumeration.PlayerStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -40,4 +41,6 @@ public class Player {
     @Column(name = "position")
     private PlayerPosition position;
 
+    @Column(name = "status")
+    private PlayerStatus status;
 }

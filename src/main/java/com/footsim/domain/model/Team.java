@@ -10,7 +10,7 @@ import lombok.Setter;
 import java.io.Serializable;
 
 /**
- * A Event.
+ * A Team.
  */
 @Getter
 @Setter
@@ -36,7 +36,7 @@ public class Team implements Serializable {
 
 
     @Column(name = "rating")
-    private String rating;
+    private Long rating;
 
     @Column(name = "stadium")
     private String stadium;

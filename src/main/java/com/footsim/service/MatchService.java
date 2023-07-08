@@ -11,7 +11,7 @@ import java.util.Optional;
  */
 public interface MatchService {
     /**
-     * Save an Match.
+     * Save a Match.
      *
      * @param MatchDTO the entity to save.
      * @return the persisted entity.
@@ -27,7 +27,7 @@ public interface MatchService {
     MatchDTO update(MatchDTO MatchDTO);
 
     /**
-     * Partially updates an Match.
+     * Partially updates a Match.
      *
      * @param MatchDTO the entity to update partially.
      * @return the persisted entity.
@@ -35,7 +35,7 @@ public interface MatchService {
     Optional<MatchDTO> partialUpdate(MatchDTO MatchDTO);
 
     /**
-     * Get all the Matchs.
+     * Get all the Matches.
      *
      * @return the list of entities.
      */
@@ -56,4 +56,5 @@ public interface MatchService {
      */
     void delete(Long id);
 
+    MatchDTO simulateMatch(Long id);
 }

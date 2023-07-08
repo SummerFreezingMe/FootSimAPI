@@ -1,6 +1,7 @@
 package com.footsim.service;
 
 import com.footsim.domain.dto.PlayerDTO;
+import com.footsim.domain.enumeration.PlayerStatus;
 import com.footsim.domain.model.Player;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -62,4 +63,6 @@ public interface PlayerService {
     void delete(Long id);
 
 
+
+    PlayerDTO switchStatus(Long id, PlayerStatus status);
 }

@@ -2,6 +2,7 @@ package com.footsim.controller;
 
 
 import com.footsim.domain.dto.PlayerDTO;
+import com.footsim.domain.enumeration.PlayerStatus;
 import com.footsim.service.impl.PlayerServiceImpl;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,6 +41,12 @@ public class PlayerController {
     @GetMapping(value = "/get_all")
     public List<PlayerDTO> displayAllPlayers() {
         return playerService.findAll();
+    }
+
+    @PostMapping(value = "/switch_status/{id}/{status}")
+    public PlayerDTO switchPlayerStatus(@PathVariable Long id,
+                                        @PathVariable PlayerStatus status) {
+        return playerService.switchStatus(id,status);
     }
 
 }

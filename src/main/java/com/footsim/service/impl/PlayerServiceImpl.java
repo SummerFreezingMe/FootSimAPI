@@ -1,6 +1,7 @@
 package com.footsim.service.impl;
 
 import com.footsim.domain.dto.PlayerDTO;
+import com.footsim.domain.enumeration.PlayerStatus;
 import com.footsim.domain.model.Player;
 import com.footsim.mapper.PlayerMapper;
 import com.footsim.repository.PlayerRepository;
@@ -83,5 +84,15 @@ public class PlayerServiceImpl implements PlayerService {
     public void delete(Long id) {
         log.debug("Request to delete Player : {}", id);
         playerRepository.deleteById(id);
+    }
+    @Override
+    public PlayerDTO switchStatus(Long id, PlayerStatus status) {
+        log.debug("Request to switch role of a Player : {}", id);
+        Player player = playerRepository.findById(id).orElse(null);
+        if (player != null) {
+            player.setStatus(status);
+        }
+        return playerMapper.toDto(player);
+
     }
 }

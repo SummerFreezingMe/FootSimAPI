@@ -57,4 +57,6 @@ public interface TeamService {
     void delete(Long id);
 
     TeamDTO countTeamRating(Long id);
+
+    boolean isRosterViable(Team team);
 }

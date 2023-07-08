@@ -1,6 +1,7 @@
 package com.footsim.service.impl;
 
 import com.footsim.domain.dto.TeamDTO;
+import com.footsim.domain.enumeration.PlayerPosition;
 import com.footsim.domain.enumeration.PlayerStatus;
 import com.footsim.domain.model.Player;
 import com.footsim.domain.model.Team;
@@ -30,8 +31,6 @@ public class TeamServiceImpl implements TeamService {
     private final TeamRepository teamRepository;
     private final PlayerRepository playerRepository;
     private final TeamMapper teamMapper;
-
-
 
 
     public TeamServiceImpl(TeamRepository teamRepository,
@@ -82,8 +81,7 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     @Transactional(readOnly = true)
-    public
-    TeamDTO findOne(Long id) {
+    public TeamDTO findOne(Long id) {
         log.debug("Request to get Team : {}", id);
         return teamRepository.findById(id).map(teamMapper::toDto)
                 .orElse(null);
@@ -101,9 +99,9 @@ public class TeamServiceImpl implements TeamService {
         Team team = teamRepository.findById(id).orElseThrow();
         List<Player> teamPlayers = playerRepository.findByClubId(id);
         Long newTeamRating = 0L;
-        for (Player p: teamPlayers) {
-            if (p.getStatus()== PlayerStatus.ROSTER){
-                newTeamRating+=p.getRating();
+        for (Player p : teamPlayers) {
+            if (p.getStatus() == PlayerStatus.ROSTER) {
+                newTeamRating += p.getRating();
             }
         }
         team.setRating(newTeamRating);
@@ -111,4 +109,13 @@ public class TeamServiceImpl implements TeamService {
         return teamMapper.toDto(team);
 
     }
+
+    @Override
+    public boolean isRosterViable(Team team) {
+        //todo: exception handling
+        return playerRepository.countPlayerByClubIdAndPosition(team.getId(),
+                PlayerPosition.GOALKEEPER) == 1 &&
+                playerRepository.countPlayerByClubId(team.getId())==11;
+    }
+
 }

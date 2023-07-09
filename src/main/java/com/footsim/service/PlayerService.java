@@ -1,6 +1,7 @@
 package com.footsim.service;
 
 import com.footsim.domain.dto.PlayerDTO;
+import com.footsim.domain.dto.TransferDTO;
 import com.footsim.domain.enumeration.PlayerStatus;
 import com.footsim.domain.model.Player;
 import org.springframework.stereotype.Service;
@@ -65,4 +66,6 @@ public interface PlayerService {
 
 
     PlayerDTO switchStatus(Long id, PlayerStatus status);
+
+    PlayerDTO transferPlayer(TransferDTO transfer);
 }

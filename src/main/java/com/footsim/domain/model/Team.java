@@ -51,6 +51,9 @@ public class Team implements Serializable {
     @Column(name = "image")
     private String image;
 
+    @Column(name = "balance")
+    private Long balance;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {

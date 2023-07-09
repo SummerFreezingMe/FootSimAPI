@@ -13,7 +13,7 @@ public class SpringFoxConfig {
     @Bean
     public GroupedOpenApi publicApi() {
         return GroupedOpenApi.builder()
-                .group("city-concert")
+                .group("footsim-api")
                 .pathsToMatch("/**")
                 .build();
     }

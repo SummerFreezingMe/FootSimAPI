@@ -1,10 +1,13 @@
 package com.footsim.service.impl;
 
 import com.footsim.domain.dto.PlayerDTO;
+import com.footsim.domain.dto.TransferDTO;
 import com.footsim.domain.enumeration.PlayerStatus;
 import com.footsim.domain.model.Player;
+import com.footsim.domain.model.Team;
 import com.footsim.mapper.PlayerMapper;
 import com.footsim.repository.PlayerRepository;
+import com.footsim.repository.TeamRepository;
 import com.footsim.service.PlayerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,10 +30,14 @@ public class PlayerServiceImpl implements PlayerService {
 
     private final PlayerRepository playerRepository;
 
+    private final TeamRepository teamRepository;
+
     private final PlayerMapper playerMapper;
 
-    public PlayerServiceImpl(PlayerRepository playerRepository, PlayerMapper playerMapper) {
+    public PlayerServiceImpl(PlayerRepository playerRepository, TeamRepository teamRepository,
+                             PlayerMapper playerMapper) {
         this.playerRepository = playerRepository;
+        this.teamRepository = teamRepository;
         this.playerMapper = playerMapper;
     }
 
@@ -95,4 +102,20 @@ public class PlayerServiceImpl implements PlayerService {
         return playerMapper.toDto(player);
 
     }
-}
+
+    @Override
+    public PlayerDTO transferPlayer(TransferDTO transfer) {
+        Player transferredPlayer = playerRepository.
+                findById(transfer.getPlayerId()).orElseThrow();
+        Team fromTeam =  teamRepository.
+                findById(transfer.getClubFromId()).orElseThrow();
+        Team toTeam = teamRepository.
+                findById(transfer.getClubToId()).orElseThrow();
+        transferredPlayer.setClubId(transfer.getClubToId());
+        toTeam.setBalance(toTeam.getBalance()-transfer.getTransferFee());
+    fromTeam.setBalance(fromTeam.getBalance()+transfer.getTransferFee());
+    playerRepository.save(transferredPlayer);
+    teamRepository.save(toTeam);
+    teamRepository.save(fromTeam);
+    return playerMapper.toDto(transferredPlayer);
+}}

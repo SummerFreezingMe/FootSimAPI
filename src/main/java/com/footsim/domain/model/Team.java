@@ -1,6 +1,7 @@
 package com.footsim.domain.model;
 
 
+import com.google.common.base.Objects;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -58,18 +59,15 @@ public class Team implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof Team)) {
-            return false;
-        }
-        return id != null && id.equals(((Team) o).id);
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Team team = (Team) o;
+        return Objects.equal(getId(), team.getId()) && Objects.equal(getName(), team.getName()) && Objects.equal(getRating(), team.getRating()) && Objects.equal(getStadium(), team.getStadium()) && Objects.equal(getDescription(), team.getDescription()) && Objects.equal(getLeagueId(), team.getLeagueId()) && Objects.equal(getImage(), team.getImage()) && Objects.equal(getBalance(), team.getBalance());
     }
 
     @Override
     public int hashCode() {
-        return getClass().hashCode();
+        return Objects.hashCode(getId(), getName(), getRating(), getStadium(), getDescription(), getLeagueId(), getImage(), getBalance());
     }
 
     @Override

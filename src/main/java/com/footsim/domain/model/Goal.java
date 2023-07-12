@@ -1,6 +1,7 @@
 package com.footsim.domain.model;
 
 import com.footsim.domain.enumeration.GoalType;
+import com.google.common.base.Objects;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -36,6 +37,19 @@ public class Goal {
 
     @Column(name = "type")
     private GoalType type;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Goal goal = (Goal) o;
+        return Objects.equal(getId(), goal.getId()) && Objects.equal(getMatchId(), goal.getMatchId()) && Objects.equal(getAuthorId(), goal.getAuthorId()) && Objects.equal(getAssistId(), goal.getAssistId()) && Objects.equal(getMinute(), goal.getMinute()) && getType() == goal.getType();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(getId(), getMatchId(), getAuthorId(), getAssistId(), getMinute());
+    }
 
     @Override
     public String toString() {

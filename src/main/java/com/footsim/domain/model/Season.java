@@ -1,5 +1,6 @@
 package com.footsim.domain.model;
 
+import com.google.common.base.Objects;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -44,18 +45,15 @@ public class Season implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof Season)) {
-            return false;
-        }
-        return id != null && id.equals(((Season) o).id);
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Season season = (Season) o;
+        return Objects.equal(getId(), season.getId()) && Objects.equal(getLeagueId(), season.getLeagueId()) && Objects.equal(getYear(), season.getYear()) && Objects.equal(getTeamId(), season.getTeamId()) && Objects.equal(getPoints(), season.getPoints());
     }
 
     @Override
     public int hashCode() {
-        return getClass().hashCode();
+        return Objects.hashCode(getId(), getLeagueId(), getYear(), getTeamId(), getPoints());
     }
 
     @Override

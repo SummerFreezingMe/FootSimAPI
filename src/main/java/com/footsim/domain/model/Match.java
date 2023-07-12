@@ -1,5 +1,6 @@
 package com.footsim.domain.model;
 
+import com.google.common.base.Objects;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -52,18 +53,15 @@ public class Match
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof Match)) {
-            return false;
-        }
-        return id != null && id.equals(((Match) o).id);
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Match match = (Match) o;
+        return Objects.equal(getId(), match.getId()) && Objects.equal(getLeagueId(), match.getLeagueId()) && Objects.equal(getHomeTeamId(), match.getHomeTeamId()) && Objects.equal(getAwayTeamId(), match.getAwayTeamId()) && Objects.equal(getHomeGoals(), match.getHomeGoals()) && Objects.equal(getAwayGoals(), match.getAwayGoals()) && Objects.equal(getDate(), match.getDate());
     }
 
     @Override
     public int hashCode() {
-        return getClass().hashCode();
+        return Objects.hashCode(getId(), getLeagueId(), getHomeTeamId(), getAwayTeamId(), getDate());
     }
 
     @Override

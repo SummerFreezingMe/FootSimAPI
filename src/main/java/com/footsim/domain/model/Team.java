@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -21,6 +22,7 @@ import java.io.Serializable;
 @SuppressWarnings("common-java:DuplicatedBlocks")
 public class Team implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
 
@@ -70,5 +72,17 @@ public class Team implements Serializable {
         return getClass().hashCode();
     }
 
-
+    @Override
+    public String toString() {
+        return "Team{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", rating=" + rating +
+                ", stadium='" + stadium + '\'' +
+                ", description='" + description + '\'' +
+                ", leagueId=" + leagueId +
+                ", image='" + image + '\'' +
+                ", balance=" + balance +
+                '}';
+    }
 }

@@ -14,6 +14,8 @@ import lombok.Setter;
 @Entity
 @Table(name = "goal")
 public class Goal {
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
     @SequenceGenerator(name = "sequenceGenerator")
@@ -34,4 +36,16 @@ public class Goal {
 
     @Column(name = "type")
     private GoalType type;
+
+    @Override
+    public String toString() {
+        return "Goal{" +
+                "id=" + id +
+                ", matchId=" + matchId +
+                ", authorId=" + authorId +
+                ", assistId=" + assistId +
+                ", minute=" + minute +
+                ", type=" + type +
+                '}';
+    }
 }

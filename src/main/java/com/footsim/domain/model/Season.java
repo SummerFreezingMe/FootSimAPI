@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -20,6 +21,7 @@ import java.io.Serializable;
 @SuppressWarnings("common-java:DuplicatedBlocks")
 public class Season implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -56,4 +58,14 @@ public class Season implements Serializable {
         return getClass().hashCode();
     }
 
+    @Override
+    public String toString() {
+        return "Season{" +
+                "id=" + id +
+                ", leagueId=" + leagueId +
+                ", year=" + year +
+                ", teamId=" + teamId +
+                ", points=" + points +
+                '}';
+    }
 }

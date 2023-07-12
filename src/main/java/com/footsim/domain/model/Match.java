@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -21,6 +22,7 @@ import java.time.LocalDateTime;
 public class Match
         implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -61,8 +63,19 @@ public class Match
 
     @Override
     public int hashCode() {
-        // see https://vladmihalcea.com/how-to-implement-equals-and-hashcode-using-the-jpa-entity-identifier/
         return getClass().hashCode();
     }
 
+    @Override
+    public String toString() {
+        return "Match{" +
+                "id=" + id +
+                ", leagueId=" + leagueId +
+                ", homeTeamId=" + homeTeamId +
+                ", awayTeamId=" + awayTeamId +
+                ", homeGoals=" + homeGoals +
+                ", AwayGoals=" + AwayGoals +
+                ", date=" + date +
+                '}';
+    }
 }

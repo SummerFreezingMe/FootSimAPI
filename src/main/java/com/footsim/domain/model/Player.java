@@ -43,4 +43,17 @@ public class Player {
 
     @Column(name = "status")
     private PlayerStatus status;
+
+
+    @Override
+    public String toString() {
+        return "Player{" +
+                "id=" + id +
+                ", clubId=" + clubId +
+                ", rating=" + rating +
+                ", name='" + name + '\'' +
+                ", position=" + position +
+                ", status=" + status +
+                '}';
+    }
 }

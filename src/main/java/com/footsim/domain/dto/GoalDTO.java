@@ -31,4 +31,15 @@ public class GoalDTO implements Serializable {
 
     private GoalType type;
 
+    @Override
+    public String toString() {
+        return "GoalDTO{" +
+                "id=" + id +
+                ", matchId=" + matchId +
+                ", authorId=" + authorId +
+                ", assistId=" + assistId +
+                ", minute=" + minute +
+                ", type=" + type +
+                '}';
+    }
 }

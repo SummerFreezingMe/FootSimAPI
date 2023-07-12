@@ -30,4 +30,14 @@ public class PlayerDTO implements Serializable {
 
     private PlayerPosition position;
 
+    @Override
+    public String toString() {
+        return "PlayerDTO{" +
+                "id=" + id +
+                ", clubId=" + clubId +
+                ", rating=" + rating +
+                ", name='" + name + '\'' +
+                ", position=" + position +
+                '}';
+    }
 }

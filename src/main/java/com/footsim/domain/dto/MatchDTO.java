@@ -28,4 +28,16 @@ public class MatchDTO {
     private String result;
 
     private LocalDateTime date;
+
+    @Override
+    public String toString() {
+        return "MatchDTO{" +
+                "id=" + id +
+                ", leagueId=" + leagueId +
+                ", firstTeamId=" + firstTeamId +
+                ", secondTeamId=" + secondTeamId +
+                ", result='" + result + '\'' +
+                ", date=" + date +
+                '}';
+    }
 }

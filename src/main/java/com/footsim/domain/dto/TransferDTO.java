@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -21,4 +22,15 @@ public class TransferDTO {
     private Long transferFee;
 
     private LocalDateTime transferDate;
+
+    @Override
+    public String toString() {
+        return "TransferDTO{" +
+                "playerId=" + playerId +
+                ", clubFromId=" + clubFromId +
+                ", clubToId=" + clubToId +
+                ", transferFee=" + transferFee +
+                ", transferDate=" + transferDate +
+                '}';
+    }
 }

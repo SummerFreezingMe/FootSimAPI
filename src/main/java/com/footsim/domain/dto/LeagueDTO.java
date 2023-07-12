@@ -23,4 +23,12 @@ public class LeagueDTO {
 
     private String name;
 
+    @Override
+    public String toString() {
+        return "LeagueDTO{" +
+                "id=" + id +
+                ", participants=" + participants +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

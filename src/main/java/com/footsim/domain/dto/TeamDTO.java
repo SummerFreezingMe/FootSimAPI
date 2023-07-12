@@ -35,4 +35,17 @@ public class TeamDTO implements Serializable {
 
     private String image;
 
+    @Override
+    public String toString() {
+        return "TeamDTO{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", rating='" + rating + '\'' +
+                ", stadium='" + stadium + '\'' +
+                ", genreDescriptors='" + genreDescriptors + '\'' +
+                ", description='" + description + '\'' +
+                ", leagueId=" + leagueId +
+                ", image='" + image + '\'' +
+                '}';
+    }
 }

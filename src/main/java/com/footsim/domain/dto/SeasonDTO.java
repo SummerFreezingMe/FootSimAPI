@@ -28,4 +28,14 @@ public class SeasonDTO implements Serializable {
 
     private Long points;
 
+    @Override
+    public String toString() {
+        return "SeasonDTO{" +
+                "id=" + id +
+                ", leagueId=" + leagueId +
+                ", year=" + year +
+                ", teamId=" + teamId +
+                ", points=" + points +
+                '}';
+    }
 }

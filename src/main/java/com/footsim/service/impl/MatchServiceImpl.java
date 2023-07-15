@@ -6,6 +6,7 @@ import com.footsim.domain.enumeration.GoalType;
 import com.footsim.domain.enumeration.PlayerStatus;
 import com.footsim.domain.model.Goal;
 import com.footsim.domain.model.Match;
+import com.footsim.domain.model.Player;
 import com.footsim.mapper.MatchMapper;
 import com.footsim.repository.GoalRepository;
 import com.footsim.repository.MatchRepository;
@@ -54,7 +55,7 @@ public class MatchServiceImpl implements MatchService {
     @Override
     public MatchDTO update(MatchDTO matchDTO) {
         log.debug("Request to update Match : {}", matchDTO);
-       Match match = matchMapper.toEntity(matchDTO);
+        Match match = matchMapper.toEntity(matchDTO);
         match = matchRepository.save(match);
         return matchMapper.toDto(match);
     }
@@ -93,7 +94,7 @@ public class MatchServiceImpl implements MatchService {
         matchRepository.deleteById(id);
     }
 
-@Override
+    @Override
     public MatchDTO simulateMatch(Long id) {
         var homeGoalsTotal = 0L;
         var awayGoalsTotal = 0L;
@@ -103,33 +104,37 @@ public class MatchServiceImpl implements MatchService {
         var homeRoster = playerRepository.findByClubIdAndStatus(match.getHomeTeamId(),
                 PlayerStatus.ROSTER);
         var awayRoster = playerRepository.findByClubIdAndStatus(match.getAwayTeamId(),
-            PlayerStatus.ROSTER);
-        double matchCoefficient = homeTeam.getRating()*
-                Constants.HOME_CROWD_ADVANTAGE/awayTeam.getRating();
-    for (int time = 1; time < 50; time+= Constants.TIME_LENGTH) {
-
-     for (short i = 1; i < Constants.TIME_LENGTH+1; i++) {
-        long homeGoalsAtMinute =Math.round(Math.random()*matchCoefficient)/Constants.TIME_LENGTH;
-        long awayGoalsAtMinute =  Math.round(Math.random()/matchCoefficient)/Constants.TIME_LENGTH;
-    if(homeGoalsAtMinute>0){
-        Goal goal = new Goal(0L,id,homeRoster.get(r.nextInt(11)).getId(),
-                homeRoster.get(r.nextInt(11)).getId(),i, GoalType.DEFAULT);
-    goalRepository.save(goal);
-    homeGoalsTotal++;
-    }
-    //todo: implement realistic goal assist distribution
-        if(awayGoalsAtMinute>0){
-            Goal goal = new Goal(0L,id,awayRoster.get(r.nextInt(11)).getId(),
-                    awayRoster.get(r.nextInt(11)).getId(),i, GoalType.DEFAULT);
-            goalRepository.save(goal);
-            awayGoalsTotal++;
+                PlayerStatus.ROSTER);
+        double matchCoefficient = homeTeam.getRating() *
+                Constants.HOME_CROWD_ADVANTAGE / awayTeam.getRating();
+        for (int time = 1; time < 50; time += Constants.TIME_LENGTH) {
+            var additionalMinutes=0;
+            for (short minute = 1; minute < Constants.TIME_LENGTH + 1+additionalMinutes; minute++) {
+                long homeGoalsAtMinute = Math.round(Math.random() * matchCoefficient) / Constants.TIME_LENGTH;
+                long awayGoalsAtMinute = Math.round(Math.random() / matchCoefficient) / Constants.TIME_LENGTH;
+                if (homeGoalsAtMinute > 0) {
+                    generateGoal(homeRoster,id,minute);
+                    homeGoalsTotal++;
+                    additionalMinutes++;
+                }
+                //todo: implement realistic goal assist distribution
+                if (awayGoalsAtMinute > 0) {
+                    generateGoal(awayRoster,id,minute);
+                    awayGoalsTotal++;
+                    additionalMinutes++;
+                }
+            }
         }
-    }
-}
 
 
         match.setHomeGoals(homeGoalsTotal);
         match.setAwayGoals(awayGoalsTotal);
         return matchMapper.toDto(match);
+    }
+
+    private void generateGoal(List<Player> roster, Long id, short minute) {
+        Goal goal = new Goal(0L, id, roster.get(r.nextInt(11)).getId(),
+                roster.get(r.nextInt(11)).getId(), minute, GoalType.DEFAULT);
+        goalRepository.save(goal);
     }
 }

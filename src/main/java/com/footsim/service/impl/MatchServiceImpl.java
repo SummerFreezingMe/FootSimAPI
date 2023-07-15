@@ -2,10 +2,14 @@ package com.footsim.service.impl;
 
 import com.footsim.config.Constants;
 import com.footsim.domain.dto.MatchDTO;
+import com.footsim.domain.enumeration.GoalType;
+import com.footsim.domain.enumeration.PlayerStatus;
+import com.footsim.domain.model.Goal;
 import com.footsim.domain.model.Match;
-import com.footsim.domain.model.Team;
 import com.footsim.mapper.MatchMapper;
+import com.footsim.repository.GoalRepository;
 import com.footsim.repository.MatchRepository;
+import com.footsim.repository.PlayerRepository;
 import com.footsim.repository.TeamRepository;
 import com.footsim.service.MatchService;
 import org.slf4j.Logger;
@@ -15,18 +19,26 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 @Service
 public class MatchServiceImpl implements MatchService {
     private final Logger log = LoggerFactory.getLogger(MatchServiceImpl.class);
+
+    Random r = new Random();
     private final MatchRepository matchRepository;
     private final TeamRepository teamRepository;
+
+    private final GoalRepository goalRepository;
+    private final PlayerRepository playerRepository;
     private final MatchMapper matchMapper;
 
-    public MatchServiceImpl(MatchRepository matchRepository, TeamRepository teamRepository, MatchMapper matchMapper) {
+    public MatchServiceImpl(MatchRepository matchRepository, TeamRepository teamRepository, GoalRepository goalRepository, PlayerRepository playerRepository, MatchMapper matchMapper) {
         this.matchRepository = matchRepository;
         this.teamRepository = teamRepository;
+        this.goalRepository = goalRepository;
+        this.playerRepository = playerRepository;
         this.matchMapper = matchMapper;
     }
 
@@ -83,15 +95,41 @@ public class MatchServiceImpl implements MatchService {
 
 @Override
     public MatchDTO simulateMatch(Long id) {
-        Match match = matchRepository.findById(id).orElseThrow();
-        Team homeTeam = teamRepository.findById(match.getHomeTeamId()).orElseThrow();
-        Team awayTeam = teamRepository.findById(match.getAwayTeamId()).orElseThrow();
+        var homeGoalsTotal = 0L;
+        var awayGoalsTotal = 0L;
+        var match = matchRepository.findById(id).orElseThrow();
+        var homeTeam = teamRepository.findById(match.getHomeTeamId()).orElseThrow();
+        var awayTeam = teamRepository.findById(match.getAwayTeamId()).orElseThrow();
+        var homeRoster = playerRepository.findByClubIdAndStatus(match.getHomeTeamId(),
+                PlayerStatus.ROSTER);
+        var awayRoster = playerRepository.findByClubIdAndStatus(match.getAwayTeamId(),
+            PlayerStatus.ROSTER);
         double matchCoefficient = homeTeam.getRating()*
                 Constants.HOME_CROWD_ADVANTAGE/awayTeam.getRating();
-        long homeGoals =Math.round(Math.random()*matchCoefficient);
-        long awayGoals =  Math.round(Math.random()/matchCoefficient);
-        match.setHomeGoals(homeGoals);
-        match.setAwayGoals(awayGoals);
+    for (int time = 1; time < 50; time+= Constants.TIME_LENGTH) {
+
+     for (short i = 1; i < Constants.TIME_LENGTH+1; i++) {
+        long homeGoalsAtMinute =Math.round(Math.random()*matchCoefficient)/Constants.TIME_LENGTH;
+        long awayGoalsAtMinute =  Math.round(Math.random()/matchCoefficient)/Constants.TIME_LENGTH;
+    if(homeGoalsAtMinute>0){
+        Goal goal = new Goal(0L,id,homeRoster.get(r.nextInt(11)).getId(),
+                homeRoster.get(r.nextInt(11)).getId(),i, GoalType.DEFAULT);
+    goalRepository.save(goal);
+    homeGoalsTotal++;
+    }
+    //todo: implement realistic goal assist distribution
+        if(awayGoalsAtMinute>0){
+            Goal goal = new Goal(0L,id,awayRoster.get(r.nextInt(11)).getId(),
+                    awayRoster.get(r.nextInt(11)).getId(),i, GoalType.DEFAULT);
+            goalRepository.save(goal);
+            awayGoalsTotal++;
+        }
+    }
+}
+
+
+        match.setHomeGoals(homeGoalsTotal);
+        match.setAwayGoals(awayGoalsTotal);
         return matchMapper.toDto(match);
     }
 }

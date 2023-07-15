@@ -2,13 +2,9 @@ package com.footsim.service.impl;
 
 import com.footsim.config.Constants;
 import com.footsim.domain.dto.MatchDTO;
-import com.footsim.domain.enumeration.GoalType;
 import com.footsim.domain.enumeration.PlayerStatus;
-import com.footsim.domain.model.Goal;
 import com.footsim.domain.model.Match;
-import com.footsim.domain.model.Player;
 import com.footsim.mapper.MatchMapper;
-import com.footsim.repository.GoalRepository;
 import com.footsim.repository.MatchRepository;
 import com.footsim.repository.PlayerRepository;
 import com.footsim.repository.TeamRepository;
@@ -31,14 +27,18 @@ public class MatchServiceImpl implements MatchService {
     private final MatchRepository matchRepository;
     private final TeamRepository teamRepository;
 
-    private final GoalRepository goalRepository;
+    private final GoalServiceImpl goalService;
     private final PlayerRepository playerRepository;
     private final MatchMapper matchMapper;
 
-    public MatchServiceImpl(MatchRepository matchRepository, TeamRepository teamRepository, GoalRepository goalRepository, PlayerRepository playerRepository, MatchMapper matchMapper) {
+    public MatchServiceImpl(MatchRepository matchRepository,
+                            TeamRepository teamRepository,
+                            GoalServiceImpl goalService,
+                            PlayerRepository playerRepository,
+                            MatchMapper matchMapper) {
         this.matchRepository = matchRepository;
         this.teamRepository = teamRepository;
-        this.goalRepository = goalRepository;
+        this.goalService = goalService;
         this.playerRepository = playerRepository;
         this.matchMapper = matchMapper;
     }
@@ -113,13 +113,13 @@ public class MatchServiceImpl implements MatchService {
                 long homeGoalsAtMinute = Math.round(Math.random() * matchCoefficient) / Constants.TIME_LENGTH;
                 long awayGoalsAtMinute = Math.round(Math.random() / matchCoefficient) / Constants.TIME_LENGTH;
                 if (homeGoalsAtMinute > 0) {
-                    generateGoal(homeRoster,id,minute);
+                    goalService.generateGoal(homeRoster,id,minute);
                     homeGoalsTotal++;
                     additionalMinutes++;
                 }
                 //todo: implement realistic goal assist distribution
                 if (awayGoalsAtMinute > 0) {
-                    generateGoal(awayRoster,id,minute);
+                    goalService.generateGoal(awayRoster,id,minute);
                     awayGoalsTotal++;
                     additionalMinutes++;
                 }
@@ -132,9 +132,4 @@ public class MatchServiceImpl implements MatchService {
         return matchMapper.toDto(match);
     }
 
-    private void generateGoal(List<Player> roster, Long id, short minute) {
-        Goal goal = new Goal(0L, id, roster.get(r.nextInt(11)).getId(),
-                roster.get(r.nextInt(11)).getId(), minute, GoalType.DEFAULT);
-        goalRepository.save(goal);
-    }
 }

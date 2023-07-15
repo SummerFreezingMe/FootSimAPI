@@ -1,7 +1,9 @@
 package com.footsim.service.impl;
 
 import com.footsim.domain.dto.GoalDTO;
+import com.footsim.domain.enumeration.GoalType;
 import com.footsim.domain.model.Goal;
+import com.footsim.domain.model.Player;
 import com.footsim.mapper.GoalMapper;
 import com.footsim.repository.GoalRepository;
 import com.footsim.service.GoalService;
@@ -13,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 /**
@@ -26,7 +29,7 @@ public class GoalServiceImpl implements GoalService {
 
     private final GoalRepository goalRepository;
 
-
+    Random r = new Random();
     private final GoalMapper goalMapper;
 
     public GoalServiceImpl(GoalRepository goalRepository,
@@ -86,5 +89,10 @@ public class GoalServiceImpl implements GoalService {
         log.debug("Request to delete Goal : {}", id);
         goalRepository.deleteById(id);
     }
-
+    @Override
+    public void generateGoal(List<Player> roster, Long id, short minute) {
+        Goal goal = new Goal(0L, id, roster.get(r.nextInt(11)).getId(),
+                roster.get(r.nextInt(11)).getId(), minute, GoalType.DEFAULT);
+        goalRepository.save(goal);
+    }
 }

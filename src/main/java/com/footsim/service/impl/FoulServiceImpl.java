@@ -96,7 +96,7 @@ public class FoulServiceImpl implements FoulService {
     public void generateFoul(List<Player> roster, Long matchId, short minute) {
         Player player = roster.get(r.nextInt(11));
         Foul foul = new Foul(0L, matchId, player.getId(),
-                minute, FoulType.YELLOW_CARD);
+                minute, FoulType.getType(Math.random()));
         foulRepository.save(foul);
         if (checkForSendOffs(matchId, foul)) {
             player.setStatus(PlayerStatus.SENT_OFF);

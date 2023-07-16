@@ -2,6 +2,7 @@ package com.footsim.service.impl;
 
 import com.footsim.domain.dto.FoulDTO;
 import com.footsim.domain.enumeration.FoulType;
+import com.footsim.domain.enumeration.PlayerStatus;
 import com.footsim.domain.model.Foul;
 import com.footsim.domain.model.Player;
 import com.footsim.mapper.FoulMapper;
@@ -92,9 +93,22 @@ public class FoulServiceImpl implements FoulService {
     }
 
     @Override
-    public void generateFoul(List<Player> roster, Long id, short minute) {
-        Foul foul = new Foul(0L, id, roster.get(r.nextInt(11)).getId(),
-                 minute, FoulType.YELLOW_CARD);
+    public void generateFoul(List<Player> roster, Long matchId, short minute) {
+        Player player = roster.get(r.nextInt(11));
+        Foul foul = new Foul(0L, matchId, player.getId(),
+                minute, FoulType.YELLOW_CARD);
         foulRepository.save(foul);
+        if (checkForSendOffs(matchId, foul)) {
+            player.setStatus(PlayerStatus.SENT_OFF);
+        }
+    }
+
+    private boolean checkForSendOffs(Long matchId, Foul foul) {
+        if (foul.getType().equals(FoulType.RED_CARD)) {
+            return true;
+        } else if (foul.getType().equals(FoulType.YELLOW_CARD)) {
+            return foulRepository.countAllByPlayerIdAndMatchIdAndType(foul.getPlayerId(),
+                    matchId, FoulType.YELLOW_CARD) > 1;
+        } else return false;
     }
 }

@@ -3,6 +3,7 @@ package com.footsim.service;
 
 import com.footsim.domain.dto.GoalDTO;
 import com.footsim.domain.model.Goal;
+import com.footsim.domain.model.Player;
 
 import java.util.List;
 import java.util.Optional;
@@ -57,4 +58,5 @@ public interface GoalService {
      */
     void delete(Long id);
 
+    void generateGoal(List<Player> roster, Long id, short minute);
 }

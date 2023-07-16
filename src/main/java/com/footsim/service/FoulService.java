@@ -2,6 +2,7 @@ package com.footsim.service;
 
 import com.footsim.domain.dto.FoulDTO;
 import com.footsim.domain.model.Foul;
+import com.footsim.domain.model.Player;
 
 import java.util.List;
 import java.util.Optional;
@@ -56,4 +57,5 @@ public interface FoulService {
      */
     void delete(Long id);
 
+    void generateFoul(List<Player> awayRoster, Long id, short minute);
 }

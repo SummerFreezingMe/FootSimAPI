@@ -23,22 +23,22 @@ import java.util.stream.Collectors;
 public class MatchServiceImpl implements MatchService {
     private final Logger log = LoggerFactory.getLogger(MatchServiceImpl.class);
 
-    Random r = new Random();
     private final MatchRepository matchRepository;
     private final TeamRepository teamRepository;
-
     private final GoalServiceImpl goalService;
+    private final FoulServiceImpl foulService;
     private final PlayerRepository playerRepository;
     private final MatchMapper matchMapper;
 
     public MatchServiceImpl(MatchRepository matchRepository,
                             TeamRepository teamRepository,
                             GoalServiceImpl goalService,
-                            PlayerRepository playerRepository,
+                            FoulServiceImpl foulService, PlayerRepository playerRepository,
                             MatchMapper matchMapper) {
         this.matchRepository = matchRepository;
         this.teamRepository = teamRepository;
         this.goalService = goalService;
+        this.foulService = foulService;
         this.playerRepository = playerRepository;
         this.matchMapper = matchMapper;
     }
@@ -107,11 +107,17 @@ public class MatchServiceImpl implements MatchService {
                 PlayerStatus.ROSTER);
         double matchCoefficient = homeTeam.getRating() *
                 Constants.HOME_CROWD_ADVANTAGE / awayTeam.getRating();
+
         for (int time = 1; time < 50; time += Constants.TIME_LENGTH) {
             var additionalMinutes=0;
             for (short minute = 1; minute < Constants.TIME_LENGTH + 1+additionalMinutes; minute++) {
+
                 long homeGoalsAtMinute = Math.round(Math.random() * matchCoefficient) / Constants.TIME_LENGTH;
                 long awayGoalsAtMinute = Math.round(Math.random() / matchCoefficient) / Constants.TIME_LENGTH;
+                long homeFoulsAtMinute = Math.round(Math.random() * matchCoefficient) / Constants.TIME_LENGTH;
+                long awayFoulsAtMinute = Math.round(Math.random() / matchCoefficient) / Constants.TIME_LENGTH;
+
+
                 if (homeGoalsAtMinute > 0) {
                     goalService.generateGoal(homeRoster,id,minute);
                     homeGoalsTotal++;
@@ -123,9 +129,18 @@ public class MatchServiceImpl implements MatchService {
                     awayGoalsTotal++;
                     additionalMinutes++;
                 }
+                if (homeFoulsAtMinute > 0) {
+                    foulService.generateFoul(homeRoster,id,minute);
+                    homeGoalsTotal++;
+                    additionalMinutes++;
+                }
+                if (awayFoulsAtMinute > 0) {
+                    foulService.generateFoul(awayRoster,id,minute);
+                    awayGoalsTotal++;
+                    additionalMinutes++;
+                }
             }
         }
-
 
         match.setHomeGoals(homeGoalsTotal);
         match.setAwayGoals(awayGoalsTotal);

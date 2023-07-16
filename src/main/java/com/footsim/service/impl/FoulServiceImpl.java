@@ -1,7 +1,9 @@
 package com.footsim.service.impl;
 
 import com.footsim.domain.dto.FoulDTO;
+import com.footsim.domain.enumeration.FoulType;
 import com.footsim.domain.model.Foul;
+import com.footsim.domain.model.Player;
 import com.footsim.mapper.FoulMapper;
 import com.footsim.repository.FoulRepository;
 import com.footsim.service.FoulService;
@@ -13,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 /**
@@ -26,6 +29,7 @@ public class FoulServiceImpl implements FoulService {
 
     private final FoulRepository foulRepository;
 
+    Random r = new Random();
 
     private final FoulMapper foulMapper;
 
@@ -87,4 +91,10 @@ public class FoulServiceImpl implements FoulService {
         foulRepository.deleteById(id);
     }
 
+    @Override
+    public void generateFoul(List<Player> roster, Long id, short minute) {
+        Foul foul = new Foul(0L, id, roster.get(r.nextInt(11)).getId(),
+                 minute, FoulType.YELLOW_CARD);
+        foulRepository.save(foul);
+    }
 }

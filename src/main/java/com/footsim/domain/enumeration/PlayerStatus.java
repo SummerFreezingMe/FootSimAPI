@@ -7,5 +7,7 @@ public enum PlayerStatus {
     ROSTER,
     BENCH,
     OUT,
-    INJURED
+    INJURED,
+    DISQUALIFIED,
+    SENT_OFF
 }

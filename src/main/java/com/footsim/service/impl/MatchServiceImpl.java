@@ -2,10 +2,11 @@ package com.footsim.service.impl;
 
 import com.footsim.config.Constants;
 import com.footsim.domain.dto.MatchDTO;
+import com.footsim.domain.enumeration.PlayerStatus;
 import com.footsim.domain.model.Match;
-import com.footsim.domain.model.Team;
 import com.footsim.mapper.MatchMapper;
 import com.footsim.repository.MatchRepository;
+import com.footsim.repository.PlayerRepository;
 import com.footsim.repository.TeamRepository;
 import com.footsim.service.MatchService;
 import org.slf4j.Logger;
@@ -20,13 +21,24 @@ import java.util.stream.Collectors;
 @Service
 public class MatchServiceImpl implements MatchService {
     private final Logger log = LoggerFactory.getLogger(MatchServiceImpl.class);
+
     private final MatchRepository matchRepository;
     private final TeamRepository teamRepository;
+    private final GoalServiceImpl goalService;
+    private final FoulServiceImpl foulService;
+    private final PlayerRepository playerRepository;
     private final MatchMapper matchMapper;
 
-    public MatchServiceImpl(MatchRepository matchRepository, TeamRepository teamRepository, MatchMapper matchMapper) {
+    public MatchServiceImpl(MatchRepository matchRepository,
+                            TeamRepository teamRepository,
+                            GoalServiceImpl goalService,
+                            FoulServiceImpl foulService, PlayerRepository playerRepository,
+                            MatchMapper matchMapper) {
         this.matchRepository = matchRepository;
         this.teamRepository = teamRepository;
+        this.goalService = goalService;
+        this.foulService = foulService;
+        this.playerRepository = playerRepository;
         this.matchMapper = matchMapper;
     }
 
@@ -42,7 +54,7 @@ public class MatchServiceImpl implements MatchService {
     @Override
     public MatchDTO update(MatchDTO matchDTO) {
         log.debug("Request to update Match : {}", matchDTO);
-       Match match = matchMapper.toEntity(matchDTO);
+        Match match = matchMapper.toEntity(matchDTO);
         match = matchRepository.save(match);
         return matchMapper.toDto(match);
     }
@@ -81,17 +93,57 @@ public class MatchServiceImpl implements MatchService {
         matchRepository.deleteById(id);
     }
 
-@Override
+    @Override
     public MatchDTO simulateMatch(Long id) {
-        Match match = matchRepository.findById(id).orElseThrow();
-        Team homeTeam = teamRepository.findById(match.getHomeTeamId()).orElseThrow();
-        Team awayTeam = teamRepository.findById(match.getAwayTeamId()).orElseThrow();
-        double matchCoefficient = homeTeam.getRating()*
-                Constants.HOME_CROWD_ADVANTAGE/awayTeam.getRating();
-        long homeGoals =Math.round(Math.random()*matchCoefficient);
-        long awayGoals =  Math.round(Math.random()/matchCoefficient);
-        match.setHomeGoals(homeGoals);
-        match.setAwayGoals(awayGoals);
+        var homeGoalsTotal = 0L;
+        var awayGoalsTotal = 0L;
+        var match = matchRepository.findById(id).orElseThrow();
+        var homeTeam = teamRepository.findById(match.getHomeTeamId()).orElseThrow();
+        var awayTeam = teamRepository.findById(match.getAwayTeamId()).orElseThrow();
+        var homeRoster = playerRepository.findByClubIdAndStatus(match.getHomeTeamId(),
+                PlayerStatus.ROSTER);
+        var awayRoster = playerRepository.findByClubIdAndStatus(match.getAwayTeamId(),
+                PlayerStatus.ROSTER);
+        double matchCoefficient = homeTeam.getRating() *
+                Constants.HOME_CROWD_ADVANTAGE / awayTeam.getRating();
+
+        for (int time = 1; time < 50; time += Constants.TIME_LENGTH) {
+            var additionalMinutes=0;
+            for (short minute = 1; minute < Constants.TIME_LENGTH + 1+additionalMinutes; minute++) {
+
+                long homeGoalsAtMinute = Math.round(Math.random() * matchCoefficient) / Constants.TIME_LENGTH;
+                long awayGoalsAtMinute = Math.round(Math.random() / matchCoefficient) / Constants.TIME_LENGTH;
+                long homeFoulsAtMinute = Math.round(Math.random() * matchCoefficient) / Constants.TIME_LENGTH;
+                long awayFoulsAtMinute = Math.round(Math.random() / matchCoefficient) / Constants.TIME_LENGTH;
+
+
+                if (homeGoalsAtMinute > 0) {
+                    goalService.generateGoal(homeRoster,id,minute);
+                    homeGoalsTotal++;
+                    additionalMinutes++;
+                }
+                //todo: implement realistic goal assist distribution
+                if (awayGoalsAtMinute > 0) {
+                    goalService.generateGoal(awayRoster,id,minute);
+                    awayGoalsTotal++;
+                    additionalMinutes++;
+                }
+                if (homeFoulsAtMinute > 0) {
+                    foulService.generateFoul(homeRoster,id,minute);
+                    homeGoalsTotal++;
+                    additionalMinutes++;
+                }
+                if (awayFoulsAtMinute > 0) {
+                    foulService.generateFoul(awayRoster,id,minute);
+                    awayGoalsTotal++;
+                    additionalMinutes++;
+                }
+            }
+        }
+
+        match.setHomeGoals(homeGoalsTotal);
+        match.setAwayGoals(awayGoalsTotal);
         return matchMapper.toDto(match);
     }
+
 }

@@ -16,19 +16,41 @@ import java.util.List;
 @Repository
 public interface PlayerRepository extends JpaRepository<Player, Long> {
     /**
-     * Find all players in a distinct {@link Team}
+     * Find all players in a distinct {@link Team}.
      * @param id ID of a team
-     * @return List of Players
+     * @return List of players
      */
 
     List<Player> findByClubId(Long id);
 
 
-    Integer countPlayerByClubIdAndStatus(Long clubId, PlayerStatus roster);
+    /**
+     * Count amount of players in a distinct {@link Team} of a distinct
+     * {@link PlayerStatus}.
+     * @param clubId ID of a {@link Team}
+     * @param status {@link PlayerStatus}
+     * @return Amount of players
+     */
+    Integer countPlayerByClubIdAndStatus(Long clubId, PlayerStatus status);
 
+    /**
+     * Count amount of players in a distinct {@link Team} of a distinct
+     * {@link PlayerStatus} and a distinct {@link PlayerPosition}.
+     * @param clubId ID of a {@link Team}
+     * @param playerPosition {@link PlayerPosition}
+     * @param status {@link PlayerStatus}
+     * @return Amount of players
+     */
     Integer countPlayerByClubIdAndPositionAndStatus(Long clubId,
                                                     PlayerPosition playerPosition,
-                                                    PlayerStatus roster);
+                                                    PlayerStatus status);
 
-    List<Player> findByClubIdAndStatus(Long homeTeamId, PlayerStatus roster);
+    /**
+     * Find players in a distinct {@link Team} of a distinct
+     * {@link PlayerStatus}
+     * @param clubId ID of a {@link Team}
+     * @param status {@link PlayerStatus}
+     * @return List of players
+     */
+    List<Player> findByClubIdAndStatus(Long clubId, PlayerStatus status);
 }

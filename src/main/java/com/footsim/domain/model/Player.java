@@ -12,7 +12,7 @@ import lombok.Setter;
 
 
 /**
- * A Event.
+ * A Player.
  */
 
 @Getter

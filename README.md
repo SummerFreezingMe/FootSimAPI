@@ -1,9 +1,9 @@
 # FootSimAPI
-Web app for simulating football matches beetween your favourite teams! ⚽
-Make transfers, choose players and tactics to build a true champion! 🏆 
+Web app for simulating football matches between your favourite teams! ⚽ </br>
+Make transfers, choose players and tactics to build a true champion! 🏆 </br>
 
 ### Stack:
 ##### Frontend:
 ##### Backend:
-Java
-Spring Boot
+Java </br>
+Spring Boot </br>

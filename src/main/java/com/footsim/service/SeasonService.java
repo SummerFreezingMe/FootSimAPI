@@ -11,7 +11,7 @@ import java.util.Optional;
  */
 public interface SeasonService {
     /**
-     * Save a Season.
+     * Save a {@link Season}.
      *
      * @param SeasonDTO the entity to save.
      * @return the persisted entity.
@@ -19,7 +19,7 @@ public interface SeasonService {
     SeasonDTO save(SeasonDTO SeasonDTO);
 
     /**
-     * Updates a Season.
+     * Updates a {@link Season}.
      *
      * @param SeasonDTO the entity to update.
      * @return the persisted entity.
@@ -27,7 +27,7 @@ public interface SeasonService {
     SeasonDTO update(SeasonDTO SeasonDTO);
 
     /**
-     * Partially updates a Season.
+     * Partially updates a {@link Season}.
      *
      * @param SeasonDTO the entity to update partially.
      * @return the persisted entity.
@@ -42,7 +42,7 @@ public interface SeasonService {
     List<SeasonDTO> findAll();
 
     /**
-     * Get the "id" Season.
+     * Get the "id" {@link Season}.
      *
      * @param id the id of the entity.
      * @return the entity.
@@ -50,7 +50,7 @@ public interface SeasonService {
     SeasonDTO findOne(Long id);
 
     /**
-     * Delete the "id" Season.
+     * Delete the "id" {@link Season}.
      *
      * @param id the id of the entity.
      */

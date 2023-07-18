@@ -1,5 +1,6 @@
 package com.footsim.domain.dto;
 
+import com.footsim.domain.model.Season;
 import com.google.common.base.Objects;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,7 +10,7 @@ import lombok.Setter;
 import java.io.Serializable;
 
 /**
- * A DTO representing a user, with only the public attributes.
+ * A DTO for the {@link Season} entity.
  */
 
 @SuppressWarnings("common-java:DuplicatedBlocks")

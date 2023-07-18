@@ -11,7 +11,7 @@ import java.util.Optional;
  */
 public interface TeamService {
     /**
-     * Save a Team.
+     * Save a {@link Team}.
      *
      * @param TeamDTO the entity to save.
      * @return the persisted entity.
@@ -19,7 +19,7 @@ public interface TeamService {
     TeamDTO save(TeamDTO TeamDTO);
 
     /**
-     * Updates a Team.
+     * Updates a {@link Team}.
      *
      * @param TeamDTO the entity to update.
      * @return the persisted entity.
@@ -27,7 +27,7 @@ public interface TeamService {
     TeamDTO update(TeamDTO TeamDTO);
 
     /**
-     * Partially updates a Team.
+     * Partially updates a {@link Team}.
      *
      * @param TeamDTO the entity to update partially.
      * @return the persisted entity.
@@ -42,7 +42,7 @@ public interface TeamService {
     List<TeamDTO> findAll();
 
     /**
-     * Get the "id" Team.
+     * Get the "id" {@link Team}.
      *
      * @param id the id of the entity.
      * @return the entity.
@@ -50,13 +50,23 @@ public interface TeamService {
     TeamDTO findOne(Long id);
 
     /**
-     * Delete the "id" Team.
+     * Delete the "id" {@link Team}.
      *
      * @param id the id of the entity.
      */
     void delete(Long id);
 
+    /**
+     * Count rating of the {@link Team}.
+     * @param id id of the {@link Team}
+     * @return the entity
+     */
     TeamDTO countTeamRating(Long id);
 
+    /**
+     * Checking is roster are viable for a game.
+     * @param team {@link Team} for a check
+     * @return true if a {@link Team} are viable, false if otherwise.
+     */
     boolean isRosterViable(Team team);
 }

@@ -8,6 +8,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * A Goal.
+ */
 @Getter
 @Setter
 @AllArgsConstructor
@@ -15,7 +18,6 @@ import lombok.Setter;
 @Entity
 @Table(name = "goal")
 public class Goal {
-
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")

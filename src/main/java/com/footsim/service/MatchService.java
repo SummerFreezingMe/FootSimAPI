@@ -2,6 +2,8 @@ package com.footsim.service;
 
 import com.footsim.domain.dto.MatchDTO;
 import com.footsim.domain.model.Match;
+import com.footsim.domain.model.Player;
+import com.footsim.domain.model.Team;
 
 
 import java.util.List;
@@ -62,4 +64,10 @@ public interface MatchService {
      * @return simulated {@link MatchDTO}
      */
     MatchDTO simulateMatch(Long id);
+
+    /**
+     * Removes/adds disqualification after the {@link Match} is done
+     * @param team {@link Team} to modify
+     */
+    void foulsDiscard(List<Player> team);
 }

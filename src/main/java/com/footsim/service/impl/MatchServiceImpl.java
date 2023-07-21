@@ -4,6 +4,7 @@ import com.footsim.config.Constants;
 import com.footsim.domain.dto.MatchDTO;
 import com.footsim.domain.enumeration.PlayerStatus;
 import com.footsim.domain.model.Match;
+import com.footsim.domain.model.Player;
 import com.footsim.mapper.MatchMapper;
 import com.footsim.repository.MatchRepository;
 import com.footsim.repository.PlayerRepository;
@@ -144,10 +145,21 @@ public class MatchServiceImpl implements MatchService {
         match.setHomeGoals(homeGoalsTotal);
         match.setAwayGoals(awayGoalsTotal);
 
-        foulService.foulsDiscard(homeRoster);
-        foulService.foulsDiscard(awayRoster);
+        foulsDiscard(homeRoster);
+        foulsDiscard(awayRoster);
         return matchMapper.toDto(match);
     }
 
-
+    @Override
+    public void foulsDiscard(List<Player> team) {
+        for (Player player:team
+        ) {
+            switch (player.getStatus()){
+                case SENT_OFF -> player.setStatus(PlayerStatus.DISQUALIFIED);
+                //considering there is only 1 match disqualification
+                case DISQUALIFIED -> player.setStatus(PlayerStatus.OUT);
+            }
+           playerRepository.save(player);
+        }
+    }
 }

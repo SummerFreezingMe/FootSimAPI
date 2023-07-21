@@ -112,15 +112,4 @@ public class FoulServiceImpl implements FoulService {
         } else return false;
     }
 
-    @Override
-    public void foulsDiscard(List<Player> team) {
-        for (Player player:team
-        ) {
-            switch (player.getStatus()){
-                case SENT_OFF -> player.setStatus(PlayerStatus.DISQUALIFIED);
-                //considering there is only 1 match disqualification
-                case DISQUALIFIED -> player.setStatus(PlayerStatus.OUT);
-            }
-        }
-    }
 }

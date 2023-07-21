@@ -11,7 +11,7 @@ import java.io.Serial;
 import java.io.Serializable;
 
 /**
- * A Venue.
+ * A Season.
  */
 @Getter
 @Setter

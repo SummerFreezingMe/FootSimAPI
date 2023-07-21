@@ -113,9 +113,10 @@ public class TeamServiceImpl implements TeamService {
     @Override
     public boolean isRosterViable(Team team) {
         //todo: exception handling
-        return playerRepository.countPlayerByClubIdAndPosition(team.getId(),
-                PlayerPosition.GOALKEEPER) == 1 &&
-                playerRepository.countPlayerByClubId(team.getId())==11;
+        return playerRepository.countPlayerByClubIdAndPositionAndStatus(
+                team.getId(), PlayerPosition.GOALKEEPER,PlayerStatus.ROSTER) == 1 &&
+                playerRepository.countPlayerByClubIdAndStatus(team.getId(),
+                        PlayerStatus.ROSTER)==11;
     }
 
 }

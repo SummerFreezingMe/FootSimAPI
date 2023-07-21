@@ -1,5 +1,6 @@
 package com.footsim.domain.dto;
 
+import com.footsim.domain.model.Match;
 import com.google.common.base.Objects;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,9 +10,8 @@ import lombok.Setter;
 import java.time.LocalDateTime;
 
 /**
- * A DTO for the Response.
+ * A DTO for the {@link Match} entity.
  */
-
 @SuppressWarnings("common-java:DuplicatedBlocks")
 @Getter
 @Setter

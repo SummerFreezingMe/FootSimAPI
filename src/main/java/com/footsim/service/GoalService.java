@@ -3,6 +3,7 @@ package com.footsim.service;
 
 import com.footsim.domain.dto.GoalDTO;
 import com.footsim.domain.model.Goal;
+import com.footsim.domain.model.Match;
 import com.footsim.domain.model.Player;
 
 import java.util.List;
@@ -13,7 +14,7 @@ import java.util.Optional;
  */
 public interface GoalService {
     /**
-     * Save an goal.
+     * Save a {@link Goal}.
      *
      * @param goalDTO the entity to save.
      * @return the persisted entity.
@@ -21,7 +22,7 @@ public interface GoalService {
     GoalDTO save(GoalDTO goalDTO);
 
     /**
-     * Updates a goal.
+     * Updates a {@link Goal}.
      *
      * @param goalDTO the entity to update.
      * @return the persisted entity.
@@ -29,7 +30,7 @@ public interface GoalService {
     GoalDTO update(GoalDTO goalDTO);
 
     /**
-     * Partially updates an goal.
+     * Partially updates a {@link Goal}.
      *
      * @param goalDTO the entity to update partially.
      * @return the persisted entity.
@@ -44,7 +45,7 @@ public interface GoalService {
     List<GoalDTO> findAll();
 
     /**
-     * Get the "id" goal.
+     * Get the "id" {@link Goal}.
      *
      * @param id the id of the entity.
      * @return the entity.
@@ -52,11 +53,17 @@ public interface GoalService {
     Optional<GoalDTO> findOne(Long id);
 
     /**
-     * Delete the "id" goal.
+     * Delete the "id" {@link Goal}.
      *
      * @param id the id of the entity.
      */
     void delete(Long id);
 
+    /**
+     * Generate new instance of {@link Goal}
+     * @param roster Players from a team that scored
+     * @param id id of a current {@link Match}
+     * @param minute minute of a {@link Match} at which the goal was scored
+     */
     void generateGoal(List<Player> roster, Long id, short minute);
 }

@@ -11,7 +11,7 @@ import java.util.Optional;
  */
 public interface LeagueService {
     /**
-     * Save a League.
+     * Save a {@link League}.
      *
      * @param LeagueDTO the entity to save.
      * @return the persisted entity.
@@ -19,7 +19,7 @@ public interface LeagueService {
     LeagueDTO save(LeagueDTO LeagueDTO);
 
     /**
-     * Updates a League.
+     * Updates a {@link League}.
      *
      * @param LeagueDTO the entity to update.
      * @return the persisted entity.
@@ -27,7 +27,7 @@ public interface LeagueService {
     LeagueDTO update(LeagueDTO LeagueDTO);
 
     /**
-     * Partially updates a League.
+     * Partially updates a {@link League}.
      *
      * @param LeagueDTO the entity to update partially.
      * @return the persisted entity.
@@ -42,7 +42,7 @@ public interface LeagueService {
     List<LeagueDTO> findAll();
 
     /**
-     * Get the "id" League.
+     * Get the "id" {@link League}.
      *
      * @param id the id of the entity.
      * @return the entity.
@@ -50,7 +50,7 @@ public interface LeagueService {
     Optional<LeagueDTO> findOne(Long id);
 
     /**
-     * Delete the "id" League.
+     * Delete the "id" {@link League}.
      *
      * @param id the id of the entity.
      */

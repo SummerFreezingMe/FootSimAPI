@@ -1,5 +1,7 @@
 package com.footsim.domain.dto;
 
+import com.footsim.domain.model.Player;
+import com.footsim.domain.model.Team;
 import com.google.common.base.Objects;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,6 +9,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+/**
+ * A DTO for the operation of transferring player from one team to another.
+ */
 
 @Getter
 @Setter
@@ -14,14 +19,27 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class TransferDTO {
 
+    /**
+     * An ID of a {@link Player} that is getting transferred.
+     */
     private Long playerId;
 
+    /**
+     * An ID of a {@link Team} from where the player is getting transferred.
+     */
     private Long clubFromId;
-
+    /**
+     * An ID of a {@link Team} to which the player is getting transferred.
+     */
     private Long clubToId;
 
+    /**
+     * The transfer fee paid by buying team in dollars.
+     */
     private Long transferFee;
-
+    /**
+     * The date of a transfer.
+     */
     private LocalDateTime transferDate;
 
     @Override

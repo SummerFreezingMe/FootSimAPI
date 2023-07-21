@@ -18,7 +18,7 @@ import java.util.Optional;
 @Transactional
 public interface PlayerService {
     /**
-     * Save an Player.
+     * Save a {@link Player}.
      *
      * @param PlayerDTO the entity to save.
      * @return the persisted entity.
@@ -26,7 +26,7 @@ public interface PlayerService {
     PlayerDTO save(PlayerDTO PlayerDTO);
 
     /**
-     * Updates a Player.
+     * Updates a {@link Player}.
      *
      * @param PlayerDTO the entity to update.
      * @return the persisted entity.
@@ -34,7 +34,7 @@ public interface PlayerService {
     PlayerDTO update(PlayerDTO PlayerDTO);
 
     /**
-     * Partially updates an Player.
+     * Partially updates a {@link Player}.
      *
      * @param PlayerDTO the entity to update partially.
      * @return the persisted entity.
@@ -49,7 +49,7 @@ public interface PlayerService {
     List<PlayerDTO> findAll();
 
     /**
-     * Get the "id" Player.
+     * Get the "id" {@link Player}.
      *
      * @param id the id of the entity.
      * @return the entity.
@@ -57,15 +57,25 @@ public interface PlayerService {
     PlayerDTO findOne(Long id);
 
     /**
-     * Delete the "id" Player.
+     * Delete the "id" {@link Player}.
      *
      * @param id the id of the entity.
      */
     void delete(Long id);
 
 
-
+    /**
+     * Switch status of a {@link Player}
+     * @param id the id of the {@link Player}
+     * @param status {@link PlayerStatus} that has to be set on a chosen {@link Player}
+     * @return DTO of redacted {@link Player}
+     */
     PlayerDTO switchStatus(Long id, PlayerStatus status);
 
+    /**
+     * Perform player's transfer from one team from another
+     * @param transfer DTO for transfer operation
+     * @return DTO of transferred {@link Player}
+     */
     PlayerDTO transferPlayer(TransferDTO transfer);
 }

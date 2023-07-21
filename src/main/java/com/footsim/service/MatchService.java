@@ -19,7 +19,7 @@ public interface MatchService {
     MatchDTO save(MatchDTO MatchDTO);
 
     /**
-     * Updates a Match.
+     * Updates a {@link Match}.
      *
      * @param MatchDTO the entity to update.
      * @return the persisted entity.
@@ -27,7 +27,7 @@ public interface MatchService {
     MatchDTO update(MatchDTO MatchDTO);
 
     /**
-     * Partially updates a Match.
+     * Partially updates a {@link Match}.
      *
      * @param MatchDTO the entity to update partially.
      * @return the persisted entity.
@@ -42,7 +42,7 @@ public interface MatchService {
     List<MatchDTO> findAll();
 
     /**
-     * Get the "id" Match.
+     * Get the "id" {@link Match}.
      *
      * @param id the id of the entity.
      * @return the entity.
@@ -50,11 +50,16 @@ public interface MatchService {
     Optional<MatchDTO> findOne(Long id);
 
     /**
-     * Delete the "id" Match.
+     * Delete the "id" {@link Match}.
      *
      * @param id the id of the entity.
      */
     void delete(Long id);
 
+    /**
+     * Simulate the result of the {@link Match}
+     * @param id of the match
+     * @return simulated {@link MatchDTO}
+     */
     MatchDTO simulateMatch(Long id);
 }

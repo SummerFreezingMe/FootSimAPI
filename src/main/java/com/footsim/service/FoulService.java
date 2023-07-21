@@ -4,6 +4,7 @@ import com.footsim.domain.dto.FoulDTO;
 import com.footsim.domain.model.Foul;
 import com.footsim.domain.model.Match;
 import com.footsim.domain.model.Player;
+import com.footsim.domain.model.Team;
 
 import java.util.List;
 import java.util.Optional;
@@ -65,4 +66,10 @@ public interface FoulService {
      * @param minute minute of a {@link Match} at which the foul occurred
      */
     void generateFoul(List<Player> roster, Long id, short minute);
+
+    /**
+     * Removes/adds disqualification after the {@link Match} is done
+     * @param team {@link Team} to modify
+     */
+    void foulsDiscard(List<Player> team);
 }

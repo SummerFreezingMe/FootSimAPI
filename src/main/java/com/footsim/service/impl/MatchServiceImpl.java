@@ -143,7 +143,11 @@ public class MatchServiceImpl implements MatchService {
 
         match.setHomeGoals(homeGoalsTotal);
         match.setAwayGoals(awayGoalsTotal);
+
+        foulService.foulsDiscard(homeRoster);
+        foulService.foulsDiscard(awayRoster);
         return matchMapper.toDto(match);
     }
+
 
 }

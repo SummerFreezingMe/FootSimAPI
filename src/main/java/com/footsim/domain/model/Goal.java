@@ -37,6 +37,7 @@ public class Goal {
     @Column(name = "minute")
     private Short minute;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "type")
     private GoalType type;
 

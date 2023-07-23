@@ -90,9 +90,17 @@ public class GoalServiceImpl implements GoalService {
         goalRepository.deleteById(id);
     }
     @Override
-    public void generateGoal(List<Player> roster, Long id, short minute) {
-        Goal goal = new Goal(0L, id, roster.get(r.nextInt(11)).getId(),
-                roster.get(r.nextInt(11)).getId(), minute, GoalType.DEFAULT);
+    public void generateGoal(List<Player> roster, Long id, short minute, GoalType goalType) {
+        Long scorerId = roster.get(r.nextInt(11)).getId();
+        Long assistantId=null;
+        if(goalType==GoalType.DEFAULT) {
+             assistantId= roster.get(r.nextInt(11)).getId();
+            if(assistantId.equals(scorerId)){
+            assistantId=null;
+            }
+        }
+        Goal goal = new Goal(0L, id, scorerId,
+                assistantId, minute, goalType);
         goalRepository.save(goal);
     }
 }

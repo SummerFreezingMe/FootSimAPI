@@ -2,6 +2,7 @@ package com.footsim.service;
 
 
 import com.footsim.domain.dto.GoalDTO;
+import com.footsim.domain.enumeration.GoalType;
 import com.footsim.domain.model.Goal;
 import com.footsim.domain.model.Match;
 import com.footsim.domain.model.Player;
@@ -61,9 +62,11 @@ public interface GoalService {
 
     /**
      * Generate new instance of {@link Goal}
-     * @param roster Players from a team that scored
-     * @param id id of a current {@link Match}
-     * @param minute minute of a {@link Match} at which the goal was scored
+     *
+     * @param roster   Players from a team that scored
+     * @param id       id of a current {@link Match}
+     * @param minute   minute of a {@link Match} at which the goal was scored
+     * @param goalType Type of scored {@link Goal}
      */
-    void generateGoal(List<Player> roster, Long id, short minute);
+    void generateGoal(List<Player> roster, Long id, short minute, GoalType goalType);
 }

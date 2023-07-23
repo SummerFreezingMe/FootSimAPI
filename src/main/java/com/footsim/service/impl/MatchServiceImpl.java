@@ -27,18 +27,21 @@ public class MatchServiceImpl implements MatchService {
     private final TeamRepository teamRepository;
     private final GoalServiceImpl goalService;
     private final FoulServiceImpl foulService;
+
+    private final TeamServiceImpl teamService;
     private final PlayerRepository playerRepository;
     private final MatchMapper matchMapper;
 
     public MatchServiceImpl(MatchRepository matchRepository,
                             TeamRepository teamRepository,
                             GoalServiceImpl goalService,
-                            FoulServiceImpl foulService, PlayerRepository playerRepository,
+                            FoulServiceImpl foulService, TeamServiceImpl teamService, PlayerRepository playerRepository,
                             MatchMapper matchMapper) {
         this.matchRepository = matchRepository;
         this.teamRepository = teamRepository;
         this.goalService = goalService;
         this.foulService = foulService;
+        this.teamService = teamService;
         this.playerRepository = playerRepository;
         this.matchMapper = matchMapper;
     }
@@ -101,54 +104,56 @@ public class MatchServiceImpl implements MatchService {
         var match = matchRepository.findById(id).orElseThrow();
         var homeTeam = teamRepository.findById(match.getHomeTeamId()).orElseThrow();
         var awayTeam = teamRepository.findById(match.getAwayTeamId()).orElseThrow();
-        var homeRoster = playerRepository.findByClubIdAndStatus(match.getHomeTeamId(),
-                PlayerStatus.ROSTER);
-        var awayRoster = playerRepository.findByClubIdAndStatus(match.getAwayTeamId(),
-                PlayerStatus.ROSTER);
-        double matchCoefficient = homeTeam.getRating() *
-                Constants.HOME_CROWD_ADVANTAGE / awayTeam.getRating();
+        if(teamService.isRosterViable(homeTeam)&&teamService.isRosterViable(awayTeam)
+){
+            var homeRoster = playerRepository.findByClubIdAndStatus(match.getHomeTeamId(),
+                    PlayerStatus.ROSTER);
+            var awayRoster = playerRepository.findByClubIdAndStatus(match.getAwayTeamId(),
+                    PlayerStatus.ROSTER);
+            double matchCoefficient = homeTeam.getRating() *
+                    Constants.HOME_CROWD_ADVANTAGE / awayTeam.getRating();
 
-        for (int time = 1; time < 50; time += Constants.TIME_LENGTH) {
-            var additionalMinutes=0;
-            for (short minute = 1; minute < Constants.TIME_LENGTH + 1+additionalMinutes; minute++) {
+            for (int time = 1; time < 50; time += Constants.TIME_LENGTH) {
+                var additionalMinutes = 0;
+                for (short minute = 1; minute < Constants.TIME_LENGTH + 1 + additionalMinutes; minute++) {
 
-                long homeGoalsAtMinute = Math.round(Math.random() * matchCoefficient) / Constants.TIME_LENGTH;
-                long awayGoalsAtMinute = Math.round(Math.random() / matchCoefficient) / Constants.TIME_LENGTH;
-                long homeFoulsAtMinute = Math.round(Math.random() * matchCoefficient) / Constants.TIME_LENGTH;
-                long awayFoulsAtMinute = Math.round(Math.random() / matchCoefficient) / Constants.TIME_LENGTH;
+                    long homeGoalsAtMinute = Math.round(Math.random() * matchCoefficient) / Constants.TIME_LENGTH;
+                    long awayGoalsAtMinute = Math.round(Math.random() / matchCoefficient) / Constants.TIME_LENGTH;
+                    long homeFoulsAtMinute = Math.round(Math.random() * matchCoefficient) / Constants.TIME_LENGTH;
+                    long awayFoulsAtMinute = Math.round(Math.random() / matchCoefficient) / Constants.TIME_LENGTH;
 
 
-                if (homeGoalsAtMinute > 0) {
-                    goalService.generateGoal(homeRoster,id,minute);
-                    homeGoalsTotal++;
-                    additionalMinutes++;
-                }
-                //todo: implement realistic goal assist distribution
-                if (awayGoalsAtMinute > 0) {
-                    goalService.generateGoal(awayRoster,id,minute);
-                    awayGoalsTotal++;
-                    additionalMinutes++;
-                }
-                if (homeFoulsAtMinute > 0) {
-                    foulService.generateFoul(homeRoster,id,minute);
-                    homeGoalsTotal++;
-                    additionalMinutes++;
-                }
-                if (awayFoulsAtMinute > 0) {
-                    foulService.generateFoul(awayRoster,id,minute);
-                    awayGoalsTotal++;
-                    additionalMinutes++;
+                    if (homeGoalsAtMinute > 0) {
+                        goalService.generateGoal(homeRoster, id, minute);
+                        homeGoalsTotal++;
+                        additionalMinutes++;
+                    }
+                    //todo: implement realistic goal assist distribution
+                    if (awayGoalsAtMinute > 0) {
+                        goalService.generateGoal(awayRoster, id, minute);
+                        awayGoalsTotal++;
+                        additionalMinutes++;
+                    }
+                    if (homeFoulsAtMinute > 0) {
+                        foulService.generateFoul(homeRoster, id, minute);
+                        homeGoalsTotal++;
+                        additionalMinutes++;
+                    }
+                    if (awayFoulsAtMinute > 0) {
+                        foulService.generateFoul(awayRoster, id, minute);
+                        awayGoalsTotal++;
+                        additionalMinutes++;
+                    }
                 }
             }
-        }
 
-        match.setHomeGoals(homeGoalsTotal);
-        match.setAwayGoals(awayGoalsTotal);
+            match.setHomeGoals(homeGoalsTotal);
+            match.setAwayGoals(awayGoalsTotal);
 
-        foulsDiscard(homeRoster);
-        foulsDiscard(awayRoster);
-        return matchMapper.toDto(match);
-    }
+            foulsDiscard(homeRoster);
+            foulsDiscard(awayRoster);
+            return matchMapper.toDto(match);
+        }    return null;}
 
     @Override
     public void foulsDiscard(List<Player> team) {

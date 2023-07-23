@@ -101,6 +101,10 @@ public class MatchServiceImpl implements MatchService {
     public MatchDTO simulateMatch(Long id) {
         var homeGoalsTotal = 0L;
         var awayGoalsTotal = 0L;
+
+        var homeFoulsTotal = 0L;
+        var awayFoulsTotal = 0L;
+
         var match = matchRepository.findById(id).orElseThrow();
         var homeTeam = teamRepository.findById(match.getHomeTeamId()).orElseThrow();
         var awayTeam = teamRepository.findById(match.getAwayTeamId()).orElseThrow();
@@ -117,10 +121,10 @@ public class MatchServiceImpl implements MatchService {
                 var additionalMinutes = 0;
                 for (short minute = 1; minute < Constants.TIME_LENGTH + 1 + additionalMinutes; minute++) {
 
-                    long homeGoalsAtMinute = Math.round(Math.random() * matchCoefficient) / Constants.TIME_LENGTH;
-                    long awayGoalsAtMinute = Math.round(Math.random() / matchCoefficient) / Constants.TIME_LENGTH;
-                    long homeFoulsAtMinute = Math.round(Math.random() * matchCoefficient) / Constants.TIME_LENGTH;
-                    long awayFoulsAtMinute = Math.round(Math.random() / matchCoefficient) / Constants.TIME_LENGTH;
+                    long homeGoalsAtMinute = Math.round(Math.random() * matchCoefficient*Constants.GOAL_CHANCE_MULTIPLIER);
+                    long awayGoalsAtMinute = Math.round(Math.random() / matchCoefficient*Constants.GOAL_CHANCE_MULTIPLIER);
+                    long homeFoulsAtMinute = Math.round(Math.random() * matchCoefficient*Constants.FOUL_CHANCE_MULTIPLIER);
+                    long awayFoulsAtMinute = Math.round(Math.random() / matchCoefficient*Constants.FOUL_CHANCE_MULTIPLIER);
 
 
                     if (homeGoalsAtMinute > 0) {
@@ -136,12 +140,12 @@ public class MatchServiceImpl implements MatchService {
                     }
                     if (homeFoulsAtMinute > 0) {
                         foulService.generateFoul(homeRoster, id, minute);
-                        homeGoalsTotal++;
+                        homeFoulsTotal++;
                         additionalMinutes++;
                     }
                     if (awayFoulsAtMinute > 0) {
                         foulService.generateFoul(awayRoster, id, minute);
-                        awayGoalsTotal++;
+                        awayFoulsTotal++;
                         additionalMinutes++;
                     }
                 }

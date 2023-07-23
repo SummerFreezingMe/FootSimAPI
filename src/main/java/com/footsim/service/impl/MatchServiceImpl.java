@@ -108,8 +108,8 @@ public class MatchServiceImpl implements MatchService {
         var match = matchRepository.findById(id).orElseThrow();
         var homeTeam = teamRepository.findById(match.getHomeTeamId()).orElseThrow();
         var awayTeam = teamRepository.findById(match.getAwayTeamId()).orElseThrow();
-        if(teamService.isRosterViable(homeTeam)&&teamService.isRosterViable(awayTeam)
-){
+        if (teamService.isRosterViable(homeTeam) && teamService.isRosterViable(awayTeam)
+        ) {
             var homeRoster = playerRepository.findByClubIdAndStatus(match.getHomeTeamId(),
                     PlayerStatus.ROSTER);
             var awayRoster = playerRepository.findByClubIdAndStatus(match.getAwayTeamId(),
@@ -117,14 +117,14 @@ public class MatchServiceImpl implements MatchService {
             double matchCoefficient = homeTeam.getRating() *
                     Constants.HOME_CROWD_ADVANTAGE / awayTeam.getRating();
 
-            for (int time = 1; time < 50; time += Constants.TIME_LENGTH) {
+            for (short time = 1; time < 50; time += Constants.TIME_LENGTH) {
                 var additionalMinutes = 0;
-                for (short minute = 1; minute < Constants.TIME_LENGTH + 1 + additionalMinutes; minute++) {
+                for (short minute = time; minute < Constants.TIME_LENGTH + time + additionalMinutes; minute++) {
 
-                    long homeGoalsAtMinute = Math.round(Math.random() * matchCoefficient*Constants.GOAL_CHANCE_MULTIPLIER);
-                    long awayGoalsAtMinute = Math.round(Math.random() / matchCoefficient*Constants.GOAL_CHANCE_MULTIPLIER);
-                    long homeFoulsAtMinute = Math.round(Math.random() * matchCoefficient*Constants.FOUL_CHANCE_MULTIPLIER);
-                    long awayFoulsAtMinute = Math.round(Math.random() / matchCoefficient*Constants.FOUL_CHANCE_MULTIPLIER);
+                    long homeGoalsAtMinute = Math.round(Math.random() * matchCoefficient * Constants.GOAL_CHANCE_MULTIPLIER);
+                    long awayGoalsAtMinute = Math.round(Math.random() / matchCoefficient * Constants.GOAL_CHANCE_MULTIPLIER);
+                    long homeFoulsAtMinute = Math.round(Math.random() * matchCoefficient * Constants.FOUL_CHANCE_MULTIPLIER);
+                    long awayFoulsAtMinute = Math.round(Math.random() / matchCoefficient * Constants.FOUL_CHANCE_MULTIPLIER);
 
 
                     if (homeGoalsAtMinute > 0) {
@@ -136,12 +136,12 @@ public class MatchServiceImpl implements MatchService {
                     if (awayGoalsAtMinute > 0) {
                         goalService.generateGoal(awayRoster, id, minute);
                         awayGoalsTotal++;
-                        additionalMinutes++;
+                        additionalMinutes += 0.25;
                     }
                     if (homeFoulsAtMinute > 0) {
                         foulService.generateFoul(homeRoster, id, minute);
                         homeFoulsTotal++;
-                        additionalMinutes++;
+                        additionalMinutes += 0.25;
                     }
                     if (awayFoulsAtMinute > 0) {
                         foulService.generateFoul(awayRoster, id, minute);
@@ -157,18 +157,20 @@ public class MatchServiceImpl implements MatchService {
             foulsDiscard(homeRoster);
             foulsDiscard(awayRoster);
             return matchMapper.toDto(match);
-        }    return null;}
+        }
+        return null;
+    }
 
     @Override
     public void foulsDiscard(List<Player> team) {
-        for (Player player:team
+        for (Player player : team
         ) {
-            switch (player.getStatus()){
+            switch (player.getStatus()) {
                 case SENT_OFF -> player.setStatus(PlayerStatus.DISQUALIFIED);
                 //considering there is only 1 match disqualification
                 case DISQUALIFIED -> player.setStatus(PlayerStatus.OUT);
             }
-           playerRepository.save(player);
+            playerRepository.save(player);
         }
     }
 }

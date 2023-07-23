@@ -39,9 +39,11 @@ public class Player {
     @Column(name = "name")
     private String name;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "position")
     private PlayerPosition position;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "status")
     private PlayerStatus status;
 

@@ -22,9 +22,9 @@ public class MatchDTO {
 
     private Long leagueId;
 
-    private Long firstTeamId;
+    private Long homeTeamId;
 
-    private Long secondTeamId;
+    private Long awayTeamId;
 
     private Long homeGoals;
 
@@ -36,12 +36,17 @@ public class MatchDTO {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         MatchDTO matchDTO = (MatchDTO) o;
-        return Objects.equal(getId(), matchDTO.getId()) && Objects.equal(getLeagueId(), matchDTO.getLeagueId()) && Objects.equal(getFirstTeamId(), matchDTO.getFirstTeamId()) && Objects.equal(getSecondTeamId(), matchDTO.getSecondTeamId()) && Objects.equal(getHomeGoals(), matchDTO.getHomeGoals()) && Objects.equal(getAwayGoals(), matchDTO.getAwayGoals()) && Objects.equal(getDate(), matchDTO.getDate());
+        return Objects.equal(getId(), matchDTO.getId()) && Objects.equal(getLeagueId(), matchDTO.getLeagueId()) &&
+                Objects.equal(getHomeTeamId(), matchDTO.getHomeTeamId()) &&
+                Objects.equal(getAwayTeamId(), matchDTO.getAwayTeamId()) &&
+                Objects.equal(getHomeGoals(), matchDTO.getHomeGoals()) &&
+                Objects.equal(getAwayGoals(), matchDTO.getAwayGoals()) &&
+                Objects.equal(getDate(), matchDTO.getDate());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(getId(), getLeagueId(), getFirstTeamId(), getSecondTeamId(), getHomeGoals(), getAwayGoals(), getDate());
+        return Objects.hashCode(getId(), getLeagueId(), getHomeTeamId(), getAwayTeamId(), getHomeGoals(), getAwayGoals(), getDate());
     }
 
     @Override
@@ -49,8 +54,8 @@ public class MatchDTO {
         return "MatchDTO{" +
                 "id=" + id +
                 ", leagueId=" + leagueId +
-                ", firstTeamId=" + firstTeamId +
-                ", secondTeamId=" + secondTeamId +
+                ", homeTeamId=" + homeTeamId +
+                ", awayTeamId=" + awayTeamId +
                 ", homeGoals=" + homeGoals +
                 ", AwayGoals=" + AwayGoals +
                 ", date=" + date +

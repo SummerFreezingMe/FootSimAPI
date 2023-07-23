@@ -34,6 +34,7 @@ public class Foul {
     @Column(name = "minute")
     private Short minute;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "type")
     private FoulType type;
 

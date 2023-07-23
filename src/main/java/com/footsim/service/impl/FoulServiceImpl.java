@@ -2,6 +2,7 @@ package com.footsim.service.impl;
 
 import com.footsim.domain.dto.FoulDTO;
 import com.footsim.domain.enumeration.FoulType;
+import com.footsim.domain.enumeration.GoalType;
 import com.footsim.domain.enumeration.PlayerStatus;
 import com.footsim.domain.model.Foul;
 import com.footsim.domain.model.Player;
@@ -29,14 +30,15 @@ public class FoulServiceImpl implements FoulService {
     private final Logger log = LoggerFactory.getLogger(FoulServiceImpl.class);
 
     private final FoulRepository foulRepository;
-
+    private final GoalServiceImpl goalService;
     Random r = new Random();
 
     private final FoulMapper foulMapper;
 
     public FoulServiceImpl(FoulRepository foulRepository,
-                           FoulMapper foulMapper) {
+                           GoalServiceImpl goalService, FoulMapper foulMapper) {
         this.foulRepository = foulRepository;
+        this.goalService = goalService;
         this.foulMapper = foulMapper;
     }
 
@@ -100,6 +102,9 @@ public class FoulServiceImpl implements FoulService {
         foulRepository.save(foul);
         if (checkForSendOffs(matchId, foul)) {
             player.setStatus(PlayerStatus.SENT_OFF);
+        }
+        if (Math.random() > 0.95) {
+            goalService.generateGoal(roster, matchId, minute, GoalType.PENALTY);
         }
     }
 

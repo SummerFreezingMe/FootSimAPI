@@ -32,8 +32,8 @@ public class Match
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "league_id")
-    private Long leagueId;
+    @Column(name = "season_id")
+    private Long seasonId;
 
     @Column(name = "home_team_id")
     private Long homeTeamId;
@@ -56,19 +56,19 @@ public class Match
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Match match = (Match) o;
-        return Objects.equal(getId(), match.getId()) && Objects.equal(getLeagueId(), match.getLeagueId()) && Objects.equal(getHomeTeamId(), match.getHomeTeamId()) && Objects.equal(getAwayTeamId(), match.getAwayTeamId()) && Objects.equal(getHomeGoals(), match.getHomeGoals()) && Objects.equal(getAwayGoals(), match.getAwayGoals()) && Objects.equal(getDate(), match.getDate());
+        return Objects.equal(getId(), match.getId()) && Objects.equal(getSeasonId(), match.getSeasonId()) && Objects.equal(getHomeTeamId(), match.getHomeTeamId()) && Objects.equal(getAwayTeamId(), match.getAwayTeamId()) && Objects.equal(getHomeGoals(), match.getHomeGoals()) && Objects.equal(getAwayGoals(), match.getAwayGoals()) && Objects.equal(getDate(), match.getDate());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(getId(), getLeagueId(), getHomeTeamId(), getAwayTeamId(), getDate());
+        return Objects.hashCode(getId(), getSeasonId(), getHomeTeamId(), getAwayTeamId(), getDate());
     }
 
     @Override
     public String toString() {
         return "Match{" +
                 "id=" + id +
-                ", leagueId=" + leagueId +
+                ", seasonId=" + seasonId +
                 ", homeTeamId=" + homeTeamId +
                 ", awayTeamId=" + awayTeamId +
                 ", homeGoals=" + homeGoals +

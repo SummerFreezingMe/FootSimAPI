@@ -2,6 +2,7 @@ package com.footsim.service.impl;
 
 import com.footsim.config.Constants;
 import com.footsim.domain.dto.MatchDTO;
+import com.footsim.domain.enumeration.GoalType;
 import com.footsim.domain.enumeration.PlayerStatus;
 import com.footsim.domain.model.Match;
 import com.footsim.domain.model.Player;
@@ -128,13 +129,23 @@ public class MatchServiceImpl implements MatchService {
 
 
                     if (homeGoalsAtMinute > 0) {
-                        goalService.generateGoal(homeRoster, id, minute);
+                        GoalType goalType = GoalType.getType(Math.random());
+                        if (goalType == GoalType.AUTOGOAL) {
+                            goalService.generateGoal(awayRoster, id, minute,goalType);
+                        } else {
+                            goalService.generateGoal(homeRoster, id, minute,goalType);
+                        }
                         homeGoalsTotal++;
                         additionalMinutes++;
                     }
                     //todo: implement realistic goal assist distribution
                     if (awayGoalsAtMinute > 0) {
-                        goalService.generateGoal(awayRoster, id, minute);
+                        GoalType goalType = GoalType.getType(Math.random());
+                        if (goalType == GoalType.AUTOGOAL) {
+                            goalService.generateGoal(homeRoster, id, minute,goalType);
+                        } else {
+                            goalService.generateGoal(awayRoster, id, minute,goalType);
+                        }
                         awayGoalsTotal++;
                         additionalMinutes += 0.25;
                     }

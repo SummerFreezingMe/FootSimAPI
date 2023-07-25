@@ -1,6 +1,7 @@
 package com.footsim.service.impl;
 
 import com.footsim.domain.dto.GoalDTO;
+import com.footsim.domain.dto.TopActionsDTO;
 import com.footsim.domain.enumeration.GoalType;
 import com.footsim.domain.model.Goal;
 import com.footsim.domain.model.Player;
@@ -90,9 +91,25 @@ public class GoalServiceImpl implements GoalService {
         goalRepository.deleteById(id);
     }
     @Override
-    public void generateGoal(List<Player> roster, Long id, short minute) {
-        Goal goal = new Goal(0L, id, roster.get(r.nextInt(11)).getId(),
-                roster.get(r.nextInt(11)).getId(), minute, GoalType.DEFAULT);
+    public void generateGoal(List<Player> roster, Long id, short minute, GoalType goalType) {
+        Long scorerId = roster.get(r.nextInt(11)).getId();
+        Long assistantId=null;
+        if(goalType==GoalType.DEFAULT) {
+             assistantId= roster.get(r.nextInt(11)).getId();
+            if(assistantId.equals(scorerId)){
+            assistantId=null;
+            }
+        }
+        Goal goal = new Goal(0L, id, scorerId,
+                assistantId, minute, goalType);
         goalRepository.save(goal);
+    }
+    @Override
+    public List<TopActionsDTO> displayTopScorers(Long seasonId){
+        return goalRepository.findTopScorers(seasonId);
+    }
+@Override
+    public List<TopActionsDTO> displayTopAssistants(Long seasonId) {
+    return goalRepository.findTopAssistants(seasonId);
     }
 }

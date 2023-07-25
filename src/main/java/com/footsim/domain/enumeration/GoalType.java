@@ -22,5 +22,16 @@ public enum GoalType {
     /**
      * {@link Goal} scored by a player against their own team
      */
-    AUTOGOAL
+    AUTOGOAL;
+
+    public static GoalType getType(double possibility){
+        if(possibility<0.80&&possibility>=0){
+            return DEFAULT;
+        } else if (possibility>=0.80&&possibility<0.95) {
+            return PENALTY;
+        } else if (possibility<1.00&&possibility>=0.95) {
+            return  AUTOGOAL;
+        } else return null;
+    }
+
 }

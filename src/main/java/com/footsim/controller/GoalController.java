@@ -1,6 +1,7 @@
 package com.footsim.controller;
 
 import com.footsim.domain.dto.GoalDTO;
+import com.footsim.domain.dto.TopActionsDTO;
 import com.footsim.service.impl.GoalServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -46,6 +47,18 @@ public class GoalController {
     @Operation(summary = "Отображаем все голы")
     public List<GoalDTO> displayAllGoals() {
         return goalService.findAll();
+    }
+
+    @GetMapping(value = "/top_scorers/{id}")
+    @Operation(summary = "Отображаем список бомбардиров определённого сезона")
+    public List<TopActionsDTO> displayTopScorers(@PathVariable Long id) {
+        return goalService.displayTopScorers(id);
+    }
+
+    @GetMapping(value = "/top_assistants/{id}")
+    @Operation(summary = "Отображаем список ассистентов определённого сезона")
+    public List<TopActionsDTO> displayTopAssistants(@PathVariable Long id) {
+        return goalService.displayTopAssistants(id);
     }
 
 }

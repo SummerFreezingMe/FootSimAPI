@@ -1,6 +1,7 @@
 package com.footsim.service.impl;
 
 import com.footsim.domain.dto.GoalDTO;
+import com.footsim.domain.dto.TopActionsDTO;
 import com.footsim.domain.enumeration.GoalType;
 import com.footsim.domain.model.Goal;
 import com.footsim.domain.model.Player;
@@ -102,5 +103,13 @@ public class GoalServiceImpl implements GoalService {
         Goal goal = new Goal(0L, id, scorerId,
                 assistantId, minute, goalType);
         goalRepository.save(goal);
+    }
+    @Override
+    public List<TopActionsDTO> displayTopScorers(Long seasonId){
+        return goalRepository.findTopScorers(seasonId);
+    }
+@Override
+    public List<TopActionsDTO> displayTopAssistants(Long seasonId) {
+    return goalRepository.findTopAssistants(seasonId);
     }
 }

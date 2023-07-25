@@ -2,10 +2,12 @@ package com.footsim.service;
 
 
 import com.footsim.domain.dto.GoalDTO;
+import com.footsim.domain.dto.TopActionsDTO;
 import com.footsim.domain.enumeration.GoalType;
 import com.footsim.domain.model.Goal;
 import com.footsim.domain.model.Match;
 import com.footsim.domain.model.Player;
+import com.footsim.domain.model.Season;
 
 import java.util.List;
 import java.util.Optional;
@@ -69,4 +71,20 @@ public interface GoalService {
      * @param goalType Type of scored {@link Goal}
      */
     void generateGoal(List<Player> roster, Long id, short minute, GoalType goalType);
+
+    /**
+     * Displays list of top scorers for specific {@link Season}
+     *
+     * @param seasonId id of a {@link Season}
+     * @return List of id's of a {@link Player} and amount of their goals
+     */
+    List<TopActionsDTO> displayTopScorers(Long seasonId);
+
+    /**
+     * Displays list of top assistants for specific {@link Season}
+     *
+     * @param seasonId id of a {@link Season}
+     * @return List of id's of a {@link Player} and amount of their assists
+     */
+    List<TopActionsDTO> displayTopAssistants(Long seasonId);
 }

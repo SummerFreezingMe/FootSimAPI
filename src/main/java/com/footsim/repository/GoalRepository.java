@@ -23,7 +23,8 @@ public interface GoalRepository extends JpaRepository<Goal, Long> {
     @Query(value = "select player.id, count(goal.author_id)" +
             "            from player join goal" +
             "            on player.id=goal.author_id" +
-            " group by player.id",nativeQuery = true)
+            " group by player.id" +
+            "order by count(goal.author_id) desc ",nativeQuery = true)
     List<TopActionsDTO> findTopScorers(Long seasonId);
     /**
      * @param seasonId id of a {@link Season}
@@ -32,6 +33,7 @@ public interface GoalRepository extends JpaRepository<Goal, Long> {
     @Query(value = "select player.id, count(goal.assist_id)" +
             "            from player join goal" +
             "            on player.id=goal.author_id" +
-            " group by player.id",nativeQuery = true)
+            " group by player.id" +
+            " order by count(goal.assist_id) desc ",nativeQuery = true)
     List<TopActionsDTO> findTopAssistants(Long seasonId);
 }

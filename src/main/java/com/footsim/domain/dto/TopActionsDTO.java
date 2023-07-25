@@ -14,6 +14,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+
 public class TopActionsDTO {
 
     /**
@@ -22,7 +23,7 @@ public class TopActionsDTO {
     private Long id;
 
     /**
-     * Amount of goals or assists of a player
+     * Amount of goals or assists of a {@link Player}
      */
     private Short actions;
 

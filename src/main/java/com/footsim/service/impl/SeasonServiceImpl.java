@@ -92,11 +92,11 @@ public class SeasonServiceImpl implements SeasonService {
 
     @Override
     public void initializeSeason(Long leagueId, Integer year){
+        if(seasonRepository.countAllByLeagueIdAndYear(leagueId,year)==0L){
         List<Team> seasonTeams = teamRepository.findAllByLeagueId(leagueId);
-    for (Team team:
-         seasonTeams) {
+    for (Team team: seasonTeams) {
         Season season = new Season(0L,leagueId,year,team.getId(),0L);
         seasonRepository.save(season);
-    }
-}
+    }//todo: response entity + exception
+}}
 }

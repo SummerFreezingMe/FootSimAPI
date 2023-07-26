@@ -10,4 +10,5 @@ import org.springframework.stereotype.Repository;
 @SuppressWarnings("unused")
 @Repository
 public interface SeasonRepository extends JpaRepository<Season, Long> {
+    Long countAllByLeagueIdAndYear(Long leagueId, Integer year);
 }

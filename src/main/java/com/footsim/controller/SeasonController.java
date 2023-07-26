@@ -49,7 +49,7 @@ public class SeasonController {
         return seasonService.update(season);
     }
 
-    @GetMapping(value = "/switch_status/{id}/{year}")
+    @GetMapping(value = "/init_season/{id}/{year}")
     @Operation(summary = "Инициализируем сезон лиги, где у каждой команды лиги 0 очков")
     public void initializeSeason(@PathVariable Long id,
                                            @PathVariable Integer year) {

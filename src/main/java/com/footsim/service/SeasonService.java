@@ -1,7 +1,9 @@
 package com.footsim.service;
 
 import com.footsim.domain.dto.SeasonDTO;
+import com.footsim.domain.model.League;
 import com.footsim.domain.model.Season;
+import com.footsim.domain.model.Team;
 
 import java.util.List;
 import java.util.Optional;
@@ -55,4 +57,11 @@ public interface SeasonService {
      * @param id the id of the entity.
      */
     void delete(Long id);
+
+    /**
+     * Initialize {@link Season} with each {@link Team} from the {@link League} added with 0 points
+     * @param leagueId Id of the {@link League}
+     * @param year year of {@link Season} to initialize
+     */
+    void initializeSeason(Long leagueId, Integer year);
 }

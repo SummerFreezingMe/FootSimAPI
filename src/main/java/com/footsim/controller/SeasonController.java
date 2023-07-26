@@ -48,4 +48,11 @@ public class SeasonController {
     public SeasonDTO updateSeason(@RequestBody SeasonDTO season) {
         return seasonService.update(season);
     }
+
+    @GetMapping(value = "/switch_status/{id}/{year}")
+    @Operation(summary = "Инициализируем сезон лиги, где у каждой команды лиги 0 очков")
+    public void initializeSeason(@PathVariable Long id,
+                                           @PathVariable Integer year) {
+         seasonService.initializeSeason(id,year);
+    }
 }

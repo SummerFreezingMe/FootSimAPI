@@ -3,8 +3,10 @@ package com.footsim.service.impl;
 
 import com.footsim.domain.dto.SeasonDTO;
 import com.footsim.domain.model.Season;
+import com.footsim.domain.model.Team;
 import com.footsim.mapper.SeasonMapper;
 import com.footsim.repository.SeasonRepository;
+import com.footsim.repository.TeamRepository;
 import com.footsim.service.SeasonService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,11 +29,13 @@ public class SeasonServiceImpl implements SeasonService {
 
     private final SeasonRepository seasonRepository;
 
+    private final TeamRepository teamRepository;
     private final SeasonMapper seasonMapper;
 
 
-    public SeasonServiceImpl(SeasonRepository seasonRepository, SeasonMapper seasonMapper) {
+    public SeasonServiceImpl(SeasonRepository seasonRepository, TeamRepository teamRepository, SeasonMapper seasonMapper) {
         this.seasonRepository = seasonRepository;
+        this.teamRepository = teamRepository;
         this.seasonMapper = seasonMapper;
     }
 
@@ -86,5 +90,13 @@ public class SeasonServiceImpl implements SeasonService {
         seasonRepository.deleteById(id);
     }
 
-
+    @Override
+    public void initializeSeason(Long leagueId, Integer year){
+        List<Team> seasonTeams = teamRepository.findAllByLeagueId(leagueId);
+    for (Team team:
+         seasonTeams) {
+        Season season = new Season(0L,leagueId,year,team.getId(),0L);
+        seasonRepository.save(season);
+    }
+}
 }

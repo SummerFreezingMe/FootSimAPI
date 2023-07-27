@@ -11,7 +11,7 @@ import java.util.List;
 
 @RestController
 @Tag(name = "Сезоны", description = "Методы, взаимодействующие с сезонами чемпионатов")
-@RequestMapping(value = "/season")
+@RequestMapping(value = "/seasons")
 public class SeasonController {
     private final SeasonServiceImpl seasonService;
 

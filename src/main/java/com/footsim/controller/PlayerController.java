@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController
 @Tag(name = "Игроки", description = "Методы, взаимодействующие с игроками")
-@RequestMapping("/player")
+@RequestMapping("/players")
 public class PlayerController {
     private final PlayerServiceImpl playerService;
 

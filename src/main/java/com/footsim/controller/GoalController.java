@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @Tag(name = "Голы", description = "Методы, взаимодействующие с голами")
-@RequestMapping(value = "/goal")
+@RequestMapping(value = "/goals")
 public class GoalController {
     private final GoalServiceImpl goalService;
 

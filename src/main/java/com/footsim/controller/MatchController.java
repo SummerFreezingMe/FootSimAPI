@@ -10,7 +10,7 @@ import java.util.List;
 
 @RestController
 @Tag(name = "Матчи", description = "Методы, взаимодействующие с матчами")
-@RequestMapping(value = "/match")
+@RequestMapping(value = "/matches")
 public class MatchController {
     private final MatchServiceImpl matchService;
 

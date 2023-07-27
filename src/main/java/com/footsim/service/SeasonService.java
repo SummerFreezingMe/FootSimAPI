@@ -2,6 +2,7 @@ package com.footsim.service;
 
 import com.footsim.domain.dto.SeasonDTO;
 import com.footsim.domain.model.League;
+import com.footsim.domain.model.Match;
 import com.footsim.domain.model.Season;
 import com.footsim.domain.model.Team;
 
@@ -64,4 +65,12 @@ public interface SeasonService {
      * @param year year of {@link Season} to initialize
      */
     void initializeSeason(Long leagueId, Integer year);
+
+    /**
+     * Add points to teams according to {@link Match} result
+     * @param homeGoalsTotal amount of goals of a {@link Team} at home
+     * @param awayGoalsTotal amount of goals of a {@link Team} away
+     * @param match {@link Match} entity
+     */
+    void addPoints(long homeGoalsTotal, long awayGoalsTotal, Match match);
 }

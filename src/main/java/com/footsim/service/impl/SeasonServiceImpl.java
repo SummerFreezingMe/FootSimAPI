@@ -2,6 +2,7 @@ package com.footsim.service.impl;
 
 
 import com.footsim.domain.dto.SeasonDTO;
+import com.footsim.domain.model.Match;
 import com.footsim.domain.model.Season;
 import com.footsim.domain.model.Team;
 import com.footsim.mapper.SeasonMapper;
@@ -99,4 +100,29 @@ public class SeasonServiceImpl implements SeasonService {
         seasonRepository.save(season);
     }//todo: response entity + exception
 }}
+
+    @Override
+    public void addPoints(long homeGoalsTotal, long awayGoalsTotal, Match match) {
+        // todo: workaround for fall-spring leagues
+        int yearOfMatch = match.getDate().getYear();
+        Long leagueId = teamRepository.findById(match.getHomeTeamId()).
+                orElseThrow().getLeagueId();
+        Season homeTeamSeason = seasonRepository.findByLeagueIdAndYearAndTeamId(
+                leagueId,yearOfMatch,match.getHomeTeamId()).orElseThrow();
+        Season awayTeamSeason = seasonRepository.findByLeagueIdAndYearAndTeamId(
+                leagueId,yearOfMatch,match.getHomeTeamId()).orElseThrow();
+        if (homeGoalsTotal>awayGoalsTotal){
+            homeTeamSeason.setPoints(homeTeamSeason.getPoints()+3);
+            seasonRepository.save(homeTeamSeason);
+        } else if (homeGoalsTotal<awayGoalsTotal) {
+            awayTeamSeason.setPoints(awayTeamSeason.getPoints()+3);
+            seasonRepository.save(awayTeamSeason);
+        } else {
+            homeTeamSeason.setPoints(homeTeamSeason.getPoints()+1);
+            awayTeamSeason.setPoints(awayTeamSeason.getPoints()+1);
+            seasonRepository.save(homeTeamSeason);
+            seasonRepository.save(awayTeamSeason);
+        }
+
+    }
 }

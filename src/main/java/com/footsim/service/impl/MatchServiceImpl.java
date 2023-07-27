@@ -26,24 +26,29 @@ public class MatchServiceImpl implements MatchService {
 
     private final MatchRepository matchRepository;
     private final TeamRepository teamRepository;
+
+    private final PlayerRepository playerRepository;
+
     private final GoalServiceImpl goalService;
     private final FoulServiceImpl foulService;
-
     private final TeamServiceImpl teamService;
-    private final PlayerRepository playerRepository;
+
+    private final SeasonServiceImpl seasonService;
+
     private final MatchMapper matchMapper;
 
     public MatchServiceImpl(MatchRepository matchRepository,
                             TeamRepository teamRepository,
                             GoalServiceImpl goalService,
                             FoulServiceImpl foulService, TeamServiceImpl teamService, PlayerRepository playerRepository,
-                            MatchMapper matchMapper) {
+                            SeasonServiceImpl seasonService, MatchMapper matchMapper) {
         this.matchRepository = matchRepository;
         this.teamRepository = teamRepository;
         this.goalService = goalService;
         this.foulService = foulService;
         this.teamService = teamService;
         this.playerRepository = playerRepository;
+        this.seasonService = seasonService;
         this.matchMapper = matchMapper;
     }
 
@@ -102,10 +107,6 @@ public class MatchServiceImpl implements MatchService {
     public MatchDTO simulateMatch(Long id) {
         var homeGoalsTotal = 0L;
         var awayGoalsTotal = 0L;
-
-        var homeFoulsTotal = 0L;
-        var awayFoulsTotal = 0L;
-
         var match = matchRepository.findById(id).orElseThrow();
         var homeTeam = teamRepository.findById(match.getHomeTeamId()).orElseThrow();
         var awayTeam = teamRepository.findById(match.getAwayTeamId()).orElseThrow();
@@ -151,12 +152,10 @@ public class MatchServiceImpl implements MatchService {
                     }
                     if (homeFoulsAtMinute > 0) {
                         foulService.generateFoul(homeRoster, id, minute);
-                        homeFoulsTotal++;
                         additionalMinutes += 0.25;
                     }
                     if (awayFoulsAtMinute > 0) {
                         foulService.generateFoul(awayRoster, id, minute);
-                        awayFoulsTotal++;
                         additionalMinutes++;
                     }
                 }
@@ -164,6 +163,7 @@ public class MatchServiceImpl implements MatchService {
 
             match.setHomeGoals(homeGoalsTotal);
             match.setAwayGoals(awayGoalsTotal);
+            seasonService.addPoints(homeGoalsTotal,awayGoalsTotal,match);
 
             foulsDiscard(homeRoster);
             foulsDiscard(awayRoster);

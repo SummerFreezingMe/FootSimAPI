@@ -11,6 +11,8 @@ import com.footsim.repository.TeamRepository;
 import com.footsim.service.SeasonService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -79,8 +81,7 @@ public class SeasonServiceImpl implements SeasonService {
 
     @Override
     @Transactional(readOnly = true)
-    public
-    SeasonDTO findOne(Long id) {
+    public SeasonDTO findOne(Long id) {
         log.debug("Request to get Season : {}", id);
         return seasonRepository.findById(id).map(seasonMapper::toDto).orElse(null);
     }
@@ -92,14 +93,17 @@ public class SeasonServiceImpl implements SeasonService {
     }
 
     @Override
-    public void initializeSeason(Long leagueId, Integer year){
-        if(seasonRepository.countAllByLeagueIdAndYear(leagueId,year)==0L){
-        List<Team> seasonTeams = teamRepository.findAllByLeagueId(leagueId);
-    for (Team team: seasonTeams) {
-        Season season = new Season(0L,leagueId,year,team.getId(),0L);
-        seasonRepository.save(season);
-    }//todo: response entity + exception
-}}
+    public ResponseEntity<?> initializeSeason(Long leagueId, Integer year) {
+        if (seasonRepository.countAllByLeagueIdAndYear(leagueId, year) == 0L) {
+            List<Team> seasonTeams = teamRepository.findAllByLeagueId(leagueId);
+            for (Team team : seasonTeams) {
+                Season season = new Season(0L, leagueId, year, team.getId(), 0L);
+                seasonRepository.save(season);
+            }//todo: exception
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
 
     @Override
     public void addPoints(long homeGoalsTotal, long awayGoalsTotal, Match match) {
@@ -108,18 +112,18 @@ public class SeasonServiceImpl implements SeasonService {
         Long leagueId = teamRepository.findById(match.getHomeTeamId()).
                 orElseThrow().getLeagueId();
         Season homeTeamSeason = seasonRepository.findByLeagueIdAndYearAndTeamId(
-                leagueId,yearOfMatch,match.getHomeTeamId()).orElseThrow();
+                leagueId, yearOfMatch, match.getHomeTeamId()).orElseThrow();
         Season awayTeamSeason = seasonRepository.findByLeagueIdAndYearAndTeamId(
-                leagueId,yearOfMatch,match.getHomeTeamId()).orElseThrow();
-        if (homeGoalsTotal>awayGoalsTotal){
-            homeTeamSeason.setPoints(homeTeamSeason.getPoints()+3);
+                leagueId, yearOfMatch, match.getHomeTeamId()).orElseThrow();
+        if (homeGoalsTotal > awayGoalsTotal) {
+            homeTeamSeason.setPoints(homeTeamSeason.getPoints() + 3);
             seasonRepository.save(homeTeamSeason);
-        } else if (homeGoalsTotal<awayGoalsTotal) {
-            awayTeamSeason.setPoints(awayTeamSeason.getPoints()+3);
+        } else if (homeGoalsTotal < awayGoalsTotal) {
+            awayTeamSeason.setPoints(awayTeamSeason.getPoints() + 3);
             seasonRepository.save(awayTeamSeason);
         } else {
-            homeTeamSeason.setPoints(homeTeamSeason.getPoints()+1);
-            awayTeamSeason.setPoints(awayTeamSeason.getPoints()+1);
+            homeTeamSeason.setPoints(homeTeamSeason.getPoints() + 1);
+            awayTeamSeason.setPoints(awayTeamSeason.getPoints() + 1);
             seasonRepository.save(homeTeamSeason);
             seasonRepository.save(awayTeamSeason);
         }

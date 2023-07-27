@@ -5,6 +5,7 @@ import com.footsim.domain.dto.SeasonDTO;
 import com.footsim.service.impl.SeasonServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -51,8 +52,8 @@ public class SeasonController {
 
     @GetMapping(value = "/init_season/{id}/{year}")
     @Operation(summary = "Инициализируем сезон лиги, где у каждой команды лиги 0 очков")
-    public void initializeSeason(@PathVariable Long id,
-                                           @PathVariable Integer year) {
-         seasonService.initializeSeason(id,year);
+    public ResponseEntity<?> initializeSeason(@PathVariable Long id,
+                                              @PathVariable Integer year) {
+        return seasonService.initializeSeason(id, year);
     }
 }

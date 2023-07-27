@@ -5,6 +5,7 @@ import com.footsim.domain.model.League;
 import com.footsim.domain.model.Match;
 import com.footsim.domain.model.Season;
 import com.footsim.domain.model.Team;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 import java.util.Optional;
@@ -61,16 +62,19 @@ public interface SeasonService {
 
     /**
      * Initialize {@link Season} with each {@link Team} from the {@link League} added with 0 points
+     *
      * @param leagueId Id of the {@link League}
-     * @param year year of {@link Season} to initialize
+     * @param year     year of {@link Season} to initialize
+     * @return status of operation wrapped in {@link ResponseEntity}
      */
-    void initializeSeason(Long leagueId, Integer year);
+    ResponseEntity<?> initializeSeason(Long leagueId, Integer year);
 
     /**
      * Add points to teams according to {@link Match} result
+     *
      * @param homeGoalsTotal amount of goals of a {@link Team} at home
      * @param awayGoalsTotal amount of goals of a {@link Team} away
-     * @param match {@link Match} entity
+     * @param match          {@link Match} entity
      */
     void addPoints(long homeGoalsTotal, long awayGoalsTotal, Match match);
 }

@@ -21,7 +21,7 @@ public class SeasonDTO {
 
     private Long leagueId;
 
-    private Integer year;
+    private String year;
 
     @Override
     public boolean equals(Object o) {

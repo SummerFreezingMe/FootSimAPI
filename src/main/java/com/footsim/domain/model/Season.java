@@ -36,7 +36,7 @@ public class Season implements Serializable {
     private Long leagueId;
 
     @Column(name = "year")
-    private Integer year;
+    private String year;
 
     @Override
     public boolean equals(Object o) {

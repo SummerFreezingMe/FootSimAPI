@@ -30,6 +30,15 @@ public class SeasonDTO implements Serializable {
 
     private Long points;
 
+    private Integer wins;
+
+    private Integer draws;
+
+    private Integer defeats;
+
+    private Integer goalsScored;
+
+    private Integer goalsConceded;
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -51,6 +60,11 @@ public class SeasonDTO implements Serializable {
                 ", year=" + year +
                 ", teamId=" + teamId +
                 ", points=" + points +
+                ", wins=" + wins +
+                ", draws=" + draws +
+                ", defeats=" + defeats +
+                ", goalsScored=" + goalsScored +
+                ", goalsConceded=" + goalsConceded +
                 '}';
     }
 }

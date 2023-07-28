@@ -42,6 +42,20 @@ public class Season implements Serializable {
 
     @Column(name = "team_points")
     private Long points;
+    @Column(name = "wins")
+    private Integer wins;
+
+    @Column(name = "draws")
+    private Integer draws;
+
+    @Column(name = "defeats")
+    private Integer defeats;
+
+    @Column(name = "goals_scored")
+    private Integer goalsScored;
+
+    @Column(name = "goals_conceded")
+    private Integer goalsConceded;
 
     @Override
     public boolean equals(Object o) {
@@ -64,6 +78,11 @@ public class Season implements Serializable {
                 ", year=" + year +
                 ", teamId=" + teamId +
                 ", points=" + points +
+                ", wins=" + wins +
+                ", draws=" + draws +
+                ", defeats=" + defeats +
+                ", goalsScored=" + goalsScored +
+                ", goalsConceded=" + goalsConceded +
                 '}';
     }
 }

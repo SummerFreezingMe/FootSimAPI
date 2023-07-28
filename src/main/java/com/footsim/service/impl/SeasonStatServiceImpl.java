@@ -1,11 +1,11 @@
 package com.footsim.service.impl;
 
 
-import com.footsim.domain.dto.SeasonDTO;
+import com.footsim.domain.dto.SeasonStatDTO;
 import com.footsim.domain.model.Match;
 import com.footsim.domain.model.SeasonStat;
 import com.footsim.domain.model.Team;
-import com.footsim.mapper.SeasonMapper;
+import com.footsim.mapper.SeasonStatMapper;
 import com.footsim.repository.SeasonStatRepository;
 import com.footsim.repository.TeamRepository;
 import com.footsim.service.SeasonStatService;
@@ -33,17 +33,17 @@ public class SeasonStatServiceImpl implements SeasonStatService {
     private final SeasonStatRepository seasonRepository;
 
     private final TeamRepository teamRepository;
-    private final SeasonMapper seasonMapper;
+    private final SeasonStatMapper seasonMapper;
 
 
-    public SeasonStatServiceImpl(SeasonStatRepository seasonRepository, TeamRepository teamRepository, SeasonMapper seasonMapper) {
+    public SeasonStatServiceImpl(SeasonStatRepository seasonRepository, TeamRepository teamRepository, SeasonStatMapper seasonMapper) {
         this.seasonRepository = seasonRepository;
         this.teamRepository = teamRepository;
         this.seasonMapper = seasonMapper;
     }
 
     @Override
-    public SeasonDTO save(SeasonDTO seasonDTO) {
+    public SeasonStatDTO save(SeasonStatDTO seasonDTO) {
         log.debug("Request to save Season : {}", seasonDTO);
         SeasonStat season = seasonMapper.toEntity(seasonDTO);
         season = seasonRepository.save(season);
@@ -51,7 +51,7 @@ public class SeasonStatServiceImpl implements SeasonStatService {
     }
 
     @Override
-    public SeasonDTO update(SeasonDTO seasonDTO) {
+    public SeasonStatDTO update(SeasonStatDTO seasonDTO) {
         log.debug("Request to update Season : {}", seasonDTO);
         SeasonStat season = seasonMapper.toEntity(seasonDTO);
         season = seasonRepository.save(season);
@@ -59,7 +59,7 @@ public class SeasonStatServiceImpl implements SeasonStatService {
     }
 
     @Override
-    public Optional<SeasonDTO> partialUpdate(SeasonDTO seasonDTO) {
+    public Optional<SeasonStatDTO> partialUpdate(SeasonStatDTO seasonDTO) {
         log.debug("Request to partially update Season : {}", seasonDTO);
         return seasonRepository
                 .findById(seasonDTO.getId())
@@ -74,14 +74,14 @@ public class SeasonStatServiceImpl implements SeasonStatService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<SeasonDTO> findAll() {
+    public List<SeasonStatDTO> findAll() {
         log.debug("Request to get all Seasons");
         return seasonRepository.findAll().stream().map(seasonMapper::toDto).collect(Collectors.toCollection(LinkedList::new));
     }
 
     @Override
     @Transactional(readOnly = true)
-    public SeasonDTO findOne(Long id) {
+    public SeasonStatDTO findOne(Long id) {
         log.debug("Request to get Season : {}", id);
         return seasonRepository.findById(id).map(seasonMapper::toDto).orElse(null);
     }

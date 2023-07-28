@@ -42,20 +42,22 @@ public class Season implements Serializable {
 
     @Column(name = "team_points")
     private Long points;
+
+    //todo: settle for "long" now, figure it out later
     @Column(name = "wins")
-    private Integer wins;
+    private Long wins;
 
     @Column(name = "draws")
-    private Integer draws;
+    private Long draws;
 
     @Column(name = "defeats")
-    private Integer defeats;
+    private Long defeats;
 
     @Column(name = "goals_scored")
-    private Integer goalsScored;
+    private Long goalsScored;
 
     @Column(name = "goals_conceded")
-    private Integer goalsConceded;
+    private Long goalsConceded;
 
     @Override
     public boolean equals(Object o) {

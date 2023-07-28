@@ -97,7 +97,8 @@ public class SeasonServiceImpl implements SeasonService {
         if (seasonRepository.countAllByLeagueIdAndYear(leagueId, year) == 0L) {
             List<Team> seasonTeams = teamRepository.findAllByLeagueId(leagueId);
             for (Team team : seasonTeams) {
-                Season season = new Season(0L, leagueId, year, team.getId(), 0L);
+                Season season = new Season(0L, leagueId, year, team.getId(),
+                        0L, 0L, 0L, 0L, 0L, 0L);
                 seasonRepository.save(season);
             }//todo: exception
             return new ResponseEntity<>(HttpStatus.OK);
@@ -115,18 +116,35 @@ public class SeasonServiceImpl implements SeasonService {
                 leagueId, yearOfMatch, match.getHomeTeamId()).orElseThrow();
         Season awayTeamSeason = seasonRepository.findByLeagueIdAndYearAndTeamId(
                 leagueId, yearOfMatch, match.getHomeTeamId()).orElseThrow();
+
         if (homeGoalsTotal > awayGoalsTotal) {
+
             homeTeamSeason.setPoints(homeTeamSeason.getPoints() + 3);
-            seasonRepository.save(homeTeamSeason);
+
+            homeTeamSeason.setWins(homeTeamSeason.getWins()+1);
+            awayTeamSeason.setDefeats(awayTeamSeason.getDefeats()+1);
+
         } else if (homeGoalsTotal < awayGoalsTotal) {
+
             awayTeamSeason.setPoints(awayTeamSeason.getPoints() + 3);
-            seasonRepository.save(awayTeamSeason);
+
+            awayTeamSeason.setWins(awayTeamSeason.getWins()+1);
+            homeTeamSeason.setDefeats(homeTeamSeason.getDefeats()+1);
         } else {
+
             homeTeamSeason.setPoints(homeTeamSeason.getPoints() + 1);
             awayTeamSeason.setPoints(awayTeamSeason.getPoints() + 1);
-            seasonRepository.save(homeTeamSeason);
-            seasonRepository.save(awayTeamSeason);
+
+            homeTeamSeason.setWins(homeTeamSeason.getDraws()+1);
+            awayTeamSeason.setDefeats(awayTeamSeason.getDraws()+1);
         }
 
+        homeTeamSeason.setGoalsScored(homeTeamSeason.getGoalsScored()+homeGoalsTotal);
+        homeTeamSeason.setGoalsConceded(homeTeamSeason.getGoalsConceded()+awayGoalsTotal);
+        awayTeamSeason.setGoalsScored(awayTeamSeason.getGoalsScored()+awayGoalsTotal);
+        awayTeamSeason.setGoalsConceded(awayTeamSeason.getGoalsConceded()+homeGoalsTotal);
+
+        seasonRepository.save(homeTeamSeason);
+        seasonRepository.save(awayTeamSeason);
     }
 }

@@ -7,8 +7,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.io.Serializable;
-
 /**
  * A DTO for the {@link Season} entity.
  */
@@ -18,38 +16,24 @@ import java.io.Serializable;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class SeasonDTO implements Serializable {
-
+public class SeasonDTO {
     private Long id;
 
     private Long leagueId;
 
     private Integer year;
 
-    private Long teamId;
-
-    private Long points;
-
-    private Long wins;
-
-    private Long draws;
-
-    private Long defeats;
-
-    private Long goalsScored;
-
-    private Long goalsConceded;
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         SeasonDTO seasonDTO = (SeasonDTO) o;
-        return Objects.equal(getId(), seasonDTO.getId()) && Objects.equal(getLeagueId(), seasonDTO.getLeagueId()) && Objects.equal(getYear(), seasonDTO.getYear()) && Objects.equal(getTeamId(), seasonDTO.getTeamId()) && Objects.equal(getPoints(), seasonDTO.getPoints());
+        return Objects.equal(getId(), seasonDTO.getId()) && Objects.equal(getLeagueId(), seasonDTO.getLeagueId()) && Objects.equal(getYear(), seasonDTO.getYear());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(getId(), getLeagueId(), getYear(), getTeamId(), getPoints());
+        return Objects.hashCode(getId(), getLeagueId(), getYear());
     }
 
     @Override
@@ -58,13 +42,6 @@ public class SeasonDTO implements Serializable {
                 "id=" + id +
                 ", leagueId=" + leagueId +
                 ", year=" + year +
-                ", teamId=" + teamId +
-                ", points=" + points +
-                ", wins=" + wins +
-                ", draws=" + draws +
-                ", defeats=" + defeats +
-                ", goalsScored=" + goalsScored +
-                ", goalsConceded=" + goalsConceded +
                 '}';
     }
 }

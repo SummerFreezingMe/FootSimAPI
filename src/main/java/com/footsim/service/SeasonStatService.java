@@ -1,21 +1,18 @@
 package com.footsim.service;
 
 import com.footsim.domain.dto.SeasonDTO;
-import com.footsim.domain.model.League;
-import com.footsim.domain.model.Match;
-import com.footsim.domain.model.Season;
-import com.footsim.domain.model.Team;
+import com.footsim.domain.model.*;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 import java.util.Optional;
 
 /**
- * Service Interface for managing {@link Season}.
+ * Service Interface for managing {@link SeasonStat}.
  */
-public interface SeasonService {
+public interface SeasonStatService {
     /**
-     * Save a {@link Season}.
+     * Save a {@link SeasonStat}.
      *
      * @param SeasonDTO the entity to save.
      * @return the persisted entity.
@@ -23,7 +20,7 @@ public interface SeasonService {
     SeasonDTO save(SeasonDTO SeasonDTO);
 
     /**
-     * Updates a {@link Season}.
+     * Updates a {@link SeasonStat}.
      *
      * @param SeasonDTO the entity to update.
      * @return the persisted entity.
@@ -31,7 +28,7 @@ public interface SeasonService {
     SeasonDTO update(SeasonDTO SeasonDTO);
 
     /**
-     * Partially updates a {@link Season}.
+     * Partially updates a {@link SeasonStat}.
      *
      * @param SeasonDTO the entity to update partially.
      * @return the persisted entity.
@@ -46,7 +43,7 @@ public interface SeasonService {
     List<SeasonDTO> findAll();
 
     /**
-     * Get the "id" {@link Season}.
+     * Get the "id" {@link SeasonStat}.
      *
      * @param id the id of the entity.
      * @return the entity.
@@ -54,20 +51,20 @@ public interface SeasonService {
     SeasonDTO findOne(Long id);
 
     /**
-     * Delete the "id" {@link Season}.
+     * Delete the "id" {@link SeasonStat}.
      *
      * @param id the id of the entity.
      */
     void delete(Long id);
 
     /**
-     * Initialize {@link Season} with each {@link Team} from the {@link League} added with 0 points
+     * Initialize {@link SeasonStat} with each {@link Team} from the {@link League} added with 0 points
      *
-     * @param leagueId Id of the {@link League}
-     * @param year     year of {@link Season} to initialize
+     * @param seasonId Id of the {@link Season}
      * @return status of operation wrapped in {@link ResponseEntity}
      */
-    ResponseEntity<?> initializeSeason(Long leagueId, Integer year);
+
+    ResponseEntity<?> initializeSeason(Long seasonId);
 
     /**
      * Add points to teams according to {@link Match} result

@@ -3,7 +3,7 @@ package com.footsim.repository;
 import com.footsim.domain.dto.TopActionsDTO;
 import com.footsim.domain.model.Goal;
 import com.footsim.domain.model.Player;
-import com.footsim.domain.model.Season;
+import com.footsim.domain.model.SeasonStat;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -17,7 +17,7 @@ import java.util.List;
 @Repository
 public interface GoalRepository extends JpaRepository<Goal, Long> {
     /**
-     * @param seasonId id of a {@link Season}
+     * @param seasonId id of a {@link SeasonStat}
      * @return List of id's of a {@link Player} and amount of their goals
      */
     @Query(value = "select player.id, count(goal.author_id)" +
@@ -27,7 +27,7 @@ public interface GoalRepository extends JpaRepository<Goal, Long> {
             "order by count(goal.author_id) desc ",nativeQuery = true)
     List<TopActionsDTO> findTopScorers(Long seasonId);
     /**
-     * @param seasonId id of a {@link Season}
+     * @param seasonId id of a {@link SeasonStat}
      * @return List of id's of a {@link Player} and amount of their assists
      */
     @Query(value = "select player.id, count(goal.assist_id)" +

@@ -3,12 +3,12 @@ package com.footsim.service.impl;
 
 import com.footsim.domain.dto.SeasonDTO;
 import com.footsim.domain.model.Match;
-import com.footsim.domain.model.Season;
+import com.footsim.domain.model.SeasonStat;
 import com.footsim.domain.model.Team;
 import com.footsim.mapper.SeasonMapper;
-import com.footsim.repository.SeasonRepository;
+import com.footsim.repository.SeasonStatRepository;
 import com.footsim.repository.TeamRepository;
-import com.footsim.service.SeasonService;
+import com.footsim.service.SeasonStatService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -22,21 +22,21 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
- * Service Implementation for managing {@link Season}.
+ * Service Implementation for managing {@link SeasonStat}.
  */
 @Service
 @Transactional
-public class SeasonServiceImpl implements SeasonService {
+public class SeasonStatServiceImpl implements SeasonStatService {
 
-    private final Logger log = LoggerFactory.getLogger(SeasonServiceImpl.class);
+    private final Logger log = LoggerFactory.getLogger(SeasonStatServiceImpl.class);
 
-    private final SeasonRepository seasonRepository;
+    private final SeasonStatRepository seasonRepository;
 
     private final TeamRepository teamRepository;
     private final SeasonMapper seasonMapper;
 
 
-    public SeasonServiceImpl(SeasonRepository seasonRepository, TeamRepository teamRepository, SeasonMapper seasonMapper) {
+    public SeasonStatServiceImpl(SeasonStatRepository seasonRepository, TeamRepository teamRepository, SeasonMapper seasonMapper) {
         this.seasonRepository = seasonRepository;
         this.teamRepository = teamRepository;
         this.seasonMapper = seasonMapper;
@@ -45,7 +45,7 @@ public class SeasonServiceImpl implements SeasonService {
     @Override
     public SeasonDTO save(SeasonDTO seasonDTO) {
         log.debug("Request to save Season : {}", seasonDTO);
-        Season season = seasonMapper.toEntity(seasonDTO);
+        SeasonStat season = seasonMapper.toEntity(seasonDTO);
         season = seasonRepository.save(season);
         return seasonMapper.toDto(season);
     }
@@ -53,7 +53,7 @@ public class SeasonServiceImpl implements SeasonService {
     @Override
     public SeasonDTO update(SeasonDTO seasonDTO) {
         log.debug("Request to update Season : {}", seasonDTO);
-        Season season = seasonMapper.toEntity(seasonDTO);
+        SeasonStat season = seasonMapper.toEntity(seasonDTO);
         season = seasonRepository.save(season);
         return seasonMapper.toDto(season);
     }
@@ -93,11 +93,11 @@ public class SeasonServiceImpl implements SeasonService {
     }
 
     @Override
-    public ResponseEntity<?> initializeSeason(Long leagueId, Integer year) {
-        if (seasonRepository.countAllByLeagueIdAndYear(leagueId, year) == 0L) {
-            List<Team> seasonTeams = teamRepository.findAllByLeagueId(leagueId);
+    public ResponseEntity<?> initializeSeason(Long seasonId) {
+        if (seasonRepository.countAllBySeasonId(seasonId) == 0L) {
+            List<Team> seasonTeams = teamRepository.findAllByLeagueId(seasonId);
             for (Team team : seasonTeams) {
-                Season season = new Season(0L, leagueId, year, team.getId(),
+                SeasonStat season = new SeasonStat(0L, seasonId, team.getId(),
                         0L, 0L, 0L, 0L, 0L, 0L);
                 seasonRepository.save(season);
             }//todo: exception
@@ -108,14 +108,12 @@ public class SeasonServiceImpl implements SeasonService {
 
     @Override
     public void addPoints(long homeGoalsTotal, long awayGoalsTotal, Match match) {
-        // todo: workaround for fall-spring leagues
-        int yearOfMatch = match.getDate().getYear();
         Long leagueId = teamRepository.findById(match.getHomeTeamId()).
                 orElseThrow().getLeagueId();
-        Season homeTeamSeason = seasonRepository.findByLeagueIdAndYearAndTeamId(
-                leagueId, yearOfMatch, match.getHomeTeamId()).orElseThrow();
-        Season awayTeamSeason = seasonRepository.findByLeagueIdAndYearAndTeamId(
-                leagueId, yearOfMatch, match.getHomeTeamId()).orElseThrow();
+        SeasonStat homeTeamSeason = seasonRepository.findBySeasonIdAndTeamId(
+                leagueId, match.getHomeTeamId()).orElseThrow();
+        SeasonStat awayTeamSeason = seasonRepository.findBySeasonIdAndTeamId(
+                leagueId, match.getHomeTeamId()).orElseThrow();
 
         if (homeGoalsTotal > awayGoalsTotal) {
 

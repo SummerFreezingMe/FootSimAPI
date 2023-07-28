@@ -33,7 +33,7 @@ public class MatchServiceImpl implements MatchService {
     private final FoulServiceImpl foulService;
     private final TeamServiceImpl teamService;
 
-    private final SeasonServiceImpl seasonService;
+    private final SeasonStatServiceImpl seasonService;
 
     private final MatchMapper matchMapper;
 
@@ -41,7 +41,7 @@ public class MatchServiceImpl implements MatchService {
                             TeamRepository teamRepository,
                             GoalServiceImpl goalService,
                             FoulServiceImpl foulService, TeamServiceImpl teamService, PlayerRepository playerRepository,
-                            SeasonServiceImpl seasonService, MatchMapper matchMapper) {
+                            SeasonStatServiceImpl seasonService, MatchMapper matchMapper) {
         this.matchRepository = matchRepository;
         this.teamRepository = teamRepository;
         this.goalService = goalService;

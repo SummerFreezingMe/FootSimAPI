@@ -7,13 +7,18 @@ import com.footsim.repository.SeasonRepository;
 import com.footsim.service.SeasonService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
+/**
+ * Service Implementation for managing {@link Season}.
+ */
+@Service
+@Transactional
 public class SeasonServiceImpl implements SeasonService {
     private final Logger log = LoggerFactory.getLogger(SeasonServiceImpl.class);
 

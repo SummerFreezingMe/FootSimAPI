@@ -15,8 +15,8 @@ import java.util.List;
 public class SeasonController {
     private final SeasonServiceImpl seasonService;
 
-    public SeasonController(SeasonServiceImpl ssi) {
-        this.seasonService = ssi;
+    public SeasonController(SeasonServiceImpl seasonService) {
+        this.seasonService = seasonService;
     }
 
     @GetMapping(value = "/get/{id}")

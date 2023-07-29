@@ -98,7 +98,7 @@ public class TeamServiceImpl implements TeamService {
     public TeamDTO countTeamRating(Long id) {
         log.debug("Request to count Team rating: {}", id);
         Team team = teamRepository.findById(id).orElseThrow(
-                () -> new EntityNotFoundException("Team not found with id:"+id));
+                () -> new EntityNotFoundException("Team not found with id:" + id));
         List<Player> teamPlayers = playerRepository.findByClubId(id);
         Long newTeamRating = 0L;
         for (Player p : teamPlayers) {
@@ -114,11 +114,10 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     public boolean isRosterViable(Team team) {
-        //todo: exception handling
         return playerRepository.countPlayerByClubIdAndPositionAndStatus(
-                team.getId(), PlayerPosition.GOALKEEPER,PlayerStatus.ROSTER) == 1 &&
+                team.getId(), PlayerPosition.GOALKEEPER, PlayerStatus.ROSTER) == 1 &&
                 playerRepository.countPlayerByClubIdAndStatus(team.getId(),
-                        PlayerStatus.ROSTER)==11;
+                        PlayerStatus.ROSTER) == 11;
     }
 
 }

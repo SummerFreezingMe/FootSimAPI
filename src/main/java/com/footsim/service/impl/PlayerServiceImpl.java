@@ -9,6 +9,7 @@ import com.footsim.mapper.PlayerMapper;
 import com.footsim.repository.PlayerRepository;
 import com.footsim.repository.TeamRepository;
 import com.footsim.service.PlayerService;
+import jakarta.persistence.EntityNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -106,11 +107,14 @@ public class PlayerServiceImpl implements PlayerService {
     @Override
     public PlayerDTO transferPlayer(TransferDTO transfer) {
         Player transferredPlayer = playerRepository.
-                findById(transfer.getPlayerId()).orElseThrow();
+                findById(transfer.getPlayerId()).orElseThrow(
+                        () -> new EntityNotFoundException("Player not found with id:"+transfer.getPlayerId()));
         Team fromTeam =  teamRepository.
-                findById(transfer.getClubFromId()).orElseThrow();
+                findById(transfer.getClubFromId()).orElseThrow(
+                        () -> new EntityNotFoundException("Team not found with id:"+transfer.getClubFromId()));
         Team toTeam = teamRepository.
-                findById(transfer.getClubToId()).orElseThrow();
+                findById(transfer.getClubToId()).orElseThrow(
+                        () -> new EntityNotFoundException("Player not found with id:"+transfer.getClubToId()));
         transferredPlayer.setClubId(transfer.getClubToId());
         toTeam.setBalance(toTeam.getBalance()-transfer.getTransferFee());
     fromTeam.setBalance(fromTeam.getBalance()+transfer.getTransferFee());

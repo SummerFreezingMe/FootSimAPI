@@ -11,6 +11,7 @@ import com.footsim.repository.MatchRepository;
 import com.footsim.repository.PlayerRepository;
 import com.footsim.repository.TeamRepository;
 import com.footsim.service.MatchService;
+import jakarta.persistence.EntityNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -80,7 +81,7 @@ public class MatchServiceImpl implements MatchService {
 
     @Transactional(readOnly = true)
     public List<MatchDTO> findAll() {
-        log.debug("Request to get all Matchs");
+        log.debug("Request to get all Matches");
         return matchRepository.findAll().stream()
                 .map(matchMapper::toDto).collect(Collectors.toList());
     }
@@ -103,12 +104,12 @@ public class MatchServiceImpl implements MatchService {
         var homeGoalsTotal = 0L;
         var awayGoalsTotal = 0L;
 
-        var homeFoulsTotal = 0L;
-        var awayFoulsTotal = 0L;
-
-        var match = matchRepository.findById(id).orElseThrow();
-        var homeTeam = teamRepository.findById(match.getHomeTeamId()).orElseThrow();
-        var awayTeam = teamRepository.findById(match.getAwayTeamId()).orElseThrow();
+        var match = matchRepository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException("Match not found with id:"+id));
+        var homeTeam = teamRepository.findById(match.getHomeTeamId()).orElseThrow(
+                () -> new EntityNotFoundException("Team not found with id:"+match.getHomeTeamId()));
+        var awayTeam = teamRepository.findById(match.getAwayTeamId()).orElseThrow(
+                () -> new EntityNotFoundException("Team not found with id:"+match.getAwayTeamId()));
         if (teamService.isRosterViable(homeTeam) && teamService.isRosterViable(awayTeam)
         ) {
             var homeRoster = playerRepository.findByClubIdAndStatus(match.getHomeTeamId(),
@@ -151,12 +152,10 @@ public class MatchServiceImpl implements MatchService {
                     }
                     if (homeFoulsAtMinute > 0) {
                         foulService.generateFoul(homeRoster, id, minute);
-                        homeFoulsTotal++;
                         additionalMinutes += 0.25;
                     }
                     if (awayFoulsAtMinute > 0) {
                         foulService.generateFoul(awayRoster, id, minute);
-                        awayFoulsTotal++;
                         additionalMinutes++;
                     }
                 }

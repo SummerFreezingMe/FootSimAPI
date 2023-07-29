@@ -17,5 +17,6 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         ResponseDTO response = new ResponseDTO();
         if (notFoundException.getMessage() != null) response.setMessage(notFoundException.getMessage());
         else response.setMessage("Entity Not Found");
+        response.setStatusCode(404);
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }}

@@ -19,4 +19,15 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         else response.setMessage("Entity Not Found");
         response.setStatusCode(404);
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
-    }}
+    }
+
+    @ExceptionHandler(RosterUnavailableException.class)
+    protected ResponseEntity<ResponseDTO> handleRosterUnavailableException(RosterUnavailableException unavailableException) {
+
+        ResponseDTO response = new ResponseDTO();
+        if (unavailableException.getMessage() != null) response.setMessage(unavailableException.getMessage());
+        else response.setMessage("Starting roster is not formed for the current Team");
+        response.setStatusCode(403);
+        return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
+    }
+}

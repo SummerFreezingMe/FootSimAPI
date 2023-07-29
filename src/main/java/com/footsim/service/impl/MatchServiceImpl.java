@@ -11,6 +11,7 @@ import com.footsim.repository.MatchRepository;
 import com.footsim.repository.PlayerRepository;
 import com.footsim.repository.TeamRepository;
 import com.footsim.service.MatchService;
+import com.footsim.service.exceptions.RosterUnavailableException;
 import jakarta.persistence.EntityNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -167,8 +168,7 @@ public class MatchServiceImpl implements MatchService {
             foulsDiscard(homeRoster);
             foulsDiscard(awayRoster);
             return matchMapper.toDto(match);
-        }
-        return null;
+        }else throw new RosterUnavailableException();
     }
 
     @Override

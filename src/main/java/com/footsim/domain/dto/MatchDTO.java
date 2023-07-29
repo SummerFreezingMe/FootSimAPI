@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
 public class MatchDTO {
     private Long id;
 
-    private Long leagueId;
+    private Long seasonId;
 
     private Long homeTeamId;
 
@@ -36,7 +36,7 @@ public class MatchDTO {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         MatchDTO matchDTO = (MatchDTO) o;
-        return Objects.equal(getId(), matchDTO.getId()) && Objects.equal(getLeagueId(), matchDTO.getLeagueId()) &&
+        return Objects.equal(getId(), matchDTO.getId()) && Objects.equal(getSeasonId(), matchDTO.getSeasonId()) &&
                 Objects.equal(getHomeTeamId(), matchDTO.getHomeTeamId()) &&
                 Objects.equal(getAwayTeamId(), matchDTO.getAwayTeamId()) &&
                 Objects.equal(getHomeGoals(), matchDTO.getHomeGoals()) &&
@@ -46,14 +46,14 @@ public class MatchDTO {
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(getId(), getLeagueId(), getHomeTeamId(), getAwayTeamId(), getHomeGoals(), getAwayGoals(), getDate());
+        return Objects.hashCode(getId(), getSeasonId(), getHomeTeamId(), getAwayTeamId(), getHomeGoals(), getAwayGoals(), getDate());
     }
 
     @Override
     public String toString() {
         return "MatchDTO{" +
                 "id=" + id +
-                ", leagueId=" + leagueId +
+                ", seasonId=" + seasonId +
                 ", homeTeamId=" + homeTeamId +
                 ", awayTeamId=" + awayTeamId +
                 ", homeGoals=" + homeGoals +

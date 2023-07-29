@@ -1,6 +1,5 @@
 package com.footsim.service.impl;
 
-
 import com.footsim.domain.dto.SeasonDTO;
 import com.footsim.domain.model.Season;
 import com.footsim.mapper.SeasonMapper;
@@ -15,14 +14,12 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
 /**
  * Service Implementation for managing {@link Season}.
  */
 @Service
 @Transactional
 public class SeasonServiceImpl implements SeasonService {
-
     private final Logger log = LoggerFactory.getLogger(SeasonServiceImpl.class);
 
     private final SeasonRepository seasonRepository;
@@ -74,8 +71,7 @@ public class SeasonServiceImpl implements SeasonService {
 
     @Override
     @Transactional(readOnly = true)
-    public
-    SeasonDTO findOne(Long id) {
+    public SeasonDTO findOne(Long id) {
         log.debug("Request to get Season : {}", id);
         return seasonRepository.findById(id).map(seasonMapper::toDto).orElse(null);
     }
@@ -85,6 +81,5 @@ public class SeasonServiceImpl implements SeasonService {
         log.debug("Request to delete Season : {}", id);
         seasonRepository.deleteById(id);
     }
-
 
 }

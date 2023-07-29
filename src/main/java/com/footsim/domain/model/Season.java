@@ -11,8 +11,9 @@ import java.io.Serial;
 import java.io.Serializable;
 
 /**
- * A Season.
+ * A Season statistics for each competing team.
  */
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -35,25 +36,19 @@ public class Season implements Serializable {
     private Long leagueId;
 
     @Column(name = "year")
-    private Integer year;
-
-    @Column(name = "team_id")
-    private Long teamId;
-
-    @Column(name = "team_points")
-    private Long points;
+    private String year;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Season season = (Season) o;
-        return Objects.equal(getId(), season.getId()) && Objects.equal(getLeagueId(), season.getLeagueId()) && Objects.equal(getYear(), season.getYear()) && Objects.equal(getTeamId(), season.getTeamId()) && Objects.equal(getPoints(), season.getPoints());
+        return Objects.equal(getId(), season.getId()) && Objects.equal(getLeagueId(), season.getLeagueId()) && Objects.equal(getYear(), season.getYear());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(getId(), getLeagueId(), getYear(), getTeamId(), getPoints());
+        return Objects.hashCode(getId(), getLeagueId(), getYear());
     }
 
     @Override
@@ -62,8 +57,6 @@ public class Season implements Serializable {
                 "id=" + id +
                 ", leagueId=" + leagueId +
                 ", year=" + year +
-                ", teamId=" + teamId +
-                ", points=" + points +
                 '}';
     }
 }

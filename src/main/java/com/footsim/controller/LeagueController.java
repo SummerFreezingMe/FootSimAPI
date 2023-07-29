@@ -11,7 +11,7 @@ import java.util.List;
 
 @RestController
 @Tag(name = "Лиги", description = "Методы, взаимодействующие с лигами/чемпионатами")
-@RequestMapping(value = "/league")
+@RequestMapping(value = "/leagues")
 public class LeagueController {
     private final LeagueServiceImpl leagueService;
 

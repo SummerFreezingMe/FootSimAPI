@@ -1,39 +1,39 @@
 package com.footsim.controller;
 
-
-import com.footsim.domain.dto.SeasonDTO;
-import com.footsim.service.impl.SeasonServiceImpl;
+import com.footsim.domain.dto.SeasonStatDTO;
+import com.footsim.service.impl.SeasonStatServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@Tag(name = "Сезоны", description = "Методы, взаимодействующие с сезонами чемпионатов")
-@RequestMapping(value = "/seasons")
-public class SeasonController {
-    private final SeasonServiceImpl seasonService;
+@Tag(name = "Cтатистика сезонов", description = "Методы, взаимодействующие со статистикой сезонов")
+@RequestMapping(value = "/season_stats")
+public class SeasonStatController {
+    private final SeasonStatServiceImpl seasonService;
 
-    public SeasonController(SeasonServiceImpl seasonService) {
+    public SeasonStatController(SeasonStatServiceImpl seasonService) {
         this.seasonService = seasonService;
     }
 
     @GetMapping(value = "/get/{id}")
     @Operation(summary = "Получаем экземпляр сезона по его Id")
-    public SeasonDTO getSeason(@PathVariable Long id) {
+    public SeasonStatDTO getSeason(@PathVariable Long id) {
         return seasonService.findOne(id);
     }
 
     @GetMapping(value = "/get_all")
     @Operation(summary = "Отображаем все сезоны")
-    public List<SeasonDTO> getSeasons() {
+    public List<SeasonStatDTO> getSeasons() {
         return seasonService.findAll();
     }
 
     @PostMapping(value = "/add")
     @Operation(summary = "Добавляем новый сезон")
-    public SeasonDTO addSeason(@RequestBody SeasonDTO season) {
+    public SeasonStatDTO addSeason(@RequestBody SeasonStatDTO season) {
         return seasonService.save(season);
     }
 
@@ -45,8 +45,13 @@ public class SeasonController {
 
     @PutMapping(value = "/update")
     @Operation(summary = "Изменяем существующие сезоны")
-    public SeasonDTO updateSeason(@RequestBody SeasonDTO season) {
+    public SeasonStatDTO updateSeason(@RequestBody SeasonStatDTO season) {
         return seasonService.update(season);
     }
 
+    @GetMapping(value = "/init_season/{id}")
+    @Operation(summary = "Инициализируем сезон лиги, где у каждой команды лиги 0 очков")
+    public ResponseEntity<?> initializeSeason(@PathVariable Long id) {
+        return seasonService.initializeSeason(id);
+    }
 }

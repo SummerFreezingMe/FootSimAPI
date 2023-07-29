@@ -10,7 +10,7 @@ import java.util.List;
 
 @RestController
 @Tag(name = "Клубы", description = "Методы, взаимодействующие с футбольными клубами")
-@RequestMapping(value = "/team")
+@RequestMapping(value = "/teams")
 public class TeamController {
 
     private final TeamServiceImpl teamService;

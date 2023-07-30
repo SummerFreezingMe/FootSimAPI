@@ -27,12 +27,17 @@ public class MatchServiceImpl implements MatchService {
     private final Logger log = LoggerFactory.getLogger(MatchServiceImpl.class);
 
     private final MatchRepository matchRepository;
+
     private final TeamRepository teamRepository;
+
     private final GoalServiceImpl goalService;
+
     private final FoulServiceImpl foulService;
 
     private final TeamServiceImpl teamService;
+
     private final PlayerRepository playerRepository;
+
     private final MatchMapper matchMapper;
 
     public MatchServiceImpl(MatchRepository matchRepository,
@@ -91,7 +96,10 @@ public class MatchServiceImpl implements MatchService {
     @Transactional(readOnly = true)
     public Optional<MatchDTO> findOne(Long id) {
         log.debug("Request to get Match : {}", id);
-        return Optional.ofNullable(matchMapper.toDto(matchRepository.findById(id).orElse(null)));
+        return Optional.ofNullable(matchMapper.toDto(matchRepository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException("Match not found with id:" + id)
+
+        )));
     }
 
     @Override
@@ -106,11 +114,11 @@ public class MatchServiceImpl implements MatchService {
         var awayGoalsTotal = 0L;
 
         var match = matchRepository.findById(id).orElseThrow(
-                () -> new EntityNotFoundException("Match not found with id:"+id));
+                () -> new EntityNotFoundException("Match not found with id:" + id));
         var homeTeam = teamRepository.findById(match.getHomeTeamId()).orElseThrow(
-                () -> new EntityNotFoundException("Team not found with id:"+match.getHomeTeamId()));
+                () -> new EntityNotFoundException("Team not found with id:" + match.getHomeTeamId()));
         var awayTeam = teamRepository.findById(match.getAwayTeamId()).orElseThrow(
-                () -> new EntityNotFoundException("Team not found with id:"+match.getAwayTeamId()));
+                () -> new EntityNotFoundException("Team not found with id:" + match.getAwayTeamId()));
         if (teamService.isRosterViable(homeTeam) && teamService.isRosterViable(awayTeam)
         ) {
             var homeRoster = playerRepository.findByClubIdAndStatus(match.getHomeTeamId(),
@@ -133,9 +141,9 @@ public class MatchServiceImpl implements MatchService {
                     if (homeGoalsAtMinute > 0) {
                         GoalType goalType = GoalType.getType(Math.random());
                         if (goalType == GoalType.AUTOGOAL) {
-                            goalService.generateGoal(awayRoster, id, minute,goalType);
+                            goalService.generateGoal(awayRoster, id, minute, goalType);
                         } else {
-                            goalService.generateGoal(homeRoster, id, minute,goalType);
+                            goalService.generateGoal(homeRoster, id, minute, goalType);
                         }
                         homeGoalsTotal++;
                         additionalMinutes++;
@@ -144,9 +152,9 @@ public class MatchServiceImpl implements MatchService {
                     if (awayGoalsAtMinute > 0) {
                         GoalType goalType = GoalType.getType(Math.random());
                         if (goalType == GoalType.AUTOGOAL) {
-                            goalService.generateGoal(homeRoster, id, minute,goalType);
+                            goalService.generateGoal(homeRoster, id, minute, goalType);
                         } else {
-                            goalService.generateGoal(awayRoster, id, minute,goalType);
+                            goalService.generateGoal(awayRoster, id, minute, goalType);
                         }
                         awayGoalsTotal++;
                         additionalMinutes += 0.25;
@@ -168,7 +176,7 @@ public class MatchServiceImpl implements MatchService {
             foulsDiscard(homeRoster);
             foulsDiscard(awayRoster);
             return matchMapper.toDto(match);
-        }else throw new RosterUnavailableException();
+        } else throw new RosterUnavailableException();
     }
 
     @Override

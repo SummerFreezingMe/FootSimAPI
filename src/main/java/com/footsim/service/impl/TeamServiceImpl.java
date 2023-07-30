@@ -84,8 +84,9 @@ public class TeamServiceImpl implements TeamService {
     @Transactional(readOnly = true)
     public TeamDTO findOne(Long id) {
         log.debug("Request to get Team : {}", id);
-        return teamRepository.findById(id).map(teamMapper::toDto)
-                .orElse(null);
+        return teamRepository.findById(id).map(teamMapper::toDto).orElseThrow(
+                () -> new EntityNotFoundException("Season not found with id:" + id)
+        );
     }
 
     @Override

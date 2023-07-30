@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController
 @Tag(name = "Игроки", description = "Методы, взаимодействующие с игроками")
-@RequestMapping("/player")
+@RequestMapping("/players")
 public class PlayerController {
     private final PlayerServiceImpl playerService;
 
@@ -52,7 +52,7 @@ public class PlayerController {
         return playerService.findAll();
     }
 
-    @PostMapping(value = "/switch_status/{id}/{status}")
+    @GetMapping(value = "/switch_status/{id}/{status}")
     @Operation(summary = "Меняем статус игрока по его Id на указанный")
     public PlayerDTO switchPlayerStatus(@PathVariable Long id,
                                         @PathVariable PlayerStatus status) {

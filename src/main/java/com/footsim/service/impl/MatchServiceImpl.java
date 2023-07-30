@@ -30,13 +30,14 @@ public class MatchServiceImpl implements MatchService {
 
     private final TeamRepository teamRepository;
 
+    private final PlayerRepository playerRepository;
+
     private final GoalServiceImpl goalService;
 
     private final FoulServiceImpl foulService;
-
     private final TeamServiceImpl teamService;
 
-    private final PlayerRepository playerRepository;
+    private final SeasonStatServiceImpl seasonService;
 
     private final MatchMapper matchMapper;
 
@@ -44,13 +45,14 @@ public class MatchServiceImpl implements MatchService {
                             TeamRepository teamRepository,
                             GoalServiceImpl goalService,
                             FoulServiceImpl foulService, TeamServiceImpl teamService, PlayerRepository playerRepository,
-                            MatchMapper matchMapper) {
+                            SeasonStatServiceImpl seasonService, MatchMapper matchMapper) {
         this.matchRepository = matchRepository;
         this.teamRepository = teamRepository;
         this.goalService = goalService;
         this.foulService = foulService;
         this.teamService = teamService;
         this.playerRepository = playerRepository;
+        this.seasonService = seasonService;
         this.matchMapper = matchMapper;
     }
 
@@ -172,6 +174,7 @@ public class MatchServiceImpl implements MatchService {
 
             match.setHomeGoals(homeGoalsTotal);
             match.setAwayGoals(awayGoalsTotal);
+            seasonService.addPoints(homeGoalsTotal,awayGoalsTotal,match);
 
             foulsDiscard(homeRoster);
             foulsDiscard(awayRoster);

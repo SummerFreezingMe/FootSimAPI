@@ -11,7 +11,7 @@ import java.util.List;
 
 @RestController
 @Tag(name = "Фолы", description = "Методы, взаимодействующие с фолами")
-@RequestMapping(value = "/foul")
+@RequestMapping(value = "/fouls")
 public class FoulController {
     private final FoulServiceImpl foulService;
 

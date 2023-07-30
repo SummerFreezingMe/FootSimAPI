@@ -49,7 +49,7 @@ public interface FoulService {
      * @param id the id of the entity.
      * @return the entity.
      */
-    Optional<FoulDTO> findOne(Long id);
+    FoulDTO findOne(Long id);
 
     /**
      * Delete the "id" {@link Foul}.

@@ -5,6 +5,7 @@ import com.footsim.domain.model.Season;
 import com.footsim.mapper.SeasonMapper;
 import com.footsim.repository.SeasonRepository;
 import com.footsim.service.SeasonService;
+import jakarta.persistence.EntityNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -73,7 +74,9 @@ public class SeasonServiceImpl implements SeasonService {
     @Transactional(readOnly = true)
     public SeasonDTO findOne(Long id) {
         log.debug("Request to get Season : {}", id);
-        return seasonRepository.findById(id).map(seasonMapper::toDto).orElse(null);
+        return seasonRepository.findById(id).map(seasonMapper::toDto).orElseThrow(
+                () -> new EntityNotFoundException("Season not found with id:" + id)
+        );
     }
 
     @Override

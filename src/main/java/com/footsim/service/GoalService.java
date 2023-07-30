@@ -53,7 +53,7 @@ public interface GoalService {
      * @param id the id of the entity.
      * @return the entity.
      */
-    Optional<GoalDTO> findOne(Long id);
+    GoalDTO findOne(Long id);
 
     /**
      * Delete the "id" {@link Goal}.

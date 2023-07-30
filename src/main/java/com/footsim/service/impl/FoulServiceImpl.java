@@ -9,6 +9,7 @@ import com.footsim.domain.model.Player;
 import com.footsim.mapper.FoulMapper;
 import com.footsim.repository.FoulRepository;
 import com.footsim.service.FoulService;
+import jakarta.persistence.EntityNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -83,9 +84,11 @@ public class FoulServiceImpl implements FoulService {
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<FoulDTO> findOne(Long id) {
+    public FoulDTO findOne(Long id) {
         log.debug("Request to get Foul : {}", id);
-        return foulRepository.findById(id).map(foulMapper::toDto);
+        return foulRepository.findById(id).map(foulMapper::toDto).orElseThrow(
+                () -> new EntityNotFoundException("Foul not found with id:" + id)
+        );
     }
 
     @Override

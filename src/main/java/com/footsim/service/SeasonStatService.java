@@ -1,8 +1,7 @@
 package com.footsim.service;
 
 import com.footsim.domain.dto.SeasonStatDTO;
-import com.footsim.domain.model.Match;
-import com.footsim.domain.model.SeasonStat;
+import com.footsim.domain.model.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -62,15 +61,19 @@ public interface SeasonStatService {
     void delete(Long id);
 
     /**
-     * @param seasonId
-     * @return
+     * Initialize {@link Season} by adding all teams from {@link League} with 0 points
+     *
+     * @param seasonId Id of {@link Season}
+     * @return {@link ResponseEntity} with operation status
      */
     ResponseEntity<?> initializeSeason(Long seasonId);
 
     /**
-     * @param homeGoalsTotal
-     * @param awayGoalsTotal
-     * @param match
+     * add points according to result of {@link Match}
+     *
+     * @param homeGoalsTotal amount of goals scored by {@link Team} at home
+     * @param awayGoalsTotal amount of goals scored {@link Team} away
+     * @param match {@link Match} entity
      */
     void addPoints(long homeGoalsTotal, long awayGoalsTotal, Match match);
 }

@@ -5,7 +5,6 @@ import com.footsim.domain.dto.TopActionsDTO;
 import com.footsim.service.impl.GoalServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,7 +22,7 @@ public class GoalController {
     @GetMapping(value = "/get/{id}")
     @Operation(summary = "Получаем экземпляр гола по его Id")
     public GoalDTO getGoal(@PathVariable Long id) {
-        return goalService.findOne(id).orElseThrow(EntityNotFoundException::new);
+        return goalService.findOne(id);
     }
     @PostMapping(value = "/add")
     @Operation(summary = "Добавляем новый билет")

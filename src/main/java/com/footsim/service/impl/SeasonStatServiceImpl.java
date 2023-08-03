@@ -113,7 +113,7 @@ public class SeasonStatServiceImpl implements SeasonStatService {
         SeasonStat homeTeamSeason = seasonRepository.findBySeasonIdAndTeamId(
                 leagueId, match.getHomeTeamId()).orElseThrow();
         SeasonStat awayTeamSeason = seasonRepository.findBySeasonIdAndTeamId(
-                leagueId, match.getHomeTeamId()).orElseThrow();
+                leagueId, match.getAwayTeamId()).orElseThrow();
 
         if (homeGoalsTotal > awayGoalsTotal) {
 

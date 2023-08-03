@@ -1,17 +1,17 @@
 package com.footsim.controller;
 
 import com.footsim.domain.dto.GoalDTO;
+import com.footsim.domain.dto.TopActionsDTO;
 import com.footsim.service.impl.GoalServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @Tag(name = "Голы", description = "Методы, взаимодействующие с голами")
-@RequestMapping(value = "/goal")
+@RequestMapping(value = "/goals")
 public class GoalController {
     private final GoalServiceImpl goalService;
 
@@ -22,7 +22,7 @@ public class GoalController {
     @GetMapping(value = "/get/{id}")
     @Operation(summary = "Получаем экземпляр гола по его Id")
     public GoalDTO getGoal(@PathVariable Long id) {
-        return goalService.findOne(id).orElseThrow(EntityNotFoundException::new);
+        return goalService.findOne(id);
     }
     @PostMapping(value = "/add")
     @Operation(summary = "Добавляем новый билет")
@@ -46,6 +46,18 @@ public class GoalController {
     @Operation(summary = "Отображаем все голы")
     public List<GoalDTO> displayAllGoals() {
         return goalService.findAll();
+    }
+
+    @GetMapping(value = "/top_scorers/{id}")
+    @Operation(summary = "Отображаем список бомбардиров определённого сезона")
+    public List<TopActionsDTO> displayTopScorers(@PathVariable Long id) {
+        return goalService.displayTopScorers(id);
+    }
+
+    @GetMapping(value = "/top_assistants/{id}")
+    @Operation(summary = "Отображаем список ассистентов определённого сезона")
+    public List<TopActionsDTO> displayTopAssistants(@PathVariable Long id) {
+        return goalService.displayTopAssistants(id);
     }
 
 }

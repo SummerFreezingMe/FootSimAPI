@@ -1,12 +1,14 @@
 package com.footsim.service.impl;
 
 import com.footsim.domain.dto.GoalDTO;
+import com.footsim.domain.dto.TopActionsDTO;
 import com.footsim.domain.enumeration.GoalType;
 import com.footsim.domain.model.Goal;
 import com.footsim.domain.model.Player;
 import com.footsim.mapper.GoalMapper;
 import com.footsim.repository.GoalRepository;
 import com.footsim.service.GoalService;
+import jakarta.persistence.EntityNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -79,9 +81,11 @@ public class GoalServiceImpl implements GoalService {
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<GoalDTO> findOne(Long id) {
+    public GoalDTO findOne(Long id) {
         log.debug("Request to get Goal : {}", id);
-        return goalRepository.findById(id).map(goalMapper::toDto);
+        return goalRepository.findById(id).map(goalMapper::toDto).orElseThrow(
+                () -> new EntityNotFoundException("Goal not found with id:" + id)
+        );
     }
 
     @Override
@@ -89,10 +93,29 @@ public class GoalServiceImpl implements GoalService {
         log.debug("Request to delete Goal : {}", id);
         goalRepository.deleteById(id);
     }
+
     @Override
-    public void generateGoal(List<Player> roster, Long id, short minute) {
-        Goal goal = new Goal(0L, id, roster.get(r.nextInt(11)).getId(),
-                roster.get(r.nextInt(11)).getId(), minute, GoalType.DEFAULT);
+    public void generateGoal(List<Player> roster, Long id, short minute, GoalType goalType) {
+        Long scorerId = roster.get(r.nextInt(11)).getId();
+        Long assistantId = null;
+        if (goalType == GoalType.DEFAULT) {
+            assistantId = roster.get(r.nextInt(11)).getId();
+            if (assistantId.equals(scorerId)) {
+                assistantId = null;
+            }
+        }
+        Goal goal = new Goal(0L, id, scorerId,
+                assistantId, minute, goalType);
         goalRepository.save(goal);
+    }
+
+    @Override
+    public List<TopActionsDTO> displayTopScorers(Long seasonId) {
+        return goalRepository.findTopScorers(seasonId);
+    }
+
+    @Override
+    public List<TopActionsDTO> displayTopAssistants(Long seasonId) {
+        return goalRepository.findTopAssistants(seasonId);
     }
 }

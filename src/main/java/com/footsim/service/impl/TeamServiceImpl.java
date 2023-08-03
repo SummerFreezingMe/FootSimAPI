@@ -9,6 +9,7 @@ import com.footsim.mapper.TeamMapper;
 import com.footsim.repository.PlayerRepository;
 import com.footsim.repository.TeamRepository;
 import com.footsim.service.TeamService;
+import jakarta.persistence.EntityNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -83,8 +84,9 @@ public class TeamServiceImpl implements TeamService {
     @Transactional(readOnly = true)
     public TeamDTO findOne(Long id) {
         log.debug("Request to get Team : {}", id);
-        return teamRepository.findById(id).map(teamMapper::toDto)
-                .orElse(null);
+        return teamRepository.findById(id).map(teamMapper::toDto).orElseThrow(
+                () -> new EntityNotFoundException("Season not found with id:" + id)
+        );
     }
 
     @Override
@@ -96,7 +98,8 @@ public class TeamServiceImpl implements TeamService {
     @Override
     public TeamDTO countTeamRating(Long id) {
         log.debug("Request to count Team rating: {}", id);
-        Team team = teamRepository.findById(id).orElseThrow();
+        Team team = teamRepository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException("Team not found with id:" + id));
         List<Player> teamPlayers = playerRepository.findByClubId(id);
         Long newTeamRating = 0L;
         for (Player p : teamPlayers) {
@@ -112,11 +115,10 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     public boolean isRosterViable(Team team) {
-        //todo: exception handling
         return playerRepository.countPlayerByClubIdAndPositionAndStatus(
-                team.getId(), PlayerPosition.GOALKEEPER,PlayerStatus.ROSTER) == 1 &&
+                team.getId(), PlayerPosition.GOALKEEPER, PlayerStatus.ROSTER) == 1 &&
                 playerRepository.countPlayerByClubIdAndStatus(team.getId(),
-                        PlayerStatus.ROSTER)==11;
+                        PlayerStatus.ROSTER) == 11;
     }
 
 }

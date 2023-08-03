@@ -2,6 +2,7 @@ package com.footsim.service.impl;
 
 import com.footsim.config.Constants;
 import com.footsim.domain.dto.MatchDTO;
+import com.footsim.domain.enumeration.GoalType;
 import com.footsim.domain.enumeration.PlayerStatus;
 import com.footsim.domain.model.Match;
 import com.footsim.domain.model.Player;
@@ -10,6 +11,8 @@ import com.footsim.repository.MatchRepository;
 import com.footsim.repository.PlayerRepository;
 import com.footsim.repository.TeamRepository;
 import com.footsim.service.MatchService;
+import com.footsim.service.exceptions.RosterUnavailableException;
+import jakarta.persistence.EntityNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -24,25 +27,32 @@ public class MatchServiceImpl implements MatchService {
     private final Logger log = LoggerFactory.getLogger(MatchServiceImpl.class);
 
     private final MatchRepository matchRepository;
-    private final TeamRepository teamRepository;
-    private final GoalServiceImpl goalService;
-    private final FoulServiceImpl foulService;
 
-    private final TeamServiceImpl teamService;
+    private final TeamRepository teamRepository;
+
     private final PlayerRepository playerRepository;
+
+    private final GoalServiceImpl goalService;
+
+    private final FoulServiceImpl foulService;
+    private final TeamServiceImpl teamService;
+
+    private final SeasonStatServiceImpl seasonService;
+
     private final MatchMapper matchMapper;
 
     public MatchServiceImpl(MatchRepository matchRepository,
                             TeamRepository teamRepository,
                             GoalServiceImpl goalService,
                             FoulServiceImpl foulService, TeamServiceImpl teamService, PlayerRepository playerRepository,
-                            MatchMapper matchMapper) {
+                            SeasonStatServiceImpl seasonService, MatchMapper matchMapper) {
         this.matchRepository = matchRepository;
         this.teamRepository = teamRepository;
         this.goalService = goalService;
         this.foulService = foulService;
         this.teamService = teamService;
         this.playerRepository = playerRepository;
+        this.seasonService = seasonService;
         this.matchMapper = matchMapper;
     }
 
@@ -79,7 +89,7 @@ public class MatchServiceImpl implements MatchService {
 
     @Transactional(readOnly = true)
     public List<MatchDTO> findAll() {
-        log.debug("Request to get all Matchs");
+        log.debug("Request to get all Matches");
         return matchRepository.findAll().stream()
                 .map(matchMapper::toDto).collect(Collectors.toList());
     }
@@ -88,7 +98,10 @@ public class MatchServiceImpl implements MatchService {
     @Transactional(readOnly = true)
     public Optional<MatchDTO> findOne(Long id) {
         log.debug("Request to get Match : {}", id);
-        return Optional.ofNullable(matchMapper.toDto(matchRepository.findById(id).orElse(null)));
+        return Optional.ofNullable(matchMapper.toDto(matchRepository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException("Match not found with id:" + id)
+
+        )));
     }
 
     @Override
@@ -102,12 +115,12 @@ public class MatchServiceImpl implements MatchService {
         var homeGoalsTotal = 0L;
         var awayGoalsTotal = 0L;
 
-        var homeFoulsTotal = 0L;
-        var awayFoulsTotal = 0L;
-
-        var match = matchRepository.findById(id).orElseThrow();
-        var homeTeam = teamRepository.findById(match.getHomeTeamId()).orElseThrow();
-        var awayTeam = teamRepository.findById(match.getAwayTeamId()).orElseThrow();
+        var match = matchRepository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException("Match not found with id:" + id));
+        var homeTeam = teamRepository.findById(match.getHomeTeamId()).orElseThrow(
+                () -> new EntityNotFoundException("Team not found with id:" + match.getHomeTeamId()));
+        var awayTeam = teamRepository.findById(match.getAwayTeamId()).orElseThrow(
+                () -> new EntityNotFoundException("Team not found with id:" + match.getAwayTeamId()));
         if (teamService.isRosterViable(homeTeam) && teamService.isRosterViable(awayTeam)
         ) {
             var homeRoster = playerRepository.findByClubIdAndStatus(match.getHomeTeamId(),
@@ -128,24 +141,32 @@ public class MatchServiceImpl implements MatchService {
 
 
                     if (homeGoalsAtMinute > 0) {
-                        goalService.generateGoal(homeRoster, id, minute);
+                        GoalType goalType = GoalType.getType(Math.random());
+                        if (goalType == GoalType.AUTOGOAL) {
+                            goalService.generateGoal(awayRoster, id, minute, goalType);
+                        } else {
+                            goalService.generateGoal(homeRoster, id, minute, goalType);
+                        }
                         homeGoalsTotal++;
                         additionalMinutes++;
                     }
                     //todo: implement realistic goal assist distribution
                     if (awayGoalsAtMinute > 0) {
-                        goalService.generateGoal(awayRoster, id, minute);
+                        GoalType goalType = GoalType.getType(Math.random());
+                        if (goalType == GoalType.AUTOGOAL) {
+                            goalService.generateGoal(homeRoster, id, minute, goalType);
+                        } else {
+                            goalService.generateGoal(awayRoster, id, minute, goalType);
+                        }
                         awayGoalsTotal++;
                         additionalMinutes += 0.25;
                     }
                     if (homeFoulsAtMinute > 0) {
                         foulService.generateFoul(homeRoster, id, minute);
-                        homeFoulsTotal++;
                         additionalMinutes += 0.25;
                     }
                     if (awayFoulsAtMinute > 0) {
                         foulService.generateFoul(awayRoster, id, minute);
-                        awayFoulsTotal++;
                         additionalMinutes++;
                     }
                 }
@@ -153,12 +174,12 @@ public class MatchServiceImpl implements MatchService {
 
             match.setHomeGoals(homeGoalsTotal);
             match.setAwayGoals(awayGoalsTotal);
+            seasonService.addPoints(homeGoalsTotal,awayGoalsTotal,match);
 
             foulsDiscard(homeRoster);
             foulsDiscard(awayRoster);
             return matchMapper.toDto(match);
-        }
-        return null;
+        } else throw new RosterUnavailableException();
     }
 
     @Override

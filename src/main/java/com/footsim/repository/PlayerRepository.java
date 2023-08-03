@@ -17,6 +17,7 @@ import java.util.List;
 public interface PlayerRepository extends JpaRepository<Player, Long> {
     /**
      * Find all players in a distinct {@link Team}.
+     *
      * @param id ID of a team
      * @return List of players
      */
@@ -27,6 +28,7 @@ public interface PlayerRepository extends JpaRepository<Player, Long> {
     /**
      * Count amount of players in a distinct {@link Team} of a distinct
      * {@link PlayerStatus}.
+     *
      * @param clubId ID of a {@link Team}
      * @param status {@link PlayerStatus}
      * @return Amount of players
@@ -36,9 +38,10 @@ public interface PlayerRepository extends JpaRepository<Player, Long> {
     /**
      * Count amount of players in a distinct {@link Team} of a distinct
      * {@link PlayerStatus} and a distinct {@link PlayerPosition}.
-     * @param clubId ID of a {@link Team}
+     *
+     * @param clubId         ID of a {@link Team}
      * @param playerPosition {@link PlayerPosition}
-     * @param status {@link PlayerStatus}
+     * @param status         {@link PlayerStatus}
      * @return Amount of players
      */
     Integer countPlayerByClubIdAndPositionAndStatus(Long clubId,
@@ -48,6 +51,7 @@ public interface PlayerRepository extends JpaRepository<Player, Long> {
     /**
      * Find players in a distinct {@link Team} of a distinct
      * {@link PlayerStatus}
+     *
      * @param clubId ID of a {@link Team}
      * @param status {@link PlayerStatus}
      * @return List of players

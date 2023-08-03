@@ -47,7 +47,7 @@ public interface LeagueService {
      * @param id the id of the entity.
      * @return the entity.
      */
-    Optional<LeagueDTO> findOne(Long id);
+    LeagueDTO findOne(Long id);
 
     /**
      * Delete the "id" {@link League}.

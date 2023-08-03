@@ -5,13 +5,16 @@ import com.footsim.domain.model.League;
 import com.footsim.mapper.LeagueMapper;
 import com.footsim.repository.LeagueRepository;
 import com.footsim.service.LeagueService;
+import jakarta.persistence.EntityNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Service Implementation for managing {@link League}.
@@ -50,18 +53,33 @@ public class LeagueServiceImpl implements LeagueService {
 
     @Override
     public Optional<LeagueDTO> partialUpdate(LeagueDTO LeagueDTO) {
-        return Optional.empty();
+        log.debug("Request to partially update Goal : {}", LeagueDTO);
+
+        return leagueRepository
+                .findById(LeagueDTO.getId())
+                .map(existingGoal -> {
+                    leagueMapper.partialUpdate(existingGoal, LeagueDTO);
+
+                    return existingGoal;
+                })
+                .map(leagueRepository::save)
+                .map(leagueMapper::toDto);
     }
+
 
     @Override
     public List<LeagueDTO> findAll() {
-        return null;
+        log.debug("Request to get all Goals");
+        return leagueRepository.findAll().stream().map(leagueMapper::toDto).collect(Collectors.toCollection(LinkedList::new));
+
     }
 
     @Override
-    public Optional<LeagueDTO> findOne(Long id) {
+    public LeagueDTO findOne(Long id) {
         log.debug("Request to get League : {}", id);
-        return leagueRepository.findById(id).map(leagueMapper::toDto);
+        return leagueRepository.findById(id).map(leagueMapper::toDto).orElseThrow(
+                () -> new EntityNotFoundException("League not found with id:" + id)
+        );
     }
 
     @Override

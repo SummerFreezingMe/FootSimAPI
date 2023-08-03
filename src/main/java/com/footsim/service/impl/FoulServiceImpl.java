@@ -2,12 +2,14 @@ package com.footsim.service.impl;
 
 import com.footsim.domain.dto.FoulDTO;
 import com.footsim.domain.enumeration.FoulType;
+import com.footsim.domain.enumeration.GoalType;
 import com.footsim.domain.enumeration.PlayerStatus;
 import com.footsim.domain.model.Foul;
 import com.footsim.domain.model.Player;
 import com.footsim.mapper.FoulMapper;
 import com.footsim.repository.FoulRepository;
 import com.footsim.service.FoulService;
+import jakarta.persistence.EntityNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -29,14 +31,15 @@ public class FoulServiceImpl implements FoulService {
     private final Logger log = LoggerFactory.getLogger(FoulServiceImpl.class);
 
     private final FoulRepository foulRepository;
-
+    private final GoalServiceImpl goalService;
     Random r = new Random();
 
     private final FoulMapper foulMapper;
 
     public FoulServiceImpl(FoulRepository foulRepository,
-                           FoulMapper foulMapper) {
+                           GoalServiceImpl goalService, FoulMapper foulMapper) {
         this.foulRepository = foulRepository;
+        this.goalService = goalService;
         this.foulMapper = foulMapper;
     }
 
@@ -81,9 +84,11 @@ public class FoulServiceImpl implements FoulService {
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<FoulDTO> findOne(Long id) {
+    public FoulDTO findOne(Long id) {
         log.debug("Request to get Foul : {}", id);
-        return foulRepository.findById(id).map(foulMapper::toDto);
+        return foulRepository.findById(id).map(foulMapper::toDto).orElseThrow(
+                () -> new EntityNotFoundException("Foul not found with id:" + id)
+        );
     }
 
     @Override
@@ -100,6 +105,9 @@ public class FoulServiceImpl implements FoulService {
         foulRepository.save(foul);
         if (checkForSendOffs(matchId, foul)) {
             player.setStatus(PlayerStatus.SENT_OFF);
+        }
+        if (Math.random() > 0.95) {
+            goalService.generateGoal(roster, matchId, minute, GoalType.PENALTY);
         }
     }
 

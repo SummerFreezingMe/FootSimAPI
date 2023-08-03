@@ -4,14 +4,13 @@ import com.footsim.domain.dto.FoulDTO;
 import com.footsim.service.impl.FoulServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @Tag(name = "Фолы", description = "Методы, взаимодействующие с фолами")
-@RequestMapping(value = "/foul")
+@RequestMapping(value = "/fouls")
 public class FoulController {
     private final FoulServiceImpl foulService;
 
@@ -22,7 +21,7 @@ public class FoulController {
     @GetMapping(value = "/get/{id}")
     @Operation(summary = "Получаем экземпляр фола по его Id")
     public FoulDTO getFoul(@PathVariable Long id) {
-        return foulService.findOne(id).orElseThrow(EntityNotFoundException::new);
+        return foulService.findOne(id);
     }
 
     @PostMapping(value = "/add")

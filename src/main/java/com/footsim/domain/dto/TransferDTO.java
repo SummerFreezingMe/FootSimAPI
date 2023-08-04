@@ -3,20 +3,14 @@ package com.footsim.domain.dto;
 import com.footsim.domain.model.Player;
 import com.footsim.domain.model.Team;
 import com.google.common.base.Objects;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 /**
  * A DTO for the operation of transferring player from one team to another.
  */
 
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
+@Data
 public class TransferDTO {
 
     /**

@@ -2,10 +2,7 @@ package com.footsim.domain.model;
 
 import com.google.common.base.Objects;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -14,10 +11,7 @@ import java.io.Serializable;
  * A Season statistics for each competing team.
  */
 
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
+@Data
 @Entity
 @Table(name = "season")
 @SuppressWarnings("common-java:DuplicatedBlocks")

@@ -5,10 +5,7 @@ import com.footsim.domain.enumeration.PlayerPosition;
 import com.footsim.domain.enumeration.PlayerStatus;
 import com.footsim.domain.model.Player;
 import com.google.common.base.Objects;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.io.Serializable;
 
@@ -16,10 +13,7 @@ import java.io.Serializable;
  * A DTO for the {@link Player} entity.
  */
 @SuppressWarnings("common-java:DuplicatedBlocks")
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
+@Data
 public class PlayerDTO implements Serializable {
 
     private Long id;

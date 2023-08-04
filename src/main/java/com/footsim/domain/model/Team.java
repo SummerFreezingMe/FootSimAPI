@@ -3,10 +3,7 @@ package com.footsim.domain.model;
 
 import com.google.common.base.Objects;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.Data;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -14,10 +11,7 @@ import java.io.Serializable;
 /**
  * A Team.
  */
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
+@Data
 @Entity
 @Table(name = "team")
 @SuppressWarnings("common-java:DuplicatedBlocks")

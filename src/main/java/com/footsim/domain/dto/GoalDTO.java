@@ -4,10 +4,7 @@ package com.footsim.domain.dto;
 import com.footsim.domain.enumeration.GoalType;
 import com.footsim.domain.model.Goal;
 import com.google.common.base.Objects;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.io.Serializable;
 
@@ -15,10 +12,7 @@ import java.io.Serializable;
  * A DTO for the {@link Goal} entity.
  */
 @SuppressWarnings("common-java:DuplicatedBlocks")
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
+@Data
 public class GoalDTO implements Serializable {
     private Long id;
 

@@ -1,20 +1,13 @@
 package com.footsim.domain.dto;
 
 import com.footsim.domain.model.Player;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 /**
  * A DTO for the top scorers and top assistants.
  */
 @SuppressWarnings("common-java:DuplicatedBlocks")
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
-
+@Data
 public class TopActionsDTO {
 
     /**

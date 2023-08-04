@@ -3,18 +3,12 @@ package com.footsim.domain.dto;
 import com.footsim.domain.enumeration.FoulType;
 import com.footsim.domain.model.Foul;
 import com.google.common.base.Objects;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 /**
  * A DTO for the {@link Foul} entity.
  */
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
+@Data
 public class FoulDTO {
 
     private Long id;

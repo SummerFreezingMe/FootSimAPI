@@ -3,18 +3,12 @@ package com.footsim.domain.model;
 import com.footsim.domain.enumeration.FoulType;
 import com.google.common.base.Objects;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 /**
  * A Foul.
  */
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
+@Data
 @Entity
 @Table(name = "foul")
 public class Foul {

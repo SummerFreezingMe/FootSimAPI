@@ -5,20 +5,14 @@ import com.footsim.domain.enumeration.PlayerPosition;
 import com.footsim.domain.enumeration.PlayerStatus;
 import com.google.common.base.Objects;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 
 /**
  * A Player.
  */
 
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
+@Data
 @Entity
 @Table(name = "player")
 public class Player {

@@ -2,10 +2,7 @@ package com.footsim.domain.dto;
 
 import com.footsim.domain.model.SeasonStat;
 import com.google.common.base.Objects;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.io.Serializable;
 
@@ -14,10 +11,7 @@ import java.io.Serializable;
  */
 
 @SuppressWarnings("common-java:DuplicatedBlocks")
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
+@Data
 public class SeasonStatDTO implements Serializable {
 
     private Long id;

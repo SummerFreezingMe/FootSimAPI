@@ -10,6 +10,8 @@ import lombok.*;
  */
 @Data
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "goal")
 public class Goal {
 

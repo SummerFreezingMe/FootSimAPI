@@ -13,6 +13,8 @@ import java.io.Serializable;
 @Data
 @Entity
 @Table(name = "season_stat")
+@AllArgsConstructor
+@NoArgsConstructor
 @SuppressWarnings("common-java:DuplicatedBlocks")
 public class SeasonStat implements Serializable {
 

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 @Tag(name = "Фолы", description = "Методы, взаимодействующие с фолами")
 @RequestMapping(value = "/fouls")
 public class FoulController {

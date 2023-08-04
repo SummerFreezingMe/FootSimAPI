@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 @Tag(name = "Матчи", description = "Методы, взаимодействующие с матчами")
 @RequestMapping(value = "/matches")
 public class MatchController {

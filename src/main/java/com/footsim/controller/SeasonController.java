@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 @Tag(name = "Сезоны", description = "Методы, взаимодействующие с сезонами чемпионатов")
 @RequestMapping(value = "/seasons")
 public class SeasonController {

@@ -4,12 +4,12 @@ import com.footsim.domain.dto.LeagueDTO;
 import com.footsim.service.impl.LeagueServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@CrossOrigin
 @Tag(name = "Лиги", description = "Методы, взаимодействующие с лигами/чемпионатами")
 @RequestMapping(value = "/leagues")
 public class LeagueController {
@@ -22,7 +22,7 @@ public class LeagueController {
     @GetMapping(value = "/get/{id}")
     @Operation(summary = "Получаем экземпляр чемпионата по его Id")
      public LeagueDTO getLeague(@PathVariable Long id) {
-        return leagueService.findOne(id).orElseThrow(EntityNotFoundException::new);
+        return leagueService.findOne(id);
     }
 
     @PutMapping(value = "/update")

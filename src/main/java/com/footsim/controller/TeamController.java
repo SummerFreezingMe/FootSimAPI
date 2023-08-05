@@ -4,21 +4,19 @@ import com.footsim.domain.dto.TeamDTO;
 import com.footsim.service.impl.TeamServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @CrossOrigin
+@AllArgsConstructor
 @Tag(name = "Клубы", description = "Методы, взаимодействующие с футбольными клубами")
 @RequestMapping(value = "/teams")
 public class TeamController {
 
     private final TeamServiceImpl teamService;
-
-    public TeamController(TeamServiceImpl tsi) {
-        this.teamService = tsi;
-    }
 
     @GetMapping(value = "/get/{id}")
     @Operation(summary = "Получаем экземпляр команды по его Id")

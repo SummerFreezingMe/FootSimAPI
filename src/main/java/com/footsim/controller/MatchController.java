@@ -4,20 +4,18 @@ import com.footsim.domain.dto.MatchDTO;
 import com.footsim.service.impl.MatchServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @CrossOrigin
+@AllArgsConstructor
 @Tag(name = "Матчи", description = "Методы, взаимодействующие с матчами")
 @RequestMapping(value = "/matches")
 public class MatchController {
     private final MatchServiceImpl matchService;
-
-    public MatchController(MatchServiceImpl msi) {
-        this.matchService = msi;
-    }
 
     @PostMapping(value = "/add")
     @Operation(summary = "Добавляем новый матч")

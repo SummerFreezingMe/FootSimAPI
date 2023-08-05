@@ -5,20 +5,18 @@ import com.footsim.domain.dto.TopActionsDTO;
 import com.footsim.service.impl.GoalServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @CrossOrigin
+@AllArgsConstructor
 @Tag(name = "Голы", description = "Методы, взаимодействующие с голами")
 @RequestMapping(value = "/goals")
 public class GoalController {
     private final GoalServiceImpl goalService;
-
-    public GoalController(GoalServiceImpl gsi) {
-        this.goalService = gsi;
-    }
 
     @GetMapping(value = "/get/{id}")
     @Operation(summary = "Получаем экземпляр гола по его Id")

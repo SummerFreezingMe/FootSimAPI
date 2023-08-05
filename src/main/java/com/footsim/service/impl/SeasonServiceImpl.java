@@ -6,6 +6,7 @@ import com.footsim.mapper.SeasonMapper;
 import com.footsim.repository.SeasonRepository;
 import com.footsim.service.SeasonService;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -20,18 +21,11 @@ import java.util.stream.Collectors;
  */
 @Service
 @Transactional
+@AllArgsConstructor
 public class SeasonServiceImpl implements SeasonService {
     private final Logger log = LoggerFactory.getLogger(SeasonServiceImpl.class);
-
     private final SeasonRepository seasonRepository;
-
     private final SeasonMapper seasonMapper;
-
-
-    public SeasonServiceImpl(SeasonRepository seasonRepository, SeasonMapper seasonMapper) {
-        this.seasonRepository = seasonRepository;
-        this.seasonMapper = seasonMapper;
-    }
 
     @Override
     public SeasonDTO save(SeasonDTO seasonDTO) {

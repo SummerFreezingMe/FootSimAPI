@@ -6,6 +6,7 @@ import com.footsim.mapper.LeagueMapper;
 import com.footsim.repository.LeagueRepository;
 import com.footsim.service.LeagueService;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -21,19 +22,12 @@ import java.util.stream.Collectors;
  */
 @Service
 @Transactional
+@AllArgsConstructor
 public class LeagueServiceImpl implements LeagueService {
 
     private final Logger log = LoggerFactory.getLogger(LeagueServiceImpl.class);
-
     private final LeagueRepository leagueRepository;
-
     private final LeagueMapper leagueMapper;
-
-    public LeagueServiceImpl(LeagueRepository leagueRepository, LeagueMapper leagueMapper) {
-        this.leagueRepository = leagueRepository;
-        this.leagueMapper = leagueMapper;
-    }
-
 
     @Override
     public LeagueDTO save(LeagueDTO LeagueDTO) {

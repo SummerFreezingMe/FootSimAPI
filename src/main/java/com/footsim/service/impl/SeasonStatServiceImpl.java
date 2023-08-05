@@ -9,6 +9,7 @@ import com.footsim.mapper.SeasonStatMapper;
 import com.footsim.repository.SeasonStatRepository;
 import com.footsim.repository.TeamRepository;
 import com.footsim.service.SeasonStatService;
+import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -26,21 +27,13 @@ import java.util.stream.Collectors;
  */
 @Service
 @Transactional
+@AllArgsConstructor
 public class SeasonStatServiceImpl implements SeasonStatService {
 
     private final Logger log = LoggerFactory.getLogger(SeasonStatServiceImpl.class);
-
     private final SeasonStatRepository seasonRepository;
-
     private final TeamRepository teamRepository;
     private final SeasonStatMapper seasonMapper;
-
-
-    public SeasonStatServiceImpl(SeasonStatRepository seasonRepository, TeamRepository teamRepository, SeasonStatMapper seasonMapper) {
-        this.seasonRepository = seasonRepository;
-        this.teamRepository = teamRepository;
-        this.seasonMapper = seasonMapper;
-    }
 
     @Override
     public SeasonStatDTO save(SeasonStatDTO seasonDTO) {

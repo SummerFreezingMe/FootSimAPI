@@ -4,6 +4,7 @@ import com.footsim.domain.dto.SeasonStatDTO;
 import com.footsim.service.impl.SeasonStatServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,14 +12,11 @@ import java.util.List;
 
 @RestController
 @CrossOrigin
+@AllArgsConstructor
 @Tag(name = "Cтатистика сезонов", description = "Методы, взаимодействующие со статистикой сезонов")
 @RequestMapping(value = "/season_stats")
 public class SeasonStatController {
     private final SeasonStatServiceImpl seasonService;
-
-    public SeasonStatController(SeasonStatServiceImpl seasonService) {
-        this.seasonService = seasonService;
-    }
 
     @GetMapping(value = "/get/{id}")
     @Operation(summary = "Получаем экземпляр сезона по его Id")

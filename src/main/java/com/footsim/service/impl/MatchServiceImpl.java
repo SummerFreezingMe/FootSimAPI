@@ -13,6 +13,7 @@ import com.footsim.repository.TeamRepository;
 import com.footsim.service.MatchService;
 import com.footsim.service.exceptions.RosterUnavailableException;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -23,39 +24,17 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@AllArgsConstructor
 public class MatchServiceImpl implements MatchService {
     private final Logger log = LoggerFactory.getLogger(MatchServiceImpl.class);
-
     private final MatchRepository matchRepository;
-
     private final TeamRepository teamRepository;
-
     private final PlayerRepository playerRepository;
-
     private final GoalServiceImpl goalService;
-
     private final FoulServiceImpl foulService;
     private final TeamServiceImpl teamService;
-
     private final SeasonStatServiceImpl seasonService;
-
     private final MatchMapper matchMapper;
-
-    public MatchServiceImpl(MatchRepository matchRepository,
-                            TeamRepository teamRepository,
-                            GoalServiceImpl goalService,
-                            FoulServiceImpl foulService, TeamServiceImpl teamService, PlayerRepository playerRepository,
-                            SeasonStatServiceImpl seasonService, MatchMapper matchMapper) {
-        this.matchRepository = matchRepository;
-        this.teamRepository = teamRepository;
-        this.goalService = goalService;
-        this.foulService = foulService;
-        this.teamService = teamService;
-        this.playerRepository = playerRepository;
-        this.seasonService = seasonService;
-        this.matchMapper = matchMapper;
-    }
-
 
     @Override
     public MatchDTO save(MatchDTO matchDTO) {

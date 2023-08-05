@@ -4,20 +4,18 @@ import com.footsim.domain.dto.LeagueDTO;
 import com.footsim.service.impl.LeagueServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @CrossOrigin
+@AllArgsConstructor
 @Tag(name = "Лиги", description = "Методы, взаимодействующие с лигами/чемпионатами")
 @RequestMapping(value = "/leagues")
 public class LeagueController {
     private final LeagueServiceImpl leagueService;
-
-    public LeagueController(LeagueServiceImpl leagueService) {
-        this.leagueService = leagueService;
-    }
 
     @GetMapping(value = "/get/{id}")
     @Operation(summary = "Получаем экземпляр чемпионата по его Id")

@@ -10,6 +10,7 @@ import com.footsim.repository.PlayerRepository;
 import com.footsim.repository.TeamRepository;
 import com.footsim.service.PlayerService;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -25,22 +26,13 @@ import java.util.stream.Collectors;
  */
 @Service
 @Transactional
+@AllArgsConstructor
 public class PlayerServiceImpl implements PlayerService {
 
     private final Logger log = LoggerFactory.getLogger(PlayerServiceImpl.class);
-
     private final PlayerRepository playerRepository;
-
     private final TeamRepository teamRepository;
-
     private final PlayerMapper playerMapper;
-
-    public PlayerServiceImpl(PlayerRepository playerRepository, TeamRepository teamRepository,
-                             PlayerMapper playerMapper) {
-        this.playerRepository = playerRepository;
-        this.teamRepository = teamRepository;
-        this.playerMapper = playerMapper;
-    }
 
     @Override
     public PlayerDTO save(PlayerDTO playerDTO) {

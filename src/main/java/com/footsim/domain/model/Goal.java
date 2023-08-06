@@ -22,19 +22,23 @@ public class Goal {
     private Long id;
 
     @Column(name = "match_id")
+    @NonNull
     private Long matchId;
 
     @Column(name = "author_id")
+    @NonNull
     private Long authorId;
 
     @Column(name = "assist_id")
     private Long assistId;
 
     @Column(name = "minute")
+    @NonNull
     private Short minute;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "type")
+    @NonNull
     private GoalType type;
 
     @Override

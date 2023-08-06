@@ -2,6 +2,7 @@ package com.footsim.domain.dto;
 
 import com.footsim.domain.model.SeasonStat;
 import com.google.common.base.Objects;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.io.Serializable;
@@ -14,22 +15,33 @@ import java.io.Serializable;
 @Data
 public class SeasonStatDTO implements Serializable {
 
+    @NotNull(message = "id cannot be null")
     private Long id;
+
+    @NotNull(message = "seasonId cannot be null")
     private Long seasonId;
 
+    @NotNull(message = "teamId cannot be null")
     private Long teamId;
 
+    @NotNull(message = "points cannot be null")
     private Long points;
 
+    @NotNull(message = "wins cannot be null")
     private Long wins;
 
+    @NotNull(message = "draws cannot be null")
     private Long draws;
 
+    @NotNull(message = "defeats cannot be null")
     private Long defeats;
 
+    @NotNull(message = "goalsScored cannot be null")
     private Long goalsScored;
 
+    @NotNull(message = "goalsConceded cannot be null")
     private Long goalsConceded;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

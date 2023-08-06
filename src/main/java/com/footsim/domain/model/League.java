@@ -12,6 +12,7 @@ import java.io.Serializable;
  */
 @Data
 @Entity
+@NoArgsConstructor
 @Table(name = "league")
 @SuppressWarnings("common-java:DuplicatedBlocks")
 public class League implements Serializable {
@@ -29,6 +30,7 @@ public class League implements Serializable {
     private Integer participants;
 
     @Column(name = "name")
+    @NonNull
     private String name;
 
 

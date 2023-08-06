@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
  */
 @Data
 @Entity
+@NoArgsConstructor
 @Table(name = "match")
 public class Match
         implements Serializable {
@@ -30,15 +31,19 @@ public class Match
     private Long seasonId;
 
     @Column(name = "home_team_id")
+    @NonNull
     private Long homeTeamId;
 
     @Column(name = "away_team_id")
+    @NonNull
     private Long awayTeamId;
 
     @Column(name = "home_goals")
+    @NonNull
     private Long homeGoals;
 
     @Column(name = "away_goals")
+    @NonNull
     private Long AwayGoals;
 
 

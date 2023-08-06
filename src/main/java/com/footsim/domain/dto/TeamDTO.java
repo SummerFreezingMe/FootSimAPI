@@ -3,6 +3,7 @@ package com.footsim.domain.dto;
 
 import com.footsim.domain.model.Team;
 import com.google.common.base.Objects;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.io.Serializable;
@@ -14,10 +15,14 @@ import java.io.Serializable;
 @SuppressWarnings("common-java:DuplicatedBlocks")
 @Data
 public class TeamDTO implements Serializable {
+
+    @NotNull(message = "id cannot be null")
     private Long id;
 
+    @NotNull(message = "Name cannot be null")
     private String name;
 
+    @NotNull(message = "rating cannot be null")
     private Long rating;
 
     private String stadium;
@@ -28,6 +33,7 @@ public class TeamDTO implements Serializable {
 
     private String image;
 
+    @NotNull(message = "balance cannot be null")
     private Long balance;
 
     @Override

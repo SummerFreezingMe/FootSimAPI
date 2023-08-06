@@ -2,6 +2,7 @@ package com.footsim.domain.dto;
 
 import com.footsim.domain.model.Match;
 import com.google.common.base.Objects;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -12,17 +13,24 @@ import java.time.LocalDateTime;
 @SuppressWarnings("common-java:DuplicatedBlocks")
 @Data
 public class MatchDTO {
+
+    @NotNull(message = "id cannot be null")
     private Long id;
 
     private Long seasonId;
 
+    @NotNull(message = "homeTeamId cannot be null")
     private Long homeTeamId;
 
+    @NotNull(message = "awayTeamId cannot be null")
     private Long awayTeamId;
 
+    @NotNull(message = "homeGoals cannot be null")
     private Long homeGoals;
 
+    @NotNull(message = "AwayGoals cannot be null")
     private Long AwayGoals;
+
     private LocalDateTime date;
 
     @Override

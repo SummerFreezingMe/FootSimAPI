@@ -4,6 +4,8 @@ package com.footsim.domain.model;
 import com.google.common.base.Objects;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -13,6 +15,7 @@ import java.io.Serializable;
  */
 @Data
 @Entity
+@NoArgsConstructor
 @Table(name = "team")
 @SuppressWarnings("common-java:DuplicatedBlocks")
 public class Team implements Serializable {
@@ -29,10 +32,12 @@ public class Team implements Serializable {
 
 
     @Column(name = "name")
+    @NonNull
     private String name;
 
 
     @Column(name = "rating")
+    @NonNull
     private Long rating;
 
     @Column(name = "stadium")
@@ -49,6 +54,7 @@ public class Team implements Serializable {
     private String image;
 
     @Column(name = "balance")
+    @NonNull
     private Long balance;
 
     @Override

@@ -13,6 +13,7 @@ import java.io.Serializable;
 
 @Data
 @Entity
+@NoArgsConstructor
 @Table(name = "season")
 @SuppressWarnings("common-java:DuplicatedBlocks")
 public class Season implements Serializable {
@@ -27,9 +28,11 @@ public class Season implements Serializable {
     private Long id;
 
     @Column(name = "league_id")
+    @NonNull
     private Long leagueId;
 
     @Column(name = "year")
+    @NonNull
     private String year;
 
     @Override

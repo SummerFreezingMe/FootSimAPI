@@ -28,29 +28,37 @@ public class SeasonStat implements Serializable {
     private Long id;
 
     @Column(name = "season_id")
+    @NonNull
     private Long seasonId;
 
 
     @Column(name = "team_id")
+    @NonNull
     private Long teamId;
 
     @Column(name = "team_points")
+    @NonNull
     private Long points;
 
     //todo: settle for "long" now, figure it out later
     @Column(name = "wins")
+    @NonNull
     private Long wins;
 
     @Column(name = "draws")
+    @NonNull
     private Long draws;
 
     @Column(name = "defeats")
+    @NonNull
     private Long defeats;
 
     @Column(name = "goals_scored")
+    @NonNull
     private Long goalsScored;
 
     @Column(name = "goals_conceded")
+    @NonNull
     private Long goalsConceded;
 
     @Override

@@ -3,6 +3,7 @@ package com.footsim.domain.dto;
 
 import com.footsim.domain.model.League;
 import com.google.common.base.Objects;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 /**
@@ -12,10 +13,13 @@ import lombok.*;
 @SuppressWarnings("common-java:DuplicatedBlocks")
 @Data
 public class LeagueDTO {
+
+    @NotNull(message = "id cannot be null")
     private Long id;
 
     private Integer participants;
 
+    @NotNull(message = "Name cannot be null")
     private String name;
 
     @Override

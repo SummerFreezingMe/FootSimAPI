@@ -22,16 +22,20 @@ public class Foul {
     private Long id;
 
     @Column(name = "match_id")
+    @NonNull
     private Long matchId;
 
     @Column(name = "player_id")
+    @NonNull
     private Long playerId;
 
     @Column(name = "minute")
+    @NonNull
     private Short minute;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "type")
+    @NonNull
     private FoulType type;
 
     @Override

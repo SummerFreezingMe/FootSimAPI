@@ -13,6 +13,7 @@ import lombok.*;
  */
 
 @Data
+@NoArgsConstructor
 @Entity
 @Table(name = "player")
 public class Player {
@@ -28,17 +29,21 @@ public class Player {
     private Long clubId;
 
     @Column(name = "rating")
+    @NonNull
     private Long rating;
 
     @Column(name = "name")
+    @NonNull
     private String name;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "position")
+    @NonNull
     private PlayerPosition position;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
+    @NonNull
     private PlayerStatus status;
 
     @Override

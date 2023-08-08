@@ -7,6 +7,7 @@ import com.footsim.domain.model.Player;
 import com.footsim.domain.model.Team;
 import com.footsim.mapper.CoachMapper;
 import com.footsim.repository.CoachRepository;
+import com.footsim.repository.PlayerRepository;
 import com.footsim.repository.TeamRepository;
 import com.footsim.service.CoachService;
 import jakarta.persistence.EntityNotFoundException;
@@ -32,6 +33,8 @@ public class CoachServiceImpl implements CoachService {
 
     private final Logger log = LoggerFactory.getLogger(CoachServiceImpl.class);
     private final CoachRepository coachRepository;
+
+    private final PlayerRepository playerRepository;
     private final TeamRepository teamRepository;
     private final CoachMapper coachMapper;
 
@@ -117,6 +120,17 @@ public class CoachServiceImpl implements CoachService {
         newCoach.setName(player.getName());
         newCoach.setRating(r.nextInt(200));
         coachRepository.save(newCoach);
+        playerRepository.delete(player);
         return coachMapper.toDto(newCoach);
+    }
+
+    @Override
+    public CoachDTO fireCoach(CoachDTO coachDTO) {
+        Coach coach = coachRepository.findById(coachDTO.getId()).orElseThrow(
+                () -> new EntityNotFoundException("Coach not found with id:" + coachDTO.getId())
+        );
+        coach.setTeamId(null);
+        coachRepository.save(coach);
+        return coachMapper.toDto(coach);
     }
 }

@@ -79,4 +79,11 @@ public interface CoachService {
      * @return {@link Coach} DTO
      */
     CoachDTO retireToCoaching(Player player);
+
+
+    /** Firing of a {@link Coach}
+     * @param coachDTO DTO of a {@link Coach} to fire
+     * @return fired {@link Coach} DTO
+     */
+    CoachDTO fireCoach(CoachDTO coachDTO);
 }

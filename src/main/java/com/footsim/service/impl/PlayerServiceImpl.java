@@ -102,8 +102,8 @@ public class PlayerServiceImpl implements PlayerService {
     @Override
     public PlayerDTO transferPlayer(TransferDTO transfer) {
         Player transferredPlayer = playerRepository.
-                findById(transfer.getPlayerId()).orElseThrow(
-                        () -> new EntityNotFoundException("Player not found with id:" + transfer.getPlayerId()));
+                findById(transfer.getPersonId()).orElseThrow(
+                        () -> new EntityNotFoundException("Player not found with id:" + transfer.getPersonId()));
         Team fromTeam = teamRepository.
                 findById(transfer.getClubFromId()).orElseThrow(
                         () -> new EntityNotFoundException("Team not found with id:" + transfer.getClubFromId()));

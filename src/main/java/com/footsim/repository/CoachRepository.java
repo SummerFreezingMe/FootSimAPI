@@ -10,4 +10,5 @@ import org.springframework.stereotype.Repository;
 @SuppressWarnings("unused")
 @Repository
 public interface CoachRepository extends JpaRepository<Coach, Long> {
+    Coach findByTeamId(Long id);
 }

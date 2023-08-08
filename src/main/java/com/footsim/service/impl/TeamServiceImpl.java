@@ -3,9 +3,11 @@ package com.footsim.service.impl;
 import com.footsim.domain.dto.TeamDTO;
 import com.footsim.domain.enumeration.PlayerPosition;
 import com.footsim.domain.enumeration.PlayerStatus;
+import com.footsim.domain.model.Coach;
 import com.footsim.domain.model.Player;
 import com.footsim.domain.model.Team;
 import com.footsim.mapper.TeamMapper;
+import com.footsim.repository.CoachRepository;
 import com.footsim.repository.PlayerRepository;
 import com.footsim.repository.TeamRepository;
 import com.footsim.service.TeamService;
@@ -32,6 +34,8 @@ public class TeamServiceImpl implements TeamService {
     private final Logger log = LoggerFactory.getLogger(TeamServiceImpl.class);
     private final TeamRepository teamRepository;
     private final PlayerRepository playerRepository;
+
+    private final CoachRepository coachRepository;
     private final TeamMapper teamMapper;
 
     @Override
@@ -93,7 +97,8 @@ public class TeamServiceImpl implements TeamService {
         Team team = teamRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Team not found with id:" + id));
         List<Player> teamPlayers = playerRepository.findByClubId(id);
-        Long newTeamRating = 0L;
+        Coach coach = coachRepository.findByTeamId(id);
+        long newTeamRating = coach.getRating()*2;
         for (Player p : teamPlayers) {
             if (p.getStatus() == PlayerStatus.ROSTER) {
                 newTeamRating += p.getRating();

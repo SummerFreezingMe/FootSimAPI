@@ -30,7 +30,7 @@ public class Player {
 
     @Column(name = "rating")
     @NonNull
-    private Long rating;
+    private Integer rating;
 
     @Column(name = "name")
     @NonNull

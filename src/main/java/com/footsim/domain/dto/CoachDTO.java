@@ -20,7 +20,7 @@ public class CoachDTO implements Serializable {
     private Long teamId;
 
     @NotNull(message = "rating cannot be null")
-    private Long rating;
+    private Integer rating;
 
     @NotNull(message = "Name cannot be null")
     private String name;

@@ -23,7 +23,7 @@ public class TeamDTO implements Serializable {
     private String name;
 
     @NotNull(message = "rating cannot be null")
-    private Long rating;
+    private Integer rating;
 
     private String stadium;
 

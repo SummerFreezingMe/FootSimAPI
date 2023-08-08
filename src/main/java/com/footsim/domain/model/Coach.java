@@ -32,7 +32,7 @@ public class Coach  implements Serializable {
 
     @Column(name = "rating")
     @NonNull
-    private Long rating;
+    private Integer rating;
 
     @Column(name = "name")
     @NonNull

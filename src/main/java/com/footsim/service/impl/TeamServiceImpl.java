@@ -98,7 +98,7 @@ public class TeamServiceImpl implements TeamService {
                 () -> new EntityNotFoundException("Team not found with id:" + id));
         List<Player> teamPlayers = playerRepository.findByClubId(id);
         Coach coach = coachRepository.findByTeamId(id);
-        long newTeamRating = coach.getRating()*2;
+        int newTeamRating = coach.getRating()*2;
         for (Player p : teamPlayers) {
             if (p.getStatus() == PlayerStatus.ROSTER) {
                 newTeamRating += p.getRating();

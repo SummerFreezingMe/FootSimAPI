@@ -3,6 +3,7 @@ package com.footsim.service.impl;
 import com.footsim.domain.dto.CoachDTO;
 import com.footsim.domain.dto.TransferDTO;
 import com.footsim.domain.model.Coach;
+import com.footsim.domain.model.Player;
 import com.footsim.domain.model.Team;
 import com.footsim.mapper.CoachMapper;
 import com.footsim.repository.CoachRepository;
@@ -18,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 /**
@@ -32,6 +34,8 @@ public class CoachServiceImpl implements CoachService {
     private final CoachRepository coachRepository;
     private final TeamRepository teamRepository;
     private final CoachMapper coachMapper;
+
+    Random r;
 
     @Override
     public CoachDTO save(CoachDTO coachDTO) {
@@ -105,5 +109,14 @@ public class CoachServiceImpl implements CoachService {
         teamRepository.save(toTeam);
         teamRepository.save(fromTeam);
         return coachMapper.toDto(transferredCoach);
+    }
+
+    @Override
+    public CoachDTO retireToCoaching(Player player) {
+        Coach newCoach = new Coach();
+        newCoach.setName(player.getName());
+        newCoach.setRating(r.nextInt(200));
+        coachRepository.save(newCoach);
+        return coachMapper.toDto(newCoach);
     }
 }

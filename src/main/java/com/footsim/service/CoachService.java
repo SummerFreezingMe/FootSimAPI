@@ -4,6 +4,7 @@ package com.footsim.service;
 import com.footsim.domain.dto.CoachDTO;
 import com.footsim.domain.dto.TransferDTO;
 import com.footsim.domain.model.Coach;
+import com.footsim.domain.model.Player;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -41,7 +42,7 @@ public interface CoachService {
     Optional<CoachDTO> partialUpdate(CoachDTO CoachDTO);
 
     /**
-     * Get all the Coachs.
+     * Get all the Coaches.
      *
      * @return the list of entities.
      */
@@ -71,4 +72,11 @@ public interface CoachService {
      * @return DTO of transferred {@link Coach}
      */
     CoachDTO transferCoach(TransferDTO transfer);
+
+    /**
+     * Perform Player's retirement and switching to {@link Coach} role
+     * @param player retiring {@link Player}
+     * @return {@link Coach} DTO
+     */
+    CoachDTO retireToCoaching(Player player);
 }

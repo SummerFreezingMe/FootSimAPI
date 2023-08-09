@@ -1,6 +1,7 @@
 package com.footsim.controller;
 
 import com.footsim.domain.dto.CoachDTO;
+import com.footsim.domain.dto.PlayerDTO;
 import com.footsim.domain.dto.TransferDTO;
 import com.footsim.service.impl.CoachServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
@@ -46,7 +47,7 @@ public class CoachController {
 
     @GetMapping(value = "/get_all")
     @Operation(summary = "Отображаем всех тренеров")
-    public List<CoachDTO> displayAllCoachs() {
+    public List<CoachDTO> displayAllCoaches() {
         return coachService.findAll();
     }
 
@@ -54,4 +55,11 @@ public class CoachController {
     @Operation(summary = "Проводим трансфер тренера")
     public CoachDTO transferCoach(@RequestBody TransferDTO transfer) {
         return coachService.transferCoach(transfer);
-    }}
+    }
+
+    @PostMapping(value = "/release")
+    @Operation(summary = "Уволняем тренера из команды")
+    public CoachDTO releasePlayer(@RequestBody CoachDTO coach) {
+        return coachService.releaseCoach(coach);
+    }
+}

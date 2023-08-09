@@ -125,7 +125,7 @@ public class CoachServiceImpl implements CoachService {
     }
 
     @Override
-    public CoachDTO fireCoach(CoachDTO coachDTO) {
+    public CoachDTO releaseCoach(CoachDTO coachDTO) {
         Coach coach = coachRepository.findById(coachDTO.getId()).orElseThrow(
                 () -> new EntityNotFoundException("Coach not found with id:" + coachDTO.getId())
         );

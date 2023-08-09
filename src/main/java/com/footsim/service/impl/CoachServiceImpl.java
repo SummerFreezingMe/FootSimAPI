@@ -4,11 +4,11 @@ import com.footsim.domain.dto.CoachDTO;
 import com.footsim.domain.dto.TransferDTO;
 import com.footsim.domain.model.Coach;
 import com.footsim.domain.model.Player;
-import com.footsim.domain.model.Team;
+import com.footsim.domain.model.Club;
 import com.footsim.mapper.CoachMapper;
 import com.footsim.repository.CoachRepository;
 import com.footsim.repository.PlayerRepository;
-import com.footsim.repository.TeamRepository;
+import com.footsim.repository.ClubRepository;
 import com.footsim.service.CoachService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
@@ -35,7 +35,7 @@ public class CoachServiceImpl implements CoachService {
     private final CoachRepository coachRepository;
 
     private final PlayerRepository playerRepository;
-    private final TeamRepository teamRepository;
+    private final ClubRepository clubRepository;
     private final CoachMapper coachMapper;
 
     Random r;
@@ -100,18 +100,18 @@ public class CoachServiceImpl implements CoachService {
         Coach transferredCoach = coachRepository.
                 findById(transfer.getPersonId()).orElseThrow(
                         () -> new EntityNotFoundException("Coach not found with id:" + transfer.getPersonId()));
-        Team fromTeam = teamRepository.
+        Club fromClub = clubRepository.
                 findById(transfer.getClubFromId()).orElseThrow(
-                        () -> new EntityNotFoundException("Team not found with id:" + transfer.getClubFromId()));
-        Team toTeam = teamRepository.
+                        () -> new EntityNotFoundException("Club not found with id:" + transfer.getClubFromId()));
+        Club toClub = clubRepository.
                 findById(transfer.getClubToId()).orElseThrow(
                         () -> new EntityNotFoundException("Coach not found with id:" + transfer.getClubToId()));
-        transferredCoach.setTeamId(transfer.getClubToId());
-        toTeam.setBalance(toTeam.getBalance() - transfer.getTransferFee());
-        fromTeam.setBalance(fromTeam.getBalance() + transfer.getTransferFee());
+        transferredCoach.setClubId(transfer.getClubToId());
+        toClub.setBalance(toClub.getBalance() - transfer.getTransferFee());
+        fromClub.setBalance(fromClub.getBalance() + transfer.getTransferFee());
         coachRepository.save(transferredCoach);
-        teamRepository.save(toTeam);
-        teamRepository.save(fromTeam);
+        clubRepository.save(toClub);
+        clubRepository.save(fromClub);
         return coachMapper.toDto(transferredCoach);
     }
 
@@ -132,7 +132,7 @@ public class CoachServiceImpl implements CoachService {
         Coach coach = coachRepository.findById(coachDTO.getId()).orElseThrow(
                 () -> new EntityNotFoundException("Coach not found with id:" + coachDTO.getId())
         );
-        coach.setTeamId(null);
+        coach.setClubId(null);
         coachRepository.save(coach);
         return coachMapper.toDto(coach);
     }

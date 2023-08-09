@@ -27,8 +27,8 @@ public class Coach  implements Serializable {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "team_id")
-    private Long teamId;
+    @Column(name = "club_id")
+    private Long clubId;
 
     @Column(name = "rating")
     @NonNull
@@ -43,20 +43,20 @@ public class Coach  implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Coach coach = (Coach) o;
-        return Objects.equal(getId(), coach.getId()) && Objects.equal(getTeamId(), coach.getTeamId())
+        return Objects.equal(getId(), coach.getId()) && Objects.equal(getClubId(), coach.getClubId())
                 && Objects.equal(getRating(), coach.getRating()) && Objects.equal(getName(), coach.getName());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(getId(), getTeamId(), getRating(), getName());
+        return Objects.hashCode(getId(), getClubId(), getRating(), getName());
     }
 
     @Override
     public String toString() {
         return "Coach{" +
                 "id=" + id +
-                ", clubId=" + teamId +
+                ", clubId=" + clubId +
                 ", rating=" + rating +
                 ", name='" + name + '\'' +
                 '}';

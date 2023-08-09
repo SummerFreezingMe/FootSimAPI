@@ -1,7 +1,7 @@
 package com.footsim.domain.dto;
 
 
-import com.footsim.domain.model.Team;
+import com.footsim.domain.model.Club;
 import com.google.common.base.Objects;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -9,12 +9,12 @@ import lombok.*;
 import java.io.Serializable;
 
 /**
- * A DTO for the {@link Team} entity.
+ * A DTO for the {@link Club} entity.
  */
 
 @SuppressWarnings("common-java:DuplicatedBlocks")
 @Data
-public class TeamDTO implements Serializable {
+public class ClubDTO implements Serializable {
 
     @NotNull(message = "id cannot be null")
     private Long id;
@@ -40,8 +40,11 @@ public class TeamDTO implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        TeamDTO teamDTO = (TeamDTO) o;
-        return Objects.equal(getId(), teamDTO.getId()) && Objects.equal(getName(), teamDTO.getName()) && Objects.equal(getRating(), teamDTO.getRating()) && Objects.equal(getStadium(), teamDTO.getStadium()) && Objects.equal(getDescription(), teamDTO.getDescription()) && Objects.equal(getLeagueId(), teamDTO.getLeagueId()) && Objects.equal(getBalance(), teamDTO.getBalance());
+        ClubDTO clubDTO = (ClubDTO) o;
+        return Objects.equal(getId(), clubDTO.getId()) && Objects.equal(getName(), clubDTO.getName()) &&
+                Objects.equal(getRating(), clubDTO.getRating()) && Objects.equal(getStadium(), clubDTO.getStadium()) &&
+                Objects.equal(getDescription(), clubDTO.getDescription()) &&
+                Objects.equal(getLeagueId(), clubDTO.getLeagueId()) && Objects.equal(getBalance(), clubDTO.getBalance());
     }
 
     @Override
@@ -51,7 +54,7 @@ public class TeamDTO implements Serializable {
 
     @Override
     public String toString() {
-        return "TeamDTO{" +
+        return "ClubDTO{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", rating='" + rating + '\'' +

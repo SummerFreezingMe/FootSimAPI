@@ -17,7 +17,7 @@ public class CoachDTO implements Serializable {
     @NotNull(message = "id cannot be null")
     private Long id;
 
-    private Long teamId;
+    private Long clubId;
 
     @NotNull(message = "rating cannot be null")
     private Integer rating;
@@ -31,20 +31,20 @@ public class CoachDTO implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CoachDTO coachDTO = (CoachDTO) o;
-        return Objects.equal(getId(), coachDTO.getId()) && Objects.equal(getTeamId(), coachDTO.getTeamId()) &&
+        return Objects.equal(getId(), coachDTO.getId()) && Objects.equal(getClubId(), coachDTO.getClubId()) &&
                 Objects.equal(getRating(), coachDTO.getRating()) && Objects.equal(getName(), coachDTO.getName());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(getId(), getTeamId(), getRating(), getName());
+        return Objects.hashCode(getId(), getClubId(), getRating(), getName());
     }
 
     @Override
     public String toString() {
             return "CoachDTO{" +
                 "id=" + id +
-                ", clubId=" + teamId +
+                ", clubId=" + clubId +
                 ", rating=" + rating +
                 ", name='" + name + '\'' +
                 '}';

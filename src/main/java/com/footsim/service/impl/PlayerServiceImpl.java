@@ -4,10 +4,10 @@ import com.footsim.domain.dto.PlayerDTO;
 import com.footsim.domain.dto.TransferDTO;
 import com.footsim.domain.enumeration.PlayerStatus;
 import com.footsim.domain.model.Player;
-import com.footsim.domain.model.Team;
+import com.footsim.domain.model.Club;
 import com.footsim.mapper.PlayerMapper;
 import com.footsim.repository.PlayerRepository;
-import com.footsim.repository.TeamRepository;
+import com.footsim.repository.ClubRepository;
 import com.footsim.service.PlayerService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
@@ -31,7 +31,7 @@ public class PlayerServiceImpl implements PlayerService {
 
     private final Logger log = LoggerFactory.getLogger(PlayerServiceImpl.class);
     private final PlayerRepository playerRepository;
-    private final TeamRepository teamRepository;
+    private final ClubRepository clubRepository;
     private final PlayerMapper playerMapper;
 
     @Override
@@ -104,18 +104,18 @@ public class PlayerServiceImpl implements PlayerService {
         Player transferredPlayer = playerRepository.
                 findById(transfer.getPersonId()).orElseThrow(
                         () -> new EntityNotFoundException("Player not found with id:" + transfer.getPersonId()));
-        Team fromTeam = teamRepository.
+        Club fromClub = clubRepository.
                 findById(transfer.getClubFromId()).orElseThrow(
-                        () -> new EntityNotFoundException("Team not found with id:" + transfer.getClubFromId()));
-        Team toTeam = teamRepository.
+                        () -> new EntityNotFoundException("Club not found with id:" + transfer.getClubFromId()));
+        Club toClub = clubRepository.
                 findById(transfer.getClubToId()).orElseThrow(
                         () -> new EntityNotFoundException("Player not found with id:" + transfer.getClubToId()));
         transferredPlayer.setClubId(transfer.getClubToId());
-        toTeam.setBalance(toTeam.getBalance() - transfer.getTransferFee());
-        fromTeam.setBalance(fromTeam.getBalance() + transfer.getTransferFee());
+        toClub.setBalance(toClub.getBalance() - transfer.getTransferFee());
+        fromClub.setBalance(fromClub.getBalance() + transfer.getTransferFee());
         playerRepository.save(transferredPlayer);
-        teamRepository.save(toTeam);
-        teamRepository.save(fromTeam);
+        clubRepository.save(toClub);
+        clubRepository.save(fromClub);
         return playerMapper.toDto(transferredPlayer);
     }
 

@@ -9,7 +9,7 @@ import com.footsim.domain.model.Player;
 import com.footsim.mapper.MatchMapper;
 import com.footsim.repository.MatchRepository;
 import com.footsim.repository.PlayerRepository;
-import com.footsim.repository.TeamRepository;
+import com.footsim.repository.ClubRepository;
 import com.footsim.service.MatchService;
 import com.footsim.service.exceptions.RosterUnavailableException;
 import jakarta.persistence.EntityNotFoundException;
@@ -28,17 +28,17 @@ import java.util.stream.Collectors;
 public class MatchServiceImpl implements MatchService {
     private final Logger log = LoggerFactory.getLogger(MatchServiceImpl.class);
     private final MatchRepository matchRepository;
-    private final TeamRepository teamRepository;
+    private final ClubRepository clubRepository;
     private final PlayerRepository playerRepository;
     private final GoalServiceImpl goalService;
     private final FoulServiceImpl foulService;
-    private final TeamServiceImpl teamService;
+    private final ClubServiceImpl clubService;
     private final SeasonStatServiceImpl seasonService;
     private final MatchMapper matchMapper;
 
     @Override
     public MatchDTO save(MatchDTO matchDTO) {
-        log.debug("Request to save Team : {}", matchDTO);
+        log.debug("Request to save Club : {}", matchDTO);
         Match match = matchMapper.toEntity(matchDTO);
         match = matchRepository.save(match);
         return matchMapper.toDto(match);
@@ -57,10 +57,10 @@ public class MatchServiceImpl implements MatchService {
         log.debug("Request to partially update Match : {}", matchDTO);
         return matchRepository
                 .findById(matchDTO.getId())
-                .map(existingTeam -> {
-                    matchMapper.partialUpdate(existingTeam, matchDTO);
+                .map(existingClub -> {
+                    matchMapper.partialUpdate(existingClub, matchDTO);
 
-                    return existingTeam;
+                    return existingClub;
                 })
                 .map(matchRepository::save)
                 .map(matchMapper::toDto);
@@ -85,7 +85,7 @@ public class MatchServiceImpl implements MatchService {
 
     @Override
     public void delete(Long id) {
-        log.debug("Request to delete Team : {}", id);
+        log.debug("Request to delete Club : {}", id);
         matchRepository.deleteById(id);
     }
 
@@ -97,18 +97,18 @@ public class MatchServiceImpl implements MatchService {
 
         var match = matchRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Match not found with id:" + id));
-        var homeTeam = teamRepository.findById(match.getHomeTeamId()).orElseThrow(
-                () -> new EntityNotFoundException("Team not found with id:" + match.getHomeTeamId()));
-        var awayTeam = teamRepository.findById(match.getAwayTeamId()).orElseThrow(
-                () -> new EntityNotFoundException("Team not found with id:" + match.getAwayTeamId()));
-        if (teamService.isRosterViable(homeTeam) && teamService.isRosterViable(awayTeam)
+        var homeClub = clubRepository.findById(match.getHomeClubId()).orElseThrow(
+                () -> new EntityNotFoundException("Club not found with id:" + match.getHomeClubId()));
+        var awayClub = clubRepository.findById(match.getAwayClubId()).orElseThrow(
+                () -> new EntityNotFoundException("Club not found with id:" + match.getAwayClubId()));
+        if (clubService.isRosterViable(homeClub) && clubService.isRosterViable(awayClub)
         ) {
-            var homeRoster = playerRepository.findByClubIdAndStatus(match.getHomeTeamId(),
+            var homeRoster = playerRepository.findByClubIdAndStatus(match.getHomeClubId(),
                     PlayerStatus.ROSTER);
-            var awayRoster = playerRepository.findByClubIdAndStatus(match.getAwayTeamId(),
+            var awayRoster = playerRepository.findByClubIdAndStatus(match.getAwayClubId(),
                     PlayerStatus.ROSTER);
-            double matchCoefficient = homeTeam.getRating() *
-                    Constants.HOME_CROWD_ADVANTAGE / awayTeam.getRating();
+            double matchCoefficient = homeClub.getRating() *
+                    Constants.HOME_CROWD_ADVANTAGE / awayClub.getRating();
 
             for (short time = 1; time < 50; time += Constants.TIME_LENGTH) {
                 var additionalMinutes = 0;
@@ -163,8 +163,8 @@ public class MatchServiceImpl implements MatchService {
     }
 
     @Override
-    public void foulsDiscard(List<Player> team) {
-        for (Player player : team
+    public void foulsDiscard(List<Player> club) {
+        for (Player player : club
         ) {
             switch (player.getStatus()) {
                 case SENT_OFF -> player.setStatus(PlayerStatus.DISQUALIFIED);

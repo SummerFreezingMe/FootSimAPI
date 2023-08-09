@@ -8,7 +8,7 @@ import java.io.Serial;
 import java.io.Serializable;
 
 /**
- * A Season statistics for each competing team.
+ * A Season statistics for each competing club.
  */
 @Data
 @Entity
@@ -32,11 +32,11 @@ public class SeasonStat implements Serializable {
     private Long seasonId;
 
 
-    @Column(name = "team_id")
+    @Column(name = "club_id")
     @NonNull
-    private Long teamId;
+    private Long clubId;
 
-    @Column(name = "team_points")
+    @Column(name = "club_points")
     @NonNull
     private Long points;
 
@@ -66,12 +66,16 @@ public class SeasonStat implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         SeasonStat that = (SeasonStat) o;
-        return Objects.equal(getId(), that.getId()) && Objects.equal(getSeasonId(), that.getSeasonId()) && Objects.equal(getTeamId(), that.getTeamId()) && Objects.equal(getPoints(), that.getPoints()) && Objects.equal(getWins(), that.getWins()) && Objects.equal(getDraws(), that.getDraws()) && Objects.equal(getDefeats(), that.getDefeats()) && Objects.equal(getGoalsScored(), that.getGoalsScored()) && Objects.equal(getGoalsConceded(), that.getGoalsConceded());
+        return Objects.equal(getId(), that.getId()) && Objects.equal(getSeasonId(), that.getSeasonId()) &&
+                Objects.equal(getClubId(), that.getClubId()) && Objects.equal(getPoints(), that.getPoints()) &&
+                Objects.equal(getWins(), that.getWins()) && Objects.equal(getDraws(), that.getDraws()) &&
+                Objects.equal(getDefeats(), that.getDefeats()) && Objects.equal(getGoalsScored(), that.getGoalsScored()) &&
+                Objects.equal(getGoalsConceded(), that.getGoalsConceded());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(getId(), getSeasonId(), getTeamId(), getPoints());
+        return Objects.hashCode(getId(), getSeasonId(), getClubId(), getPoints());
     }
 
     @Override
@@ -79,7 +83,7 @@ public class SeasonStat implements Serializable {
         return "SeasonStat{" +
                 "id=" + id +
                 ", seasonId=" + seasonId +
-                ", teamId=" + teamId +
+                ", clubId=" + clubId +
                 ", points=" + points +
                 ", wins=" + wins +
                 ", draws=" + draws +

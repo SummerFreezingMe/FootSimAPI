@@ -2,7 +2,7 @@ package com.footsim.domain.dto;
 
 import com.footsim.domain.model.Coach;
 import com.footsim.domain.model.Player;
-import com.footsim.domain.model.Team;
+import com.footsim.domain.model.Club;
 import com.google.common.base.Objects;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -10,7 +10,7 @@ import lombok.Data;
 import java.time.LocalDateTime;
 /**
  * A DTO for the operation of transferring person (either {@link Player} or a {@link Coach})
- * from one team to another.
+ * from one club to another.
  */
 
 @Data
@@ -23,20 +23,20 @@ public class TransferDTO {
     private Long personId;
 
     /**
-     * An ID of a {@link Team} from where the person is getting transferred.
+     * An ID of a {@link Club} from where the person is getting transferred.
      * null if free transfer
      */
     @NotNull(message = "clubFromId cannot be null")
     private Long clubFromId;
     /**
-     * An ID of a {@link Team} to which the person is getting transferred.
+     * An ID of a {@link Club} to which the person is getting transferred.
      * null if club release
      */
     @NotNull(message = "clubToId cannot be null")
     private Long clubToId;
 
     /**
-     * The transfer fee paid by buying team in dollars.
+     * The transfer fee paid by buying club in dollars.
      */
     @NotNull(message = "transferFee cannot be null")
     private Long transferFee;

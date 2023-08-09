@@ -4,10 +4,10 @@ package com.footsim.service.impl;
 import com.footsim.domain.dto.SeasonStatDTO;
 import com.footsim.domain.model.Match;
 import com.footsim.domain.model.SeasonStat;
-import com.footsim.domain.model.Team;
+import com.footsim.domain.model.Club;
 import com.footsim.mapper.SeasonStatMapper;
 import com.footsim.repository.SeasonStatRepository;
-import com.footsim.repository.TeamRepository;
+import com.footsim.repository.ClubRepository;
 import com.footsim.service.SeasonStatService;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
@@ -32,7 +32,7 @@ public class SeasonStatServiceImpl implements SeasonStatService {
 
     private final Logger log = LoggerFactory.getLogger(SeasonStatServiceImpl.class);
     private final SeasonStatRepository seasonRepository;
-    private final TeamRepository teamRepository;
+    private final ClubRepository clubRepository;
     private final SeasonStatMapper seasonMapper;
 
     @Override
@@ -89,9 +89,9 @@ public class SeasonStatServiceImpl implements SeasonStatService {
     public ResponseEntity<?> initializeSeason(Long seasonId) {
         log.debug("Request to initialize Season : {}", seasonId);
         if (seasonRepository.countAllBySeasonId(seasonId) == 0L) {
-            List<Team> seasonTeams = teamRepository.findAllByLeagueId(seasonId);
-            for (Team team : seasonTeams) {
-                SeasonStat season = new SeasonStat(0L, seasonId, team.getId(),
+            List<Club> seasonClubs = clubRepository.findAllByLeagueId(seasonId);
+            for (Club club : seasonClubs) {
+                SeasonStat season = new SeasonStat(0L, seasonId, club.getId(),
                         0L, 0L, 0L, 0L, 0L, 0L);
                 seasonRepository.save(season);
             }//todo: exception
@@ -103,41 +103,41 @@ public class SeasonStatServiceImpl implements SeasonStatService {
     @Override
     public void addPoints(long homeGoalsTotal, long awayGoalsTotal, Match match) {
         log.debug("Request to add points according to Match: {}", match.getId());
-        Long leagueId = teamRepository.findById(match.getHomeTeamId()).
+        Long leagueId = clubRepository.findById(match.getHomeClubId()).
                 orElseThrow().getLeagueId();
-        SeasonStat homeTeamSeason = seasonRepository.findBySeasonIdAndTeamId(
-                leagueId, match.getHomeTeamId()).orElseThrow();
-        SeasonStat awayTeamSeason = seasonRepository.findBySeasonIdAndTeamId(
-                leagueId, match.getAwayTeamId()).orElseThrow();
+        SeasonStat homeClubSeason = seasonRepository.findBySeasonIdAndClubId(
+                leagueId, match.getHomeClubId()).orElseThrow();
+        SeasonStat awayClubSeason = seasonRepository.findBySeasonIdAndClubId(
+                leagueId, match.getAwayClubId()).orElseThrow();
 
         if (homeGoalsTotal > awayGoalsTotal) {
 
-            homeTeamSeason.setPoints(homeTeamSeason.getPoints() + 3);
+            homeClubSeason.setPoints(homeClubSeason.getPoints() + 3);
 
-            homeTeamSeason.setWins(homeTeamSeason.getWins()+1);
-            awayTeamSeason.setDefeats(awayTeamSeason.getDefeats()+1);
+            homeClubSeason.setWins(homeClubSeason.getWins()+1);
+            awayClubSeason.setDefeats(awayClubSeason.getDefeats()+1);
 
         } else if (homeGoalsTotal < awayGoalsTotal) {
 
-            awayTeamSeason.setPoints(awayTeamSeason.getPoints() + 3);
+            awayClubSeason.setPoints(awayClubSeason.getPoints() + 3);
 
-            awayTeamSeason.setWins(awayTeamSeason.getWins()+1);
-            homeTeamSeason.setDefeats(homeTeamSeason.getDefeats()+1);
+            awayClubSeason.setWins(awayClubSeason.getWins()+1);
+            homeClubSeason.setDefeats(homeClubSeason.getDefeats()+1);
         } else {
 
-            homeTeamSeason.setPoints(homeTeamSeason.getPoints() + 1);
-            awayTeamSeason.setPoints(awayTeamSeason.getPoints() + 1);
+            homeClubSeason.setPoints(homeClubSeason.getPoints() + 1);
+            awayClubSeason.setPoints(awayClubSeason.getPoints() + 1);
 
-            homeTeamSeason.setWins(homeTeamSeason.getDraws()+1);
-            awayTeamSeason.setDefeats(awayTeamSeason.getDraws()+1);
+            homeClubSeason.setWins(homeClubSeason.getDraws()+1);
+            awayClubSeason.setDefeats(awayClubSeason.getDraws()+1);
         }
 
-        homeTeamSeason.setGoalsScored(homeTeamSeason.getGoalsScored()+homeGoalsTotal);
-        homeTeamSeason.setGoalsConceded(homeTeamSeason.getGoalsConceded()+awayGoalsTotal);
-        awayTeamSeason.setGoalsScored(awayTeamSeason.getGoalsScored()+awayGoalsTotal);
-        awayTeamSeason.setGoalsConceded(awayTeamSeason.getGoalsConceded()+homeGoalsTotal);
+        homeClubSeason.setGoalsScored(homeClubSeason.getGoalsScored()+homeGoalsTotal);
+        homeClubSeason.setGoalsConceded(homeClubSeason.getGoalsConceded()+awayGoalsTotal);
+        awayClubSeason.setGoalsScored(awayClubSeason.getGoalsScored()+awayGoalsTotal);
+        awayClubSeason.setGoalsConceded(awayClubSeason.getGoalsConceded()+homeGoalsTotal);
 
-        seasonRepository.save(homeTeamSeason);
-        seasonRepository.save(awayTeamSeason);
+        seasonRepository.save(homeClubSeason);
+        seasonRepository.save(awayClubSeason);
     }
 }

@@ -3,6 +3,7 @@ package com.footsim.service;
 
 import com.footsim.domain.dto.CoachDTO;
 import com.footsim.domain.dto.TransferDTO;
+import com.footsim.domain.model.Club;
 import com.footsim.domain.model.Coach;
 import com.footsim.domain.model.Player;
 import org.springframework.stereotype.Service;
@@ -67,7 +68,7 @@ public interface CoachService {
 
 
     /**
-     * Perform coach's transfer from one team from another
+     * Perform coach's transfer from one {@link Club} from another
      * @param transfer DTO for transfer operation
      * @return DTO of transferred {@link Coach}
      */

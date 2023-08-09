@@ -96,14 +96,13 @@ public class PlayerServiceImpl implements PlayerService {
         );
             player.setStatus(status);
         return playerMapper.toDto(player);
-
     }
 
     @Override
     public PlayerDTO transferPlayer(TransferDTO transfer) {
         Player transferredPlayer = playerRepository.
-                findById(transfer.getPlayerId()).orElseThrow(
-                        () -> new EntityNotFoundException("Player not found with id:" + transfer.getPlayerId()));
+                findById(transfer.getPersonId()).orElseThrow(
+                        () -> new EntityNotFoundException("Player not found with id:" + transfer.getPersonId()));
         Team fromTeam = teamRepository.
                 findById(transfer.getClubFromId()).orElseThrow(
                         () -> new EntityNotFoundException("Team not found with id:" + transfer.getClubFromId()));
@@ -117,5 +116,15 @@ public class PlayerServiceImpl implements PlayerService {
         teamRepository.save(toTeam);
         teamRepository.save(fromTeam);
         return playerMapper.toDto(transferredPlayer);
+    }
+
+    @Override
+    public PlayerDTO releasePlayer(PlayerDTO playerDTO) {
+        Player player = playerRepository.findById(playerDTO.getId()).orElseThrow(
+                () -> new EntityNotFoundException("Player not found with id:" + playerDTO.getId())
+        );
+        player.setClubId(null);
+        playerRepository.save(player);
+        return playerMapper.toDto(player);
     }
 }

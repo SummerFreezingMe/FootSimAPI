@@ -38,7 +38,7 @@ public class Team implements Serializable {
 
     @Column(name = "rating")
     @NonNull
-    private Long rating;
+    private Integer rating;
 
     @Column(name = "stadium")
     private String stadium;

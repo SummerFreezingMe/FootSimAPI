@@ -91,6 +91,7 @@ public class MatchServiceImpl implements MatchService {
 
     @Override
     public MatchDTO simulateMatch(Long id) {
+        log.debug("Request to simulate Match: {}", id);
         var homeGoalsTotal = 0L;
         var awayGoalsTotal = 0L;
 

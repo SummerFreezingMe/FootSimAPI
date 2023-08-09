@@ -100,6 +100,7 @@ public class PlayerServiceImpl implements PlayerService {
 
     @Override
     public PlayerDTO transferPlayer(TransferDTO transfer) {
+        log.debug("Request to transfer Player: {}", transfer.getPersonId());
         Player transferredPlayer = playerRepository.
                 findById(transfer.getPersonId()).orElseThrow(
                         () -> new EntityNotFoundException("Player not found with id:" + transfer.getPersonId()));
@@ -120,6 +121,7 @@ public class PlayerServiceImpl implements PlayerService {
 
     @Override
     public PlayerDTO releasePlayer(PlayerDTO playerDTO) {
+        log.debug("Request to release Player : {}", playerDTO.getId());
         Player player = playerRepository.findById(playerDTO.getId()).orElseThrow(
                 () -> new EntityNotFoundException("Player not found with id:" + playerDTO.getId())
         );

@@ -96,6 +96,7 @@ public class GoalServiceImpl implements GoalService {
 
     @Override
     public void generateGoal(List<Player> roster, Long id, short minute, GoalType goalType) {
+        log.debug("Request to generate new Goal in Match : {}", id);
         Long scorerId = roster.get(r.nextInt(11)).getId();
         Long assistantId = null;
         if (goalType == GoalType.DEFAULT) {
@@ -111,11 +112,13 @@ public class GoalServiceImpl implements GoalService {
 
     @Override
     public List<TopActionsDTO> displayTopScorers(Long seasonId) {
+        log.debug("Request to display top scorers in a Season: {}", seasonId);
         return goalRepository.findTopScorers(seasonId);
     }
 
     @Override
     public List<TopActionsDTO> displayTopAssistants(Long seasonId) {
+        log.debug("Request to display top assistants in a Season: {}", seasonId);
         return goalRepository.findTopAssistants(seasonId);
     }
 }

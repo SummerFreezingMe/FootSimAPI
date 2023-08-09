@@ -112,6 +112,7 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     public boolean isRosterViable(Team team) {
+        log.debug("Request to check for roster viability Team : {}", team.getId());
         return playerRepository.countPlayerByClubIdAndPositionAndStatus(
                 team.getId(), PlayerPosition.GOALKEEPER, PlayerStatus.ROSTER) == 1 &&
                 playerRepository.countPlayerByClubIdAndStatus(team.getId(),

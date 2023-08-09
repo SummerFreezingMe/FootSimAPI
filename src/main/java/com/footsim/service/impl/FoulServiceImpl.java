@@ -15,10 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -99,9 +96,10 @@ public class FoulServiceImpl implements FoulService {
 
     @Override
     public void generateFoul(List<Player> roster, Long matchId, short minute) {
+        log.debug("Request to generate new Foul in a Match : {}", matchId);
         Player player = roster.get(r.nextInt(11));
         Foul foul = new Foul(0L, matchId, player.getId(),
-                minute, FoulType.getType(Math.random()));
+                minute, Objects.requireNonNull(FoulType.getType(Math.random())));
         foulRepository.save(foul);
         if (checkForSendOffs(matchId, foul)) {
             player.setStatus(PlayerStatus.SENT_OFF);
@@ -112,6 +110,7 @@ public class FoulServiceImpl implements FoulService {
     }
 
     private boolean checkForSendOffs(Long matchId, Foul foul) {
+        log.debug("Request to check for send-offs after the Foul : {}", foul.getId());
         if (foul.getType().equals(FoulType.RED_CARD)) {
             return true;
         } else if (foul.getType().equals(FoulType.YELLOW_CARD)) {

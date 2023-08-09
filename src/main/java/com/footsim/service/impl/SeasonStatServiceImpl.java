@@ -87,6 +87,7 @@ public class SeasonStatServiceImpl implements SeasonStatService {
 
     @Override
     public ResponseEntity<?> initializeSeason(Long seasonId) {
+        log.debug("Request to initialize Season : {}", seasonId);
         if (seasonRepository.countAllBySeasonId(seasonId) == 0L) {
             List<Team> seasonTeams = teamRepository.findAllByLeagueId(seasonId);
             for (Team team : seasonTeams) {
@@ -101,6 +102,7 @@ public class SeasonStatServiceImpl implements SeasonStatService {
 
     @Override
     public void addPoints(long homeGoalsTotal, long awayGoalsTotal, Match match) {
+        log.debug("Request to add points according to Match: {}", match.getId());
         Long leagueId = teamRepository.findById(match.getHomeTeamId()).
                 orElseThrow().getLeagueId();
         SeasonStat homeTeamSeason = seasonRepository.findBySeasonIdAndTeamId(

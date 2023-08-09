@@ -96,6 +96,7 @@ public class CoachServiceImpl implements CoachService {
 
     @Override
     public CoachDTO transferCoach(TransferDTO transfer) {
+        log.debug("Request to transfer Coach : {}", transfer.getPersonId());
         Coach transferredCoach = coachRepository.
                 findById(transfer.getPersonId()).orElseThrow(
                         () -> new EntityNotFoundException("Coach not found with id:" + transfer.getPersonId()));
@@ -116,6 +117,7 @@ public class CoachServiceImpl implements CoachService {
 
     @Override
     public CoachDTO retireToCoaching(Player player) {
+        log.debug("Request to retire Player to Coaching : {}", player.getId());
         Coach newCoach = new Coach();
         newCoach.setName(player.getName());
         newCoach.setRating(r.nextInt(200));
@@ -126,6 +128,7 @@ public class CoachServiceImpl implements CoachService {
 
     @Override
     public CoachDTO releaseCoach(CoachDTO coachDTO) {
+        log.debug("Request to release Coach : {}", coachDTO.getId());
         Coach coach = coachRepository.findById(coachDTO.getId()).orElseThrow(
                 () -> new EntityNotFoundException("Coach not found with id:" + coachDTO.getId())
         );

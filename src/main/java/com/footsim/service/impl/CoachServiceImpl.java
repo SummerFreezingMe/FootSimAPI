@@ -11,7 +11,6 @@ import com.footsim.repository.PlayerRepository;
 import com.footsim.repository.ClubRepository;
 import com.footsim.service.CoachService;
 import jakarta.persistence.EntityNotFoundException;
-import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -28,7 +27,6 @@ import java.util.stream.Collectors;
  */
 @Service
 @Transactional
-@AllArgsConstructor
 public class CoachServiceImpl implements CoachService {
 
     private final Logger log = LoggerFactory.getLogger(CoachServiceImpl.class);
@@ -38,7 +36,14 @@ public class CoachServiceImpl implements CoachService {
     private final ClubRepository clubRepository;
     private final CoachMapper coachMapper;
 
-    Random r;
+    Random r = new Random();
+
+    public CoachServiceImpl(CoachRepository coachRepository, PlayerRepository playerRepository, ClubRepository clubRepository, CoachMapper coachMapper) {
+        this.coachRepository = coachRepository;
+        this.playerRepository = playerRepository;
+        this.clubRepository = clubRepository;
+        this.coachMapper = coachMapper;
+    }
 
     @Override
     public CoachDTO save(CoachDTO coachDTO) {

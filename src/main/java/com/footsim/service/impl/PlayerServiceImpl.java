@@ -95,6 +95,7 @@ public class PlayerServiceImpl implements PlayerService {
                 () -> new EntityNotFoundException("Player not found with id:" + id)
         );
             player.setStatus(status);
+            playerRepository.save(player);
         return playerMapper.toDto(player);
     }
 

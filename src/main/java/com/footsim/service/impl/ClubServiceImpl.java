@@ -3,13 +3,13 @@ package com.footsim.service.impl;
 import com.footsim.domain.dto.ClubDTO;
 import com.footsim.domain.enumeration.PlayerPosition;
 import com.footsim.domain.enumeration.PlayerStatus;
+import com.footsim.domain.model.Club;
 import com.footsim.domain.model.Coach;
 import com.footsim.domain.model.Player;
-import com.footsim.domain.model.Club;
 import com.footsim.mapper.ClubMapper;
+import com.footsim.repository.ClubRepository;
 import com.footsim.repository.CoachRepository;
 import com.footsim.repository.PlayerRepository;
-import com.footsim.repository.ClubRepository;
 import com.footsim.service.ClubService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
@@ -98,12 +98,12 @@ public class ClubServiceImpl implements ClubService {
                 () -> new EntityNotFoundException("Club not found with id:" + id));
         List<Player> clubPlayers = playerRepository.findByClubId(id);
         Coach coach = coachRepository.findByClubId(id);
-        int newClubRating = coach.getRating()*2;
-        for (Player p : clubPlayers) {
-            if (p.getStatus() == PlayerStatus.ROSTER) {
-                newClubRating += p.getRating();
-            }
-        }
+
+        int newClubRating = coach.getRating() * 2 + clubPlayers.stream()
+                .filter(p -> p.getStatus() == PlayerStatus.ROSTER)
+                .mapToInt(Player::getRating)
+                .sum();
+
         club.setRating(newClubRating);
         clubRepository.save(club);
         return clubMapper.toDto(club);

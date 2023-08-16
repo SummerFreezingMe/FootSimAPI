@@ -7,9 +7,9 @@ import com.footsim.domain.enumeration.PlayerStatus;
 import com.footsim.domain.model.Match;
 import com.footsim.domain.model.Player;
 import com.footsim.mapper.MatchMapper;
+import com.footsim.repository.ClubRepository;
 import com.footsim.repository.MatchRepository;
 import com.footsim.repository.PlayerRepository;
-import com.footsim.repository.ClubRepository;
 import com.footsim.service.MatchService;
 import com.footsim.service.exceptions.RosterUnavailableException;
 import jakarta.persistence.EntityNotFoundException;
@@ -95,6 +95,9 @@ public class MatchServiceImpl implements MatchService {
         var homeGoalsTotal = 0L;
         var awayGoalsTotal = 0L;
 
+
+        var homeTeamOutnumbering = 1.0;
+
         var match = matchRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Match not found with id:" + id));
         var homeClub = clubRepository.findById(match.getHomeClubId()).orElseThrow(
@@ -114,8 +117,10 @@ public class MatchServiceImpl implements MatchService {
                 var additionalMinutes = 0;
                 for (short minute = time; minute < Constants.TIME_LENGTH + time + additionalMinutes; minute++) {
 
-                    long homeGoalsAtMinute = Math.round(Math.random() * matchCoefficient * Constants.GOAL_CHANCE_MULTIPLIER);
-                    long awayGoalsAtMinute = Math.round(Math.random() / matchCoefficient * Constants.GOAL_CHANCE_MULTIPLIER);
+                    long homeGoalsAtMinute = Math.round(Math.random() * matchCoefficient * Constants.GOAL_CHANCE_MULTIPLIER *
+                            homeTeamOutnumbering);
+                    long awayGoalsAtMinute = Math.round(Math.random() / matchCoefficient * Constants.GOAL_CHANCE_MULTIPLIER /
+                            homeTeamOutnumbering);
                     long homeFoulsAtMinute = Math.round(Math.random() * matchCoefficient * Constants.FOUL_CHANCE_MULTIPLIER);
                     long awayFoulsAtMinute = Math.round(Math.random() / matchCoefficient * Constants.FOUL_CHANCE_MULTIPLIER);
 
@@ -143,10 +148,12 @@ public class MatchServiceImpl implements MatchService {
                     }
                     if (homeFoulsAtMinute > 0) {
                         foulService.generateFoul(homeRoster, id, minute);
+                        homeTeamOutnumbering = (homeRoster.size() + 100d) / (awayRoster.size() + 100d);
                         additionalMinutes += 0.25;
                     }
                     if (awayFoulsAtMinute > 0) {
                         foulService.generateFoul(awayRoster, id, minute);
+                        homeTeamOutnumbering = (homeRoster.size() + 100d) / (awayRoster.size() + 100d);
                         additionalMinutes++;
                     }
                 }
@@ -154,7 +161,7 @@ public class MatchServiceImpl implements MatchService {
 
             match.setHomeGoals(homeGoalsTotal);
             match.setAwayGoals(awayGoalsTotal);
-            seasonService.addPoints(homeGoalsTotal,awayGoalsTotal,match);
+            seasonService.addPoints(homeGoalsTotal, awayGoalsTotal, match);
 
             foulsDiscard(homeRoster);
             foulsDiscard(awayRoster);

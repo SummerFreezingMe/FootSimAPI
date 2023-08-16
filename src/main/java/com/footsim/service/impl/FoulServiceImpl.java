@@ -103,6 +103,7 @@ public class FoulServiceImpl implements FoulService {
         foulRepository.save(foul);
         if (checkForSendOffs(matchId, foul)) {
             player.setStatus(PlayerStatus.SENT_OFF);
+            roster.remove(player);
         }
         if (Math.random() > 0.95) {
             goalService.generateGoal(roster, matchId, minute, GoalType.PENALTY);

@@ -154,7 +154,7 @@ public class MatchServiceImpl implements MatchService {
                     if (awayFoulsAtMinute > 0) {
                         foulService.generateFoul(awayRoster, id, minute);
                         homeTeamOutnumbering = (homeRoster.size() + 100d) / (awayRoster.size() + 100d);
-                        additionalMinutes++;
+                        additionalMinutes+= 0.25;
                     }
                 }
             }

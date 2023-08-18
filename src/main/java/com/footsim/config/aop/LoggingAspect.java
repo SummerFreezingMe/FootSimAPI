@@ -3,9 +3,11 @@ package com.footsim.config.aop;
 import org.apache.commons.lang3.time.StopWatch;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
 
@@ -31,5 +33,15 @@ public class LoggingAspect {
                 + ":: " + stopWatch.getTime() + " ms");
 
         return result;
+    }
+
+    @Before("execution(* com.footsim.service..*(..)))")
+    public void logMethodEnter(JoinPoint joinPoint) {
+        MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
+        LOGGER.debug("Request execution of method"
+                + methodSignature.getDeclaringType().getSimpleName()
+                + "." + methodSignature.getName() + " "
+                +" with args: "+ Arrays.toString(joinPoint.getArgs())
+        );
     }
 }

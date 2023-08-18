@@ -2,17 +2,15 @@ package com.footsim.service.impl;
 
 import com.footsim.domain.dto.CoachDTO;
 import com.footsim.domain.dto.TransferDTO;
+import com.footsim.domain.model.Club;
 import com.footsim.domain.model.Coach;
 import com.footsim.domain.model.Player;
-import com.footsim.domain.model.Club;
 import com.footsim.mapper.CoachMapper;
+import com.footsim.repository.ClubRepository;
 import com.footsim.repository.CoachRepository;
 import com.footsim.repository.PlayerRepository;
-import com.footsim.repository.ClubRepository;
 import com.footsim.service.CoachService;
 import jakarta.persistence.EntityNotFoundException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,7 +27,6 @@ import java.util.stream.Collectors;
 @Transactional
 public class CoachServiceImpl implements CoachService {
 
-    private final Logger log = LoggerFactory.getLogger(CoachServiceImpl.class);
     private final CoachRepository coachRepository;
 
     private final PlayerRepository playerRepository;
@@ -47,7 +44,6 @@ public class CoachServiceImpl implements CoachService {
 
     @Override
     public CoachDTO save(CoachDTO coachDTO) {
-        log.debug("Request to save Coach : {}", coachDTO);
         Coach coach = coachMapper.toEntity(coachDTO);
         coach = coachRepository.save(coach);
         return coachMapper.toDto(coach);
@@ -55,7 +51,6 @@ public class CoachServiceImpl implements CoachService {
 
     @Override
     public CoachDTO update(CoachDTO coachDTO) {
-        log.debug("Request to update Coach : {}", coachDTO);
         Coach coach = coachMapper.toEntity(coachDTO);
         coach = coachRepository.save(coach);
         return coachMapper.toDto(coach);
@@ -63,8 +58,6 @@ public class CoachServiceImpl implements CoachService {
 
     @Override
     public Optional<CoachDTO> partialUpdate(CoachDTO coachDTO) {
-        log.debug("Request to partially update Coach : {}", coachDTO);
-
         return coachRepository
                 .findById(coachDTO.getId())
                 .map(existingCoach -> {
@@ -79,14 +72,12 @@ public class CoachServiceImpl implements CoachService {
     @Override
     @Transactional(readOnly = true)
     public List<CoachDTO> findAll() {
-        log.debug("Request to get all Coaches");
         return coachRepository.findAll().stream().map(coachMapper::toDto).collect(Collectors.toCollection(LinkedList::new));
     }
 
     @Override
     @Transactional(readOnly = true)
     public CoachDTO findOne(Long id) {
-        log.debug("Request to get Coach : {}", id);
         Coach coach = coachRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Coach not found with id:" + id)
         );
@@ -95,13 +86,11 @@ public class CoachServiceImpl implements CoachService {
 
     @Override
     public void delete(Long id) {
-        log.debug("Request to delete Coach : {}", id);
         coachRepository.deleteById(id);
     }
 
     @Override
     public CoachDTO transferCoach(TransferDTO transfer) {
-        log.debug("Request to transfer Coach : {}", transfer.getPersonId());
         Coach transferredCoach = coachRepository.
                 findById(transfer.getPersonId()).orElseThrow(
                         () -> new EntityNotFoundException("Coach not found with id:" + transfer.getPersonId()));
@@ -122,7 +111,6 @@ public class CoachServiceImpl implements CoachService {
 
     @Override
     public CoachDTO retireToCoaching(Player player) {
-        log.debug("Request to retire Player to Coaching : {}", player.getId());
         Coach newCoach = new Coach();
         newCoach.setName(player.getName());
         newCoach.setRating(r.nextInt(200));
@@ -133,7 +121,6 @@ public class CoachServiceImpl implements CoachService {
 
     @Override
     public CoachDTO releaseCoach(CoachDTO coachDTO) {
-        log.debug("Request to release Coach : {}", coachDTO.getId());
         Coach coach = coachRepository.findById(coachDTO.getId()).orElseThrow(
                 () -> new EntityNotFoundException("Coach not found with id:" + coachDTO.getId())
         );

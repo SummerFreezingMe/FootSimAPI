@@ -2,16 +2,14 @@ package com.footsim.service.impl;
 
 
 import com.footsim.domain.dto.SeasonStatDTO;
+import com.footsim.domain.model.Club;
 import com.footsim.domain.model.Match;
 import com.footsim.domain.model.SeasonStat;
-import com.footsim.domain.model.Club;
 import com.footsim.mapper.SeasonStatMapper;
-import com.footsim.repository.SeasonStatRepository;
 import com.footsim.repository.ClubRepository;
+import com.footsim.repository.SeasonStatRepository;
 import com.footsim.service.SeasonStatService;
 import lombok.AllArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -30,14 +28,12 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class SeasonStatServiceImpl implements SeasonStatService {
 
-    private final Logger log = LoggerFactory.getLogger(SeasonStatServiceImpl.class);
     private final SeasonStatRepository seasonRepository;
     private final ClubRepository clubRepository;
     private final SeasonStatMapper seasonMapper;
 
     @Override
     public SeasonStatDTO save(SeasonStatDTO seasonDTO) {
-        log.debug("Request to save Season : {}", seasonDTO);
         SeasonStat season = seasonMapper.toEntity(seasonDTO);
         season = seasonRepository.save(season);
         return seasonMapper.toDto(season);
@@ -45,7 +41,6 @@ public class SeasonStatServiceImpl implements SeasonStatService {
 
     @Override
     public SeasonStatDTO update(SeasonStatDTO seasonDTO) {
-        log.debug("Request to update Season : {}", seasonDTO);
         SeasonStat season = seasonMapper.toEntity(seasonDTO);
         season = seasonRepository.save(season);
         return seasonMapper.toDto(season);
@@ -53,7 +48,6 @@ public class SeasonStatServiceImpl implements SeasonStatService {
 
     @Override
     public Optional<SeasonStatDTO> partialUpdate(SeasonStatDTO seasonDTO) {
-        log.debug("Request to partially update Season : {}", seasonDTO);
         return seasonRepository
                 .findById(seasonDTO.getId())
                 .map(existingSeason -> {
@@ -68,26 +62,24 @@ public class SeasonStatServiceImpl implements SeasonStatService {
     @Override
     @Transactional(readOnly = true)
     public List<SeasonStatDTO> findAll() {
-        log.debug("Request to get all Seasons");
-        return seasonRepository.findAll().stream().map(seasonMapper::toDto).collect(Collectors.toCollection(LinkedList::new));
+        return seasonRepository.findAll().stream()
+                .map(seasonMapper::toDto)
+                .collect(Collectors.toCollection(LinkedList::new));
     }
 
     @Override
     @Transactional(readOnly = true)
     public SeasonStatDTO findOne(Long id) {
-        log.debug("Request to get Season : {}", id);
         return seasonRepository.findById(id).map(seasonMapper::toDto).orElse(null);
     }
 
     @Override
     public void delete(Long id) {
-        log.debug("Request to delete Season : {}", id);
         seasonRepository.deleteById(id);
     }
 
     @Override
     public ResponseEntity<?> initializeSeason(Long seasonId) {
-        log.debug("Request to initialize Season : {}", seasonId);
         if (seasonRepository.countAllBySeasonId(seasonId) == 0L) {
             List<Club> seasonClubs = clubRepository.findAllByLeagueId(seasonId);
             for (Club club : seasonClubs) {
@@ -102,7 +94,6 @@ public class SeasonStatServiceImpl implements SeasonStatService {
 
     @Override
     public void addPoints(long homeGoalsTotal, long awayGoalsTotal, Match match) {
-        log.debug("Request to add points according to Match: {}", match.getId());
         Long leagueId = clubRepository.findById(match.getHomeClubId()).
                 orElseThrow().getLeagueId();
         SeasonStat homeClubSeason = seasonRepository.findBySeasonIdAndClubId(

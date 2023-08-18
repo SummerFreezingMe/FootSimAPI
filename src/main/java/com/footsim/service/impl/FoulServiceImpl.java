@@ -10,8 +10,6 @@ import com.footsim.mapper.FoulMapper;
 import com.footsim.repository.FoulRepository;
 import com.footsim.service.FoulService;
 import jakarta.persistence.EntityNotFoundException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,8 +22,6 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 public class FoulServiceImpl implements FoulService {
-
-    private final Logger log = LoggerFactory.getLogger(FoulServiceImpl.class);
 
     private final FoulRepository foulRepository;
     private final GoalServiceImpl goalService;
@@ -42,7 +38,6 @@ public class FoulServiceImpl implements FoulService {
 
     @Override
     public FoulDTO save(FoulDTO FoulDTO) {
-        log.debug("Request to save Foul : {}", FoulDTO);
         Foul foul = foulMapper.toEntity(FoulDTO);
         foul = foulRepository.save(foul);
         return foulMapper.toDto(foul);
@@ -51,7 +46,6 @@ public class FoulServiceImpl implements FoulService {
 
     @Override
     public FoulDTO update(FoulDTO FoulDTO) {
-        log.debug("Request to update Foul : {}", FoulDTO);
         Foul foul = foulMapper.toEntity(FoulDTO);
         foul = foulRepository.save(foul);
         return foulMapper.toDto(foul);
@@ -59,8 +53,6 @@ public class FoulServiceImpl implements FoulService {
 
     @Override
     public Optional<FoulDTO> partialUpdate(FoulDTO FoulDTO) {
-        log.debug("Request to partially update Foul : {}", FoulDTO);
-
         return foulRepository
                 .findById(FoulDTO.getId())
                 .map(existingFoul -> {
@@ -75,14 +67,12 @@ public class FoulServiceImpl implements FoulService {
     @Override
     @Transactional(readOnly = true)
     public List<FoulDTO> findAll() {
-        log.debug("Request to get all Fouls");
         return foulRepository.findAll().stream().map(foulMapper::toDto).collect(Collectors.toCollection(LinkedList::new));
     }
 
     @Override
     @Transactional(readOnly = true)
     public FoulDTO findOne(Long id) {
-        log.debug("Request to get Foul : {}", id);
         return foulRepository.findById(id).map(foulMapper::toDto).orElseThrow(
                 () -> new EntityNotFoundException("Foul not found with id:" + id)
         );
@@ -90,13 +80,11 @@ public class FoulServiceImpl implements FoulService {
 
     @Override
     public void delete(Long id) {
-        log.debug("Request to delete Foul : {}", id);
         foulRepository.deleteById(id);
     }
 
     @Override
     public void generateFoul(List<Player> roster, Long matchId, short minute) {
-        log.debug("Request to generate new Foul in a Match : {}", matchId);
         Player player = roster.get(r.nextInt(11));
         Foul foul = new Foul(0L, matchId, player.getId(),
                 minute, Objects.requireNonNull(FoulType.getType(Math.random())));
@@ -111,7 +99,6 @@ public class FoulServiceImpl implements FoulService {
     }
 
     private boolean checkForSendOffs(Long matchId, Foul foul) {
-        log.debug("Request to check for send-offs after the Foul : {}", foul.getId());
         if (foul.getType().equals(FoulType.RED_CARD)) {
             return true;
         } else if (foul.getType().equals(FoulType.YELLOW_CARD)) {

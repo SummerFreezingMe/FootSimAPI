@@ -3,16 +3,14 @@ package com.footsim.service.impl;
 import com.footsim.domain.dto.PlayerDTO;
 import com.footsim.domain.dto.TransferDTO;
 import com.footsim.domain.enumeration.PlayerStatus;
-import com.footsim.domain.model.Player;
 import com.footsim.domain.model.Club;
+import com.footsim.domain.model.Player;
 import com.footsim.mapper.PlayerMapper;
-import com.footsim.repository.PlayerRepository;
 import com.footsim.repository.ClubRepository;
+import com.footsim.repository.PlayerRepository;
 import com.footsim.service.PlayerService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,14 +27,12 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class PlayerServiceImpl implements PlayerService {
 
-    private final Logger log = LoggerFactory.getLogger(PlayerServiceImpl.class);
     private final PlayerRepository playerRepository;
     private final ClubRepository clubRepository;
     private final PlayerMapper playerMapper;
 
     @Override
     public PlayerDTO save(PlayerDTO playerDTO) {
-        log.debug("Request to save Player : {}", playerDTO);
         Player player = playerMapper.toEntity(playerDTO);
         player = playerRepository.save(player);
         return playerMapper.toDto(player);
@@ -44,7 +40,6 @@ public class PlayerServiceImpl implements PlayerService {
 
     @Override
     public PlayerDTO update(PlayerDTO playerDTO) {
-        log.debug("Request to update Player : {}", playerDTO);
         Player player = playerMapper.toEntity(playerDTO);
         player = playerRepository.save(player);
         return playerMapper.toDto(player);
@@ -52,8 +47,6 @@ public class PlayerServiceImpl implements PlayerService {
 
     @Override
     public Optional<PlayerDTO> partialUpdate(PlayerDTO playerDTO) {
-        log.debug("Request to partially update Player : {}", playerDTO);
-
         return playerRepository
                 .findById(playerDTO.getId())
                 .map(existingPlayer -> {
@@ -68,14 +61,12 @@ public class PlayerServiceImpl implements PlayerService {
     @Override
     @Transactional(readOnly = true)
     public List<PlayerDTO> findAll() {
-        log.debug("Request to get all Players");
         return playerRepository.findAll().stream().map(playerMapper::toDto).collect(Collectors.toCollection(LinkedList::new));
     }
 
     @Override
     @Transactional(readOnly = true)
     public PlayerDTO findOne(Long id) {
-        log.debug("Request to get Player : {}", id);
         Player player = playerRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Player not found with id:" + id)
         );
@@ -84,13 +75,11 @@ public class PlayerServiceImpl implements PlayerService {
 
     @Override
     public void delete(Long id) {
-        log.debug("Request to delete Player : {}", id);
         playerRepository.deleteById(id);
     }
 
     @Override
     public PlayerDTO switchStatus(Long id, PlayerStatus status) {
-        log.debug("Request to switch role of a Player : {}", id);
         Player player = playerRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Player not found with id:" + id)
         );
@@ -101,7 +90,6 @@ public class PlayerServiceImpl implements PlayerService {
 
     @Override
     public PlayerDTO transferPlayer(TransferDTO transfer) {
-        log.debug("Request to transfer Player: {}", transfer.getPersonId());
         Player transferredPlayer = playerRepository.
                 findById(transfer.getPersonId()).orElseThrow(
                         () -> new EntityNotFoundException("Player not found with id:" + transfer.getPersonId()));
@@ -122,7 +110,6 @@ public class PlayerServiceImpl implements PlayerService {
 
     @Override
     public PlayerDTO releasePlayer(PlayerDTO playerDTO) {
-        log.debug("Request to release Player : {}", playerDTO.getId());
         Player player = playerRepository.findById(playerDTO.getId()).orElseThrow(
                 () -> new EntityNotFoundException("Player not found with id:" + playerDTO.getId())
         );

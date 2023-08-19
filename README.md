@@ -16,10 +16,21 @@ _JUnit_ - Unit Testing </br>
 _SLF4j_ - Logging </br>
 #### Database: PostgreSQL
 
-##### Coming soon:
-AOP logging with AspectJ </br>
+### Coming soon:
 Full test coverage </br>
 Messaging </br>
+Security </br>
 
-##### Versions: 
-
+### Versions: 
+##### v 0.1.0
+* Project init
+* Simple CRUD
+* Simple match simulation
+* Player's transfers
+* Swagger
+##### v 0.2.0
+* Fouls
+* Match Events
+* Javadoc
+* Various fixes of bugs
+* Top scorers/assistants

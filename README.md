@@ -34,3 +34,9 @@ Security </br>
 * Javadoc
 * Various fixes of bugs
 * Top scorers/assistants
+##### v 0.3.0
+* Flyway migrations
+* Coaches
+* Code refactoring
+* AOP logging
+* Multiple tweaks/fixes

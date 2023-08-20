@@ -13,7 +13,7 @@ import java.util.Optional;
 @Repository
 public interface SeasonStatRepository extends JpaRepository<SeasonStat, Long> {
 
-    Optional<SeasonStat> findBySeasonIdAndTeamId(Long seasonId, Long teamId);
+    Optional<SeasonStat> findBySeasonIdAndClubId(Long seasonId, Long clubId);
 
     long countAllBySeasonId(Long seasonId);
 }

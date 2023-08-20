@@ -1,30 +1,29 @@
 package com.footsim.domain.dto;
 
 
-import com.footsim.domain.model.Team;
+import com.footsim.domain.model.Club;
 import com.google.common.base.Objects;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.validation.constraints.NotNull;
+import lombok.*;
 
 import java.io.Serializable;
 
 /**
- * A DTO for the {@link Team} entity.
+ * A DTO for the {@link Club} entity.
  */
 
 @SuppressWarnings("common-java:DuplicatedBlocks")
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
-public class TeamDTO implements Serializable {
+@Data
+public class ClubDTO implements Serializable {
+
+    @NotNull(message = "id cannot be null")
     private Long id;
 
+    @NotNull(message = "Name cannot be null")
     private String name;
 
-    private Long rating;
+    @NotNull(message = "rating cannot be null")
+    private Integer rating;
 
     private String stadium;
 
@@ -34,14 +33,18 @@ public class TeamDTO implements Serializable {
 
     private String image;
 
+    @NotNull(message = "balance cannot be null")
     private Long balance;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        TeamDTO teamDTO = (TeamDTO) o;
-        return Objects.equal(getId(), teamDTO.getId()) && Objects.equal(getName(), teamDTO.getName()) && Objects.equal(getRating(), teamDTO.getRating()) && Objects.equal(getStadium(), teamDTO.getStadium()) && Objects.equal(getDescription(), teamDTO.getDescription()) && Objects.equal(getLeagueId(), teamDTO.getLeagueId()) && Objects.equal(getBalance(), teamDTO.getBalance());
+        ClubDTO clubDTO = (ClubDTO) o;
+        return Objects.equal(getId(), clubDTO.getId()) && Objects.equal(getName(), clubDTO.getName()) &&
+                Objects.equal(getRating(), clubDTO.getRating()) && Objects.equal(getStadium(), clubDTO.getStadium()) &&
+                Objects.equal(getDescription(), clubDTO.getDescription()) &&
+                Objects.equal(getLeagueId(), clubDTO.getLeagueId()) && Objects.equal(getBalance(), clubDTO.getBalance());
     }
 
     @Override
@@ -51,7 +54,7 @@ public class TeamDTO implements Serializable {
 
     @Override
     public String toString() {
-        return "TeamDTO{" +
+        return "ClubDTO{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", rating='" + rating + '\'' +

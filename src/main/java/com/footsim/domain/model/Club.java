@@ -3,43 +3,43 @@ package com.footsim.domain.model;
 
 import com.google.common.base.Objects;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.NonNull;
+import org.hibernate.annotations.GenericGenerator;
 
 import java.io.Serial;
 import java.io.Serializable;
 
 /**
- * A Team.
+ * A Club.
  */
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
+@Data
 @Entity
-@Table(name = "team")
+@NoArgsConstructor
+@Table(name = "club")
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class Team implements Serializable {
+public class Club implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
 
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
-    @SequenceGenerator(name = "sequenceGenerator")
+    @GeneratedValue(generator="increment")
+    @GenericGenerator(name="increment", strategy = "increment")
     @Column(name = "id")
     private Long id;
 
 
     @Column(name = "name")
+    @NonNull
     private String name;
 
 
     @Column(name = "rating")
-    private Long rating;
+    @NonNull
+    private Integer rating;
 
     @Column(name = "stadium")
     private String stadium;
@@ -55,14 +55,18 @@ public class Team implements Serializable {
     private String image;
 
     @Column(name = "balance")
+    @NonNull
     private Long balance;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Team team = (Team) o;
-        return Objects.equal(getId(), team.getId()) && Objects.equal(getName(), team.getName()) && Objects.equal(getRating(), team.getRating()) && Objects.equal(getStadium(), team.getStadium()) && Objects.equal(getDescription(), team.getDescription()) && Objects.equal(getLeagueId(), team.getLeagueId()) && Objects.equal(getImage(), team.getImage()) && Objects.equal(getBalance(), team.getBalance());
+        Club club = (Club) o;
+        return Objects.equal(getId(), club.getId()) && Objects.equal(getName(), club.getName()) &&
+                Objects.equal(getRating(), club.getRating()) && Objects.equal(getStadium(), club.getStadium()) &&
+                Objects.equal(getDescription(), club.getDescription()) && Objects.equal(getLeagueId(), club.getLeagueId()) &&
+                Objects.equal(getImage(), club.getImage()) && Objects.equal(getBalance(), club.getBalance());
     }
 
     @Override
@@ -72,7 +76,7 @@ public class Team implements Serializable {
 
     @Override
     public String toString() {
-        return "Team{" +
+        return "Club{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", rating=" + rating +

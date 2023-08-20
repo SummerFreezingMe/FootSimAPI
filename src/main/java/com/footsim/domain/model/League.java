@@ -2,10 +2,8 @@ package com.footsim.domain.model;
 
 import com.google.common.base.Objects;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -13,11 +11,9 @@ import java.io.Serializable;
 /**
  * A League.
  */
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
+@Data
 @Entity
+@NoArgsConstructor
 @Table(name = "league")
 @SuppressWarnings("common-java:DuplicatedBlocks")
 public class League implements Serializable {
@@ -26,8 +22,8 @@ public class League implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
-    @SequenceGenerator(name = "sequenceGenerator")
+    @GeneratedValue(generator="increment")
+    @GenericGenerator(name="increment", strategy = "increment")
     @Column(name = "id")
     private Long id;
 
@@ -35,6 +31,7 @@ public class League implements Serializable {
     private Integer participants;
 
     @Column(name = "name")
+    @NonNull
     private String name;
 
 

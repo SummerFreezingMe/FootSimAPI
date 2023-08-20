@@ -6,7 +6,8 @@ import com.footsim.domain.model.Player;
  * A DTO for the top scorers and top assistants.
  */
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public interface TopActionsDTO {
+public interface TopActionsDTO
+{
 
     /**
      * Id of a {@link Player}

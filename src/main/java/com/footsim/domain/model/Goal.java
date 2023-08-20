@@ -4,41 +4,45 @@ import com.footsim.domain.enumeration.GoalType;
 import com.google.common.base.Objects;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.NonNull;
+import org.hibernate.annotations.GenericGenerator;
 
 /**
  * A Goal.
  */
-@Getter
-@Setter
+@Data
+@Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
 @Table(name = "goal")
 public class Goal {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
-    @SequenceGenerator(name = "sequenceGenerator")
+    @GeneratedValue(generator="increment")
+    @GenericGenerator(name="increment", strategy = "increment")
     @Column(name = "id")
     private Long id;
 
     @Column(name = "match_id")
+    @NonNull
     private Long matchId;
 
     @Column(name = "author_id")
+    @NonNull
     private Long authorId;
 
     @Column(name = "assist_id")
     private Long assistId;
 
     @Column(name = "minute")
+    @NonNull
     private Short minute;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "type")
+    @NonNull
     private GoalType type;
 
     @Override

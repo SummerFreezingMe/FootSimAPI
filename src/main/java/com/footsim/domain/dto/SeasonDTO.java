@@ -2,25 +2,24 @@ package com.footsim.domain.dto;
 
 import com.footsim.domain.model.Season;
 import com.google.common.base.Objects;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.validation.constraints.NotNull;
+import lombok.*;
 
 /**
  * A DTO for the {@link Season} entity.
  */
 
 @SuppressWarnings("common-java:DuplicatedBlocks")
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
+@Data
 public class SeasonDTO {
+
+    @NotNull(message = "id cannot be null")
     private Long id;
 
+    @NotNull(message = "leagueId cannot be null")
     private Long leagueId;
 
+    @NotNull(message = "year cannot be null")
     private String year;
 
     @Override

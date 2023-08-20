@@ -7,19 +7,19 @@ import com.footsim.domain.enumeration.PlayerStatus;
 import com.footsim.service.impl.PlayerServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@CrossOrigin
+@AllArgsConstructor
 @Tag(name = "Игроки", description = "Методы, взаимодействующие с игроками")
 @RequestMapping("/players")
 public class PlayerController {
     private final PlayerServiceImpl playerService;
 
-    public PlayerController(PlayerServiceImpl psi) {
-        this.playerService = psi;
-    }
 
     @PutMapping(value = "/update/{id}")
     @Operation(summary = "Изменяем существующих игроков")
@@ -62,6 +62,12 @@ public class PlayerController {
     @Operation(summary = "Проводим трансфер игрока")
     public PlayerDTO transferPlayer(@RequestBody TransferDTO transfer) {
         return playerService.transferPlayer(transfer);
+    }
+
+    @PostMapping(value = "/release")
+    @Operation(summary = "Отпускаем игрока из команды")
+    public PlayerDTO releasePlayer(@RequestBody PlayerDTO player) {
+        return playerService.releasePlayer(player);
     }
 }
 

@@ -6,8 +6,7 @@ import com.footsim.mapper.LeagueMapper;
 import com.footsim.repository.LeagueRepository;
 import com.footsim.service.LeagueService;
 import jakarta.persistence.EntityNotFoundException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,23 +20,14 @@ import java.util.stream.Collectors;
  */
 @Service
 @Transactional
+@AllArgsConstructor
 public class LeagueServiceImpl implements LeagueService {
 
-    private final Logger log = LoggerFactory.getLogger(LeagueServiceImpl.class);
-
     private final LeagueRepository leagueRepository;
-
     private final LeagueMapper leagueMapper;
-
-    public LeagueServiceImpl(LeagueRepository leagueRepository, LeagueMapper leagueMapper) {
-        this.leagueRepository = leagueRepository;
-        this.leagueMapper = leagueMapper;
-    }
-
 
     @Override
     public LeagueDTO save(LeagueDTO LeagueDTO) {
-        log.debug("Request to save League : {}", LeagueDTO);
         League league = leagueMapper.toEntity(LeagueDTO);
         league = leagueRepository.save(league);
         return leagueMapper.toDto(league);
@@ -45,7 +35,6 @@ public class LeagueServiceImpl implements LeagueService {
 
     @Override
     public LeagueDTO update(LeagueDTO leagueDTO) {
-        log.debug("Request to update League : {}", leagueDTO);
         League league = leagueMapper.toEntity(leagueDTO);
         league = leagueRepository.save(league);
         return leagueMapper.toDto(league);
@@ -53,8 +42,6 @@ public class LeagueServiceImpl implements LeagueService {
 
     @Override
     public Optional<LeagueDTO> partialUpdate(LeagueDTO LeagueDTO) {
-        log.debug("Request to partially update Goal : {}", LeagueDTO);
-
         return leagueRepository
                 .findById(LeagueDTO.getId())
                 .map(existingGoal -> {
@@ -69,14 +56,12 @@ public class LeagueServiceImpl implements LeagueService {
 
     @Override
     public List<LeagueDTO> findAll() {
-        log.debug("Request to get all Goals");
         return leagueRepository.findAll().stream().map(leagueMapper::toDto).collect(Collectors.toCollection(LinkedList::new));
 
     }
 
     @Override
     public LeagueDTO findOne(Long id) {
-        log.debug("Request to get League : {}", id);
         return leagueRepository.findById(id).map(leagueMapper::toDto).orElseThrow(
                 () -> new EntityNotFoundException("League not found with id:" + id)
         );
@@ -84,7 +69,6 @@ public class LeagueServiceImpl implements LeagueService {
 
     @Override
     public void delete(Long id) {
-        log.debug("Request to delete League : {}", id);
         leagueRepository.deleteById(id);
     }
 

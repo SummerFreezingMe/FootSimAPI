@@ -1,23 +1,20 @@
 package com.footsim.domain.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.validation.constraints.NotNull;
+import lombok.Data;
 
 /**
  * A DTO for the Response.
  */
 
 @SuppressWarnings("common-java:DuplicatedBlocks")
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
+@Data
 public class ResponseDTO {
 
+    @NotNull(message = "id cannot be null")
     private int statusCode;
 
+    @NotNull(message = "message cannot be null")
     private String message;
 
 }

@@ -1,23 +1,25 @@
 package com.footsim.domain.model;
 
-
-import com.footsim.domain.enumeration.PlayerPosition;
-import com.footsim.domain.enumeration.PlayerStatus;
 import com.google.common.base.Objects;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
 import org.hibernate.annotations.GenericGenerator;
 
+import java.io.Serial;
+import java.io.Serializable;
 
 /**
- * A Player.
+ * A Coach.
  */
-
 @Data
-@NoArgsConstructor
 @Entity
-@Table(name = "player")
-public class Player {
+@NoArgsConstructor
+@Table(name = "coach")
+public class Coach  implements Serializable {
+
+    @Serial
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -37,22 +39,13 @@ public class Player {
     @NonNull
     private String name;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "position")
-    @NonNull
-    private PlayerPosition position;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "status")
-    @NonNull
-    private PlayerStatus status;
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Player player = (Player) o;
-        return Objects.equal(getId(), player.getId()) && Objects.equal(getClubId(), player.getClubId()) && Objects.equal(getRating(), player.getRating()) && Objects.equal(getName(), player.getName()) && getPosition() == player.getPosition() && getStatus() == player.getStatus();
+        Coach coach = (Coach) o;
+        return Objects.equal(getId(), coach.getId()) && Objects.equal(getClubId(), coach.getClubId())
+                && Objects.equal(getRating(), coach.getRating()) && Objects.equal(getName(), coach.getName());
     }
 
     @Override
@@ -62,13 +55,11 @@ public class Player {
 
     @Override
     public String toString() {
-        return "Player{" +
+        return "Coach{" +
                 "id=" + id +
                 ", clubId=" + clubId +
                 ", rating=" + rating +
                 ", name='" + name + '\'' +
-                ", position=" + position +
-                ", status=" + status +
                 '}';
     }
 }

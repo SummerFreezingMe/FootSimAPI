@@ -2,10 +2,8 @@ package com.footsim.domain.dto;
 
 import com.footsim.domain.model.SeasonStat;
 import com.google.common.base.Objects;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.validation.constraints.NotNull;
+import lombok.*;
 
 import java.io.Serializable;
 
@@ -14,39 +12,48 @@ import java.io.Serializable;
  */
 
 @SuppressWarnings("common-java:DuplicatedBlocks")
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
+@Data
 public class SeasonStatDTO implements Serializable {
 
+    @NotNull(message = "id cannot be null")
     private Long id;
+
+    @NotNull(message = "seasonId cannot be null")
     private Long seasonId;
 
-    private Long teamId;
+    @NotNull(message = "clubId cannot be null")
+    private Long clubId;
 
+    @NotNull(message = "points cannot be null")
     private Long points;
 
+    @NotNull(message = "wins cannot be null")
     private Long wins;
 
+    @NotNull(message = "draws cannot be null")
     private Long draws;
 
+    @NotNull(message = "defeats cannot be null")
     private Long defeats;
 
+    @NotNull(message = "goalsScored cannot be null")
     private Long goalsScored;
 
+    @NotNull(message = "goalsConceded cannot be null")
     private Long goalsConceded;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         SeasonStatDTO seasonDTO = (SeasonStatDTO) o;
-        return Objects.equal(getId(), seasonDTO.getId()) && Objects.equal(getSeasonId(), seasonDTO.getSeasonId())&& Objects.equal(getTeamId(), seasonDTO.getTeamId()) && Objects.equal(getPoints(), seasonDTO.getPoints());
+        return Objects.equal(getId(), seasonDTO.getId()) && Objects.equal(getSeasonId(), seasonDTO.getSeasonId())&&
+                Objects.equal(getClubId(), seasonDTO.getClubId()) && Objects.equal(getPoints(), seasonDTO.getPoints());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(getId(), getSeasonId(), getTeamId(), getPoints());
+        return Objects.hashCode(getId(), getSeasonId(), getClubId(), getPoints());
     }
 
     @Override
@@ -54,7 +61,7 @@ public class SeasonStatDTO implements Serializable {
         return "SeasonDTO{" +
                 "id=" + id +
                 ", leagueId=" + seasonId +
-                ", teamId=" + teamId +
+                ", clubId=" + clubId +
                 ", points=" + points +
                 ", wins=" + wins +
                 ", draws=" + draws +

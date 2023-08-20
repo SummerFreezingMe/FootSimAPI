@@ -4,19 +4,18 @@ import com.footsim.domain.dto.FoulDTO;
 import com.footsim.service.impl.FoulServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@CrossOrigin
+@AllArgsConstructor
 @Tag(name = "Фолы", description = "Методы, взаимодействующие с фолами")
 @RequestMapping(value = "/fouls")
 public class FoulController {
     private final FoulServiceImpl foulService;
-
-    public FoulController(FoulServiceImpl fsi) {
-        this.foulService = fsi;
-    }
 
     @GetMapping(value = "/get/{id}")
     @Operation(summary = "Получаем экземпляр фола по его Id")

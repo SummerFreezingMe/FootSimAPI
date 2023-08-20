@@ -4,38 +4,42 @@ import com.footsim.domain.enumeration.FoulType;
 import com.google.common.base.Objects;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.NonNull;
+import org.hibernate.annotations.GenericGenerator;
 
 /**
  * A Foul.
  */
-@Getter
-@Setter
+@Data
+@Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
 @Table(name = "foul")
 public class Foul {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
-    @SequenceGenerator(name = "sequenceGenerator")
+    @GeneratedValue(generator="increment")
+    @GenericGenerator(name="increment", strategy = "increment")
     @Column(name = "id")
     private Long id;
 
     @Column(name = "match_id")
+    @NonNull
     private Long matchId;
 
     @Column(name = "player_id")
+    @NonNull
     private Long playerId;
 
     @Column(name = "minute")
+    @NonNull
     private Short minute;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "type")
+    @NonNull
     private FoulType type;
 
     @Override

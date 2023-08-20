@@ -5,10 +5,8 @@ import com.footsim.domain.enumeration.PlayerPosition;
 import com.footsim.domain.enumeration.PlayerStatus;
 import com.footsim.domain.model.Player;
 import com.google.common.base.Objects;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.validation.constraints.NotNull;
+import lombok.*;
 
 import java.io.Serializable;
 
@@ -16,22 +14,24 @@ import java.io.Serializable;
  * A DTO for the {@link Player} entity.
  */
 @SuppressWarnings("common-java:DuplicatedBlocks")
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
+@Data
 public class PlayerDTO implements Serializable {
 
+    @NotNull(message = "id cannot be null")
     private Long id;
 
     private Long clubId;
 
-    private Long rating;
+    @NotNull(message = "rating cannot be null")
+    private Integer rating;
 
+    @NotNull(message = "Name cannot be null")
     private String name;
 
+    @NotNull(message = "position cannot be null")
     private PlayerPosition position;
 
+    @NotNull(message = "status cannot be null")
     private PlayerStatus status;
 
     @Override

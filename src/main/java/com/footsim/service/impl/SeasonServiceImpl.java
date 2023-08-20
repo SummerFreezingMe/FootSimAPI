@@ -6,8 +6,7 @@ import com.footsim.mapper.SeasonMapper;
 import com.footsim.repository.SeasonRepository;
 import com.footsim.service.SeasonService;
 import jakarta.persistence.EntityNotFoundException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,22 +19,14 @@ import java.util.stream.Collectors;
  */
 @Service
 @Transactional
+@AllArgsConstructor
 public class SeasonServiceImpl implements SeasonService {
-    private final Logger log = LoggerFactory.getLogger(SeasonServiceImpl.class);
 
     private final SeasonRepository seasonRepository;
-
     private final SeasonMapper seasonMapper;
-
-
-    public SeasonServiceImpl(SeasonRepository seasonRepository, SeasonMapper seasonMapper) {
-        this.seasonRepository = seasonRepository;
-        this.seasonMapper = seasonMapper;
-    }
 
     @Override
     public SeasonDTO save(SeasonDTO seasonDTO) {
-        log.debug("Request to save Season : {}", seasonDTO);
         Season season = seasonMapper.toEntity(seasonDTO);
         season = seasonRepository.save(season);
         return seasonMapper.toDto(season);
@@ -43,7 +34,6 @@ public class SeasonServiceImpl implements SeasonService {
 
     @Override
     public SeasonDTO update(SeasonDTO seasonDTO) {
-        log.debug("Request to update Season : {}", seasonDTO);
         Season season = seasonMapper.toEntity(seasonDTO);
         season = seasonRepository.save(season);
         return seasonMapper.toDto(season);
@@ -51,7 +41,6 @@ public class SeasonServiceImpl implements SeasonService {
 
     @Override
     public Optional<SeasonDTO> partialUpdate(SeasonDTO seasonDTO) {
-        log.debug("Request to partially update Season : {}", seasonDTO);
         return seasonRepository
                 .findById(seasonDTO.getId())
                 .map(existingSeason -> {
@@ -66,14 +55,14 @@ public class SeasonServiceImpl implements SeasonService {
     @Override
     @Transactional(readOnly = true)
     public List<SeasonDTO> findAll() {
-        log.debug("Request to get all Seasons");
-        return seasonRepository.findAll().stream().map(seasonMapper::toDto).collect(Collectors.toCollection(LinkedList::new));
+        return seasonRepository.findAll().stream()
+                .map(seasonMapper::toDto)
+                .collect(Collectors.toCollection(LinkedList::new));
     }
 
     @Override
     @Transactional(readOnly = true)
     public SeasonDTO findOne(Long id) {
-        log.debug("Request to get Season : {}", id);
         return seasonRepository.findById(id).map(seasonMapper::toDto).orElseThrow(
                 () -> new EntityNotFoundException("Season not found with id:" + id)
         );
@@ -81,7 +70,6 @@ public class SeasonServiceImpl implements SeasonService {
 
     @Override
     public void delete(Long id) {
-        log.debug("Request to delete Season : {}", id);
         seasonRepository.deleteById(id);
     }
 

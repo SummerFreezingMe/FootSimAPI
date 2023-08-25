@@ -1,5 +1,5 @@
 <dataset>
-    <player id="1" club_id="1" rating="111"
+    <player id="7" club_id="1" rating="111"
           name="Lionel Messi" position="FORWARD" status="ROSTER"/>
     <player id="2" club_id="1" rating="122"
           name="Luis Suarez" position="FORWARD" status="ROSTER"/>
@@ -12,9 +12,9 @@
     <player id="6" club_id="2" rating="133"
             name="Cristiano Ronaldo" position="FORWARD" status="ROSTER"/>
 
-    <goal id="1" match_id="1" author_id="1"
+    <goal id="1" match_id="1" author_id="7"
           assist_id="2" goal_minute="2" goal_type="DEFAULT"/>
-    <goal id="2" match_id="1" author_id="1"
+    <goal id="2" match_id="1" author_id="7"
           assist_id="2" goal_minute="81" goal_type="DEFAULT"/>
     <goal id="3" match_id="1" author_id="2"
           assist_id="3" goal_minute="14" goal_type="DEFAULT"/>

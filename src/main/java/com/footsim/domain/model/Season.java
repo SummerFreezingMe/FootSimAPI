@@ -31,7 +31,7 @@ public class Season implements Serializable {
     @NonNull
     private Long leagueId;
 
-    @Column(name = "year")
+    @Column(name = "season_year")
     @NonNull
     private String year;
 

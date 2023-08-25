@@ -15,8 +15,9 @@ import org.springframework.test.context.transaction.TransactionalTestExecutionLi
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import java.util.Random;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @DatabaseSetup(value = "/topactions.xml")
@@ -28,13 +29,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         DependencyInjectionTestExecutionListener.class,
         DbUnitTestExecutionListener.class
 }, mergeMode = TestExecutionListeners.MergeMode.MERGE_WITH_DEFAULTS)
-public class ControllerTest {
+public class PlayerControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
+    Random r = new Random();
+
     @Test
-    public void testGetVenueById() throws Exception {
-        final ResultActions result = mockMvc.perform(get("/players/get/1", 1)
+    public void testGetPlayerById() throws Exception {
+        final ResultActions result = mockMvc.perform(get("/players/get/7", 1)
                 .accept(MediaType.APPLICATION_JSON));
 
         result.andExpect(status().isOk())
@@ -46,19 +49,28 @@ public class ControllerTest {
                 .andExpect(jsonPath("$.position").value("FORWARD"));
     }
 
+    @Test
+    public void testGetAllPlayers() throws Exception {
+        final ResultActions result = mockMvc.perform(get("/players/get_all", 1)
+                .accept(MediaType.APPLICATION_JSON));
+
+        result.andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+    }
 
     @Test
     public void testAddPlayer() throws Exception {
+        String str = String.valueOf(r.nextInt(200));
         final ResultActions result = mockMvc.perform(post("/players/add")
                 .content("""
                         {
-                          "id": 0,
+                          "id": 1,
                           "clubId": 0,
                           "rating": 0,
-                          "name": "string",
+                          "name": "%s",
                           "position": "GOALKEEPER",
                           "status": "ROSTER"
-                        }""")
+                        }""".formatted(str))
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON));
 
@@ -67,8 +79,17 @@ public class ControllerTest {
                 .andExpect(jsonPath("$.clubId").value(0))
                 .andExpect(jsonPath("$.rating").value(0))
                 .andExpect(jsonPath("$.status").value("ROSTER"))
-                .andExpect(jsonPath("$.name").value("string"))
+                .andExpect(jsonPath("$.name").value(str))
                 .andExpect(jsonPath("$.position").value("GOALKEEPER"));
     }
+
+    @Test
+    public void testDeletePlayer() throws Exception {
+        final ResultActions result = mockMvc.perform(delete("/players/delete/1")
+                .accept(MediaType.APPLICATION_JSON));
+        result.andExpect(status().isOk());
+    }
+
+
 }
 

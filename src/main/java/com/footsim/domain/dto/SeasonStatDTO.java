@@ -21,8 +21,8 @@ public class SeasonStatDTO implements Serializable {
     @NotNull(message = "seasonId cannot be null")
     private Long seasonId;
 
-    @NotNull(message = "teamId cannot be null")
-    private Long teamId;
+    @NotNull(message = "clubId cannot be null")
+    private Long clubId;
 
     @NotNull(message = "points cannot be null")
     private Long points;
@@ -47,12 +47,13 @@ public class SeasonStatDTO implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         SeasonStatDTO seasonDTO = (SeasonStatDTO) o;
-        return Objects.equal(getId(), seasonDTO.getId()) && Objects.equal(getSeasonId(), seasonDTO.getSeasonId())&& Objects.equal(getTeamId(), seasonDTO.getTeamId()) && Objects.equal(getPoints(), seasonDTO.getPoints());
+        return Objects.equal(getId(), seasonDTO.getId()) && Objects.equal(getSeasonId(), seasonDTO.getSeasonId())&&
+                Objects.equal(getClubId(), seasonDTO.getClubId()) && Objects.equal(getPoints(), seasonDTO.getPoints());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(getId(), getSeasonId(), getTeamId(), getPoints());
+        return Objects.hashCode(getId(), getSeasonId(), getClubId(), getPoints());
     }
 
     @Override
@@ -60,7 +61,7 @@ public class SeasonStatDTO implements Serializable {
         return "SeasonDTO{" +
                 "id=" + id +
                 ", leagueId=" + seasonId +
-                ", teamId=" + teamId +
+                ", clubId=" + clubId +
                 ", points=" + points +
                 ", wins=" + wins +
                 ", draws=" + draws +

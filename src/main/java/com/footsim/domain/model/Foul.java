@@ -3,7 +3,11 @@ package com.footsim.domain.model;
 import com.footsim.domain.enumeration.FoulType;
 import com.google.common.base.Objects;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import org.hibernate.annotations.GenericGenerator;
 
 /**
  * A Foul.
@@ -16,8 +20,8 @@ import lombok.*;
 public class Foul {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
-    @SequenceGenerator(name = "sequenceGenerator")
+    @GeneratedValue(generator="increment")
+    @GenericGenerator(name="increment", strategy = "increment")
     @Column(name = "id")
     private Long id;
 

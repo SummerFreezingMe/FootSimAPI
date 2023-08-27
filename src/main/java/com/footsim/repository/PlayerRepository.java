@@ -3,7 +3,7 @@ package com.footsim.repository;
 import com.footsim.domain.enumeration.PlayerPosition;
 import com.footsim.domain.enumeration.PlayerStatus;
 import com.footsim.domain.model.Player;
-import com.footsim.domain.model.Team;
+import com.footsim.domain.model.Club;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -16,9 +16,9 @@ import java.util.List;
 @Repository
 public interface PlayerRepository extends JpaRepository<Player, Long> {
     /**
-     * Find all players in a distinct {@link Team}.
+     * Find all players in a distinct {@link Club}.
      *
-     * @param id ID of a team
+     * @param id ID of a club
      * @return List of players
      */
 
@@ -26,20 +26,20 @@ public interface PlayerRepository extends JpaRepository<Player, Long> {
 
 
     /**
-     * Count amount of players in a distinct {@link Team} of a distinct
+     * Count amount of players in a distinct {@link Club} of a distinct
      * {@link PlayerStatus}.
      *
-     * @param clubId ID of a {@link Team}
+     * @param clubId ID of a {@link Club}
      * @param status {@link PlayerStatus}
      * @return Amount of players
      */
     Integer countPlayerByClubIdAndStatus(Long clubId, PlayerStatus status);
 
     /**
-     * Count amount of players in a distinct {@link Team} of a distinct
+     * Count amount of players in a distinct {@link Club} of a distinct
      * {@link PlayerStatus} and a distinct {@link PlayerPosition}.
      *
-     * @param clubId         ID of a {@link Team}
+     * @param clubId         ID of a {@link Club}
      * @param playerPosition {@link PlayerPosition}
      * @param status         {@link PlayerStatus}
      * @return Amount of players
@@ -49,10 +49,10 @@ public interface PlayerRepository extends JpaRepository<Player, Long> {
                                                     PlayerStatus status);
 
     /**
-     * Find players in a distinct {@link Team} of a distinct
+     * Find players in a distinct {@link Club} of a distinct
      * {@link PlayerStatus}
      *
-     * @param clubId ID of a {@link Team}
+     * @param clubId ID of a {@link Club}
      * @param status {@link PlayerStatus}
      * @return List of players
      */

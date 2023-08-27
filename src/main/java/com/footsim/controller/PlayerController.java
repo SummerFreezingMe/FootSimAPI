@@ -63,5 +63,11 @@ public class PlayerController {
     public PlayerDTO transferPlayer(@RequestBody TransferDTO transfer) {
         return playerService.transferPlayer(transfer);
     }
+
+    @PostMapping(value = "/release")
+    @Operation(summary = "Отпускаем игрока из команды")
+    public PlayerDTO releasePlayer(@RequestBody PlayerDTO player) {
+        return playerService.releasePlayer(player);
+    }
 }
 

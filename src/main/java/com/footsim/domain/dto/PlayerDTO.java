@@ -23,7 +23,7 @@ public class PlayerDTO implements Serializable {
     private Long clubId;
 
     @NotNull(message = "rating cannot be null")
-    private Long rating;
+    private Integer rating;
 
     @NotNull(message = "Name cannot be null")
     private String name;

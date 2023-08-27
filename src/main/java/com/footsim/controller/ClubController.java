@@ -1,7 +1,7 @@
 package com.footsim.controller;
 
-import com.footsim.domain.dto.TeamDTO;
-import com.footsim.service.impl.TeamServiceImpl;
+import com.footsim.domain.dto.ClubDTO;
+import com.footsim.service.impl.ClubServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
@@ -13,38 +13,38 @@ import java.util.List;
 @CrossOrigin
 @AllArgsConstructor
 @Tag(name = "Клубы", description = "Методы, взаимодействующие с футбольными клубами")
-@RequestMapping(value = "/teams")
-public class TeamController {
+@RequestMapping(value = "/clubs")
+public class ClubController {
 
-    private final TeamServiceImpl teamService;
+    private final ClubServiceImpl clubService;
 
     @GetMapping(value = "/get/{id}")
     @Operation(summary = "Получаем экземпляр команды по его Id")
-    public TeamDTO getTeam(@PathVariable Long id) {
-        return teamService.findOne(id);
+    public ClubDTO getClub(@PathVariable Long id) {
+        return clubService.findOne(id);
     }
 
     @GetMapping(value = "/get_all")
     @Operation(summary = "Отображаем все команды")
-    public List<TeamDTO> getTeams() {
-        return teamService.findAll();
+    public List<ClubDTO> getClubs() {
+        return clubService.findAll();
     }
 
     @PostMapping(value = "/add")
     @Operation(summary = "Добавляем новую команду")
-    public TeamDTO addTeam(@RequestBody TeamDTO team) {
-        return teamService.save(team);
+    public ClubDTO addClub(@RequestBody ClubDTO club) {
+        return clubService.save(club);
     }
 
     @DeleteMapping(value = "/delete/{id}")
     @Operation(summary = "Удаление экземпляра команды по его Id")
-    public void deleteTeam(@PathVariable Long id) {
-        teamService.delete(id);
+    public void deleteClub(@PathVariable Long id) {
+        clubService.delete(id);
     }
 
     @PutMapping(value = "/update")
     @Operation(summary = "Изменяем существующую команду")
-    public TeamDTO updateTeam(@RequestBody TeamDTO team) {
-        return teamService.update(team);
+    public ClubDTO updateClub(@RequestBody ClubDTO club) {
+        return clubService.update(club);
     }
 }

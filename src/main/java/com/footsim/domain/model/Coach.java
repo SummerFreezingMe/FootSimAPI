@@ -2,22 +2,22 @@ package com.footsim.domain.model;
 
 import com.google.common.base.Objects;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.io.Serial;
 import java.io.Serializable;
 
 /**
- * A Season statistics for each competing team.
+ * A Coach.
  */
-
 @Data
 @Entity
 @NoArgsConstructor
-@Table(name = "season")
-@SuppressWarnings("common-java:DuplicatedBlocks")
-public class Season implements Serializable {
+@Table(name = "coach")
+public class Coach  implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -28,33 +28,38 @@ public class Season implements Serializable {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "league_id")
-    @NonNull
-    private Long leagueId;
+    @Column(name = "club_id")
+    private Long clubId;
 
-    @Column(name = "season_year")
+    @Column(name = "rating")
     @NonNull
-    private String year;
+    private Integer rating;
+
+    @Column(name = "name")
+    @NonNull
+    private String name;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Season season = (Season) o;
-        return Objects.equal(getId(), season.getId()) && Objects.equal(getLeagueId(), season.getLeagueId()) && Objects.equal(getYear(), season.getYear());
+        Coach coach = (Coach) o;
+        return Objects.equal(getId(), coach.getId()) && Objects.equal(getClubId(), coach.getClubId())
+                && Objects.equal(getRating(), coach.getRating()) && Objects.equal(getName(), coach.getName());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(getId(), getLeagueId(), getYear());
+        return Objects.hashCode(getId(), getClubId(), getRating(), getName());
     }
 
     @Override
     public String toString() {
-        return "Season{" +
+        return "Coach{" +
                 "id=" + id +
-                ", leagueId=" + leagueId +
-                ", year=" + year +
+                ", clubId=" + clubId +
+                ", rating=" + rating +
+                ", name='" + name + '\'' +
                 '}';
     }
 }

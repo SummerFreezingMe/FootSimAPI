@@ -6,6 +6,7 @@ import com.footsim.domain.enumeration.PlayerStatus;
 import com.google.common.base.Objects;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
 
 
 /**
@@ -20,8 +21,8 @@ public class Player {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
-    @SequenceGenerator(name = "sequenceGenerator")
+    @GeneratedValue(generator="increment")
+    @GenericGenerator(name="increment", strategy = "increment")
     @Column(name = "id")
     private Long id;
 
@@ -30,7 +31,7 @@ public class Player {
 
     @Column(name = "rating")
     @NonNull
-    private Long rating;
+    private Integer rating;
 
     @Column(name = "name")
     @NonNull

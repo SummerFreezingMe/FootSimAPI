@@ -3,6 +3,7 @@ package com.footsim.domain.model;
 import com.google.common.base.Objects;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -22,21 +23,21 @@ public class Match
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
-    @SequenceGenerator(name = "sequenceGenerator")
+    @GeneratedValue(generator="increment")
+    @GenericGenerator(name="increment", strategy = "increment")
     @Column(name = "id")
     private Long id;
 
     @Column(name = "season_id")
     private Long seasonId;
 
-    @Column(name = "home_team_id")
+    @Column(name = "home_club_id")
     @NonNull
-    private Long homeTeamId;
+    private Long homeClubId;
 
-    @Column(name = "away_team_id")
+    @Column(name = "away_club_id")
     @NonNull
-    private Long awayTeamId;
+    private Long awayClubId;
 
     @Column(name = "home_goals")
     @NonNull
@@ -55,12 +56,12 @@ public class Match
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Match match = (Match) o;
-        return Objects.equal(getId(), match.getId()) && Objects.equal(getSeasonId(), match.getSeasonId()) && Objects.equal(getHomeTeamId(), match.getHomeTeamId()) && Objects.equal(getAwayTeamId(), match.getAwayTeamId()) && Objects.equal(getHomeGoals(), match.getHomeGoals()) && Objects.equal(getAwayGoals(), match.getAwayGoals()) && Objects.equal(getDate(), match.getDate());
+        return Objects.equal(getId(), match.getId()) && Objects.equal(getSeasonId(), match.getSeasonId()) && Objects.equal(getHomeClubId(), match.getHomeClubId()) && Objects.equal(getAwayClubId(), match.getAwayClubId()) && Objects.equal(getHomeGoals(), match.getHomeGoals()) && Objects.equal(getAwayGoals(), match.getAwayGoals()) && Objects.equal(getDate(), match.getDate());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(getId(), getSeasonId(), getHomeTeamId(), getAwayTeamId(), getDate());
+        return Objects.hashCode(getId(), getSeasonId(), getHomeClubId(), getAwayClubId(), getDate());
     }
 
     @Override
@@ -68,8 +69,8 @@ public class Match
         return "Match{" +
                 "id=" + id +
                 ", seasonId=" + seasonId +
-                ", homeTeamId=" + homeTeamId +
-                ", awayTeamId=" + awayTeamId +
+                ", homeClubId=" + homeClubId +
+                ", awayClubId=" + awayClubId +
                 ", homeGoals=" + homeGoals +
                 ", AwayGoals=" + AwayGoals +
                 ", date=" + date +

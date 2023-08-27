@@ -9,8 +9,6 @@ import com.footsim.mapper.GoalMapper;
 import com.footsim.repository.GoalRepository;
 import com.footsim.service.GoalService;
 import jakarta.persistence.EntityNotFoundException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,8 +25,6 @@ import java.util.stream.Collectors;
 @Transactional
 public class GoalServiceImpl implements GoalService {
 
-    private final Logger log = LoggerFactory.getLogger(GoalServiceImpl.class);
-
     private final GoalRepository goalRepository;
 
     Random r = new Random();
@@ -42,7 +38,6 @@ public class GoalServiceImpl implements GoalService {
 
     @Override
     public GoalDTO save(GoalDTO GoalDTO) {
-        log.debug("Request to save Goal : {}", GoalDTO);
         Goal goal = goalMapper.toEntity(GoalDTO);
         goal = goalRepository.save(goal);
         return goalMapper.toDto(goal);
@@ -51,7 +46,6 @@ public class GoalServiceImpl implements GoalService {
 
     @Override
     public GoalDTO update(GoalDTO GoalDTO) {
-        log.debug("Request to update Goal : {}", GoalDTO);
         Goal goal = goalMapper.toEntity(GoalDTO);
         goal = goalRepository.save(goal);
         return goalMapper.toDto(goal);
@@ -59,8 +53,6 @@ public class GoalServiceImpl implements GoalService {
 
     @Override
     public Optional<GoalDTO> partialUpdate(GoalDTO GoalDTO) {
-        log.debug("Request to partially update Goal : {}", GoalDTO);
-
         return goalRepository
                 .findById(GoalDTO.getId())
                 .map(existingGoal -> {
@@ -75,14 +67,14 @@ public class GoalServiceImpl implements GoalService {
     @Override
     @Transactional(readOnly = true)
     public List<GoalDTO> findAll() {
-        log.debug("Request to get all Goals");
-        return goalRepository.findAll().stream().map(goalMapper::toDto).collect(Collectors.toCollection(LinkedList::new));
+        return goalRepository.findAll().stream()
+                .map(goalMapper::toDto)
+                .collect(Collectors.toCollection(LinkedList::new));
     }
 
     @Override
     @Transactional(readOnly = true)
     public GoalDTO findOne(Long id) {
-        log.debug("Request to get Goal : {}", id);
         return goalRepository.findById(id).map(goalMapper::toDto).orElseThrow(
                 () -> new EntityNotFoundException("Goal not found with id:" + id)
         );
@@ -90,7 +82,6 @@ public class GoalServiceImpl implements GoalService {
 
     @Override
     public void delete(Long id) {
-        log.debug("Request to delete Goal : {}", id);
         goalRepository.deleteById(id);
     }
 

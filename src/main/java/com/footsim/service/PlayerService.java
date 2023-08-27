@@ -78,4 +78,10 @@ public interface PlayerService {
      * @return DTO of transferred {@link Player}
      */
     PlayerDTO transferPlayer(TransferDTO transfer);
+
+    /** Release of a {@link Player}
+     * @param playerDTO DTO of a {@link Player} to release
+     * @return released {@link Player} DTO
+     */
+    PlayerDTO releasePlayer(PlayerDTO playerDTO);
 }

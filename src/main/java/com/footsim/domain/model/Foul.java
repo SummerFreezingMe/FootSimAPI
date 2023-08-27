@@ -33,12 +33,12 @@ public class Foul {
     @NonNull
     private Long playerId;
 
-    @Column(name = "minute")
+    @Column(name = "foul_minute")
     @NonNull
     private Short minute;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "type")
+    @Column(name = "foul_type")
     @NonNull
     private FoulType type;
 

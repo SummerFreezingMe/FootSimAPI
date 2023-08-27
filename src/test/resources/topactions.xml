@@ -1,0 +1,41 @@
+<dataset>
+    <player id="7" club_id="1" rating="111"
+          name="Lionel Messi" position="FORWARD" status="ROSTER"/>
+    <player id="2" club_id="1" rating="122"
+          name="Luis Suarez" position="FORWARD" status="ROSTER"/>
+    <player id="3" club_id="1" rating="133"
+          name="Neymar Jr." position="FORWARD" status="ROSTER"/>
+    <player id="4" club_id="2" rating="111"
+            name="Gareth Bale" position="FORWARD" status="ROSTER"/>
+    <player id="5" club_id="2" rating="122"
+            name="Karim Benzema" position="FORWARD" status="ROSTER"/>
+    <player id="6" club_id="2" rating="133"
+            name="Cristiano Ronaldo" position="FORWARD" status="ROSTER"/>
+
+    <goal id="1" match_id="1" author_id="7"
+          assist_id="2" goal_minute="2" goal_type="DEFAULT"/>
+    <goal id="2" match_id="1" author_id="7"
+          assist_id="2" goal_minute="81" goal_type="DEFAULT"/>
+    <goal id="3" match_id="1" author_id="2"
+          assist_id="3" goal_minute="14" goal_type="DEFAULT"/>
+    <goal id="4" match_id="1" author_id="3"
+          assist_id="2" goal_minute="39" goal_type="DEFAULT"/>
+    <goal id="5" match_id="1" author_id="6"
+          assist_id="4" goal_minute="22" goal_type="DEFAULT"/>
+    <goal id="6" match_id="1" author_id="6"
+          assist_id="5" goal_minute="46" goal_type="DEFAULT"/>
+    <goal id="7" match_id="1" author_id="6"
+          goal_minute="89" goal_type="PENALTY"/>
+    <goal id="8" match_id="1" author_id="2"
+             goal_minute="66" goal_type="AUTOGOAL"/>
+
+    <team id="1" name="Barcelona" rating="1111"
+          league_id="1" balance="2"/>
+    <team id="2" name="Real Madrid" rating="1111"
+          league_id="1" balance="3"/>
+
+    <season id="1" league_id="1" season_year="2015"/>
+    <league  id="1" participants="20" name="La Liga"/>
+    <match id="1" season_id="1" home_team_id="1" away_team_id="2"
+           home_goals="4" away_goals="4"/>
+</dataset>

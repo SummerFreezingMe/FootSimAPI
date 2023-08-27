@@ -36,12 +36,12 @@ public class Goal {
     @Column(name = "assist_id")
     private Long assistId;
 
-    @Column(name = "minute")
+    @Column(name = "goal_minute")
     @NonNull
     private Short minute;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "type")
+    @Column(name = "goal_type")
     @NonNull
     private GoalType type;
 

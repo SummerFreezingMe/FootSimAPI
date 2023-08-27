@@ -16,7 +16,7 @@ import java.util.List;
 @CrossOrigin
 @AllArgsConstructor
 @Tag(name = "Игроки", description = "Методы, взаимодействующие с игроками")
-@RequestMapping("/players")
+@RequestMapping("/api/players")
 public class PlayerController {
     private final PlayerServiceImpl playerService;
 

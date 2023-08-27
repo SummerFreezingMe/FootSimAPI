@@ -15,7 +15,7 @@ import java.util.List;
 @CrossOrigin
 @AllArgsConstructor
 @Tag(name = "Тренеры", description = "Методы, взаимодействующие с тренерами")
-@RequestMapping("/coaches")
+@RequestMapping("/api/coaches")
 public class CoachController {
     private final CoachServiceImpl coachService;
 

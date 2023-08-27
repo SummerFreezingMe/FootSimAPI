@@ -13,7 +13,7 @@ import java.util.List;
 @CrossOrigin
 @AllArgsConstructor
 @Tag(name = "Лиги", description = "Методы, взаимодействующие с лигами/чемпионатами")
-@RequestMapping(value = "/leagues")
+@RequestMapping(value = "/api/leagues")
 public class LeagueController {
     private final LeagueServiceImpl leagueService;
 

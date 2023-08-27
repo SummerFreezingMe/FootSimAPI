@@ -13,7 +13,7 @@ import java.util.List;
 @CrossOrigin
 @AllArgsConstructor
 @Tag(name = "Фолы", description = "Методы, взаимодействующие с фолами")
-@RequestMapping(value = "/fouls")
+@RequestMapping(value = "/api/fouls")
 public class FoulController {
     private final FoulServiceImpl foulService;
 

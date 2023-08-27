@@ -14,7 +14,7 @@ import java.util.List;
 @CrossOrigin
 @AllArgsConstructor
 @Tag(name = "Сезоны", description = "Методы, взаимодействующие с сезонами чемпионатов")
-@RequestMapping(value = "/seasons")
+@RequestMapping(value = "/api/seasons")
 public class SeasonController {
     private final SeasonServiceImpl seasonService;
 

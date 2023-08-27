@@ -13,7 +13,7 @@ import java.util.List;
 @CrossOrigin
 @AllArgsConstructor
 @Tag(name = "Матчи", description = "Методы, взаимодействующие с матчами")
-@RequestMapping(value = "/matches")
+@RequestMapping(value = "/api/matches")
 public class MatchController {
     private final MatchServiceImpl matchService;
 

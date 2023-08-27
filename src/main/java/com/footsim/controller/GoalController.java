@@ -14,7 +14,7 @@ import java.util.List;
 @CrossOrigin
 @AllArgsConstructor
 @Tag(name = "Голы", description = "Методы, взаимодействующие с голами")
-@RequestMapping(value = "/goals")
+@RequestMapping(value = "/api/goals")
 public class GoalController {
     private final GoalServiceImpl goalService;
 

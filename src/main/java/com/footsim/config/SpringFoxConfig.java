@@ -14,7 +14,7 @@ public class SpringFoxConfig {
     public GroupedOpenApi publicApi() {
         return GroupedOpenApi.builder()
                 .group("footsim-api")
-                .pathsToMatch("/**")
+                .pathsToMatch("/api/**")
                 .build();
     }
 

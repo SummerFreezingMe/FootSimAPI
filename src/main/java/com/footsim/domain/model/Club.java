@@ -3,6 +3,7 @@ package com.footsim.domain.model;
 
 import com.google.common.base.Objects;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Positive;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -56,6 +57,7 @@ public class Club implements Serializable {
 
     @Column(name = "balance")
     @NonNull
+    @Positive
     private Long balance;
 
     @Override

@@ -59,15 +59,15 @@ public class PlayerControllerTest {
 
     @Test
     public void testUpdatePlayer() throws Exception {
-        final ResultActions result = mockMvc.perform(put("/players/update")
+        final ResultActions result = mockMvc.perform(put("/api/players/update/1")
                 .content("""
                         {
-                          "id": 1,
+                          "id": 2,
                           "clubId": 1,
-                          "rating": 123,
-                          "name" : "Ze Bolotniy"
-                          "position": "GOALKEEPER",
-                          "status": "BENCH"
+                                             "rating": 123,
+                                             "name": "string",
+                                             "position": "GOALKEEPER",
+                                             "status": "ROSTER"
                         }""")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON));

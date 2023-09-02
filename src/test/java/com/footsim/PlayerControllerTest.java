@@ -37,7 +37,7 @@ public class PlayerControllerTest {
 
     @Test
     public void testGetPlayerById() throws Exception {
-        final ResultActions result = mockMvc.perform(get("/players/get/7", 1)
+        final ResultActions result = mockMvc.perform(get("/api/players/get/7", 1)
                 .accept(MediaType.APPLICATION_JSON));
 
         result.andExpect(status().isOk())
@@ -51,7 +51,7 @@ public class PlayerControllerTest {
 
     @Test
     public void testGetAllPlayers() throws Exception {
-        final ResultActions result = mockMvc.perform(get("/players/get_all", 1)
+        final ResultActions result = mockMvc.perform(get("/api/players/get_all", 1)
                 .accept(MediaType.APPLICATION_JSON));
         result.andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
@@ -59,15 +59,15 @@ public class PlayerControllerTest {
 
     @Test
     public void testUpdatePlayer() throws Exception {
-        final ResultActions result = mockMvc.perform(put("/api/players/update/1")
+        final ResultActions result = mockMvc.perform(put("/api/players/update/2")
                 .content("""
                         {
                           "id": 2,
                           "clubId": 1,
-                                             "rating": 123,
-                                             "name": "string",
-                                             "position": "GOALKEEPER",
-                                             "status": "ROSTER"
+                          "rating": 123,
+                          "name": "Ze Bolotniy",
+                          "position": "GOALKEEPER",
+                          "status": "BENCH"
                         }""")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON));
@@ -80,7 +80,7 @@ public class PlayerControllerTest {
     @Test
     public void testAddPlayer() throws Exception {
         String str = String.valueOf(r.nextInt(200));
-        final ResultActions result = mockMvc.perform(post("/players/add")
+        final ResultActions result = mockMvc.perform(post("/api/players/add")
                 .content("""
                         {
                           "id": 1,
@@ -104,17 +104,17 @@ public class PlayerControllerTest {
 
     @Test
     public void testDeletePlayer() throws Exception {
-        final ResultActions result = mockMvc.perform(delete("/players/delete/1")
+        final ResultActions result = mockMvc.perform(delete("/api/players/delete/1")
                 .accept(MediaType.APPLICATION_JSON));
         result.andExpect(status().isOk());
     }
 
     @Test
     public void testTransferPlayerSuccessful() throws Exception {
-        final ResultActions result = mockMvc.perform(post("/players/transfer")
+        final ResultActions result = mockMvc.perform(post("/api/players/transfer")
                 .content("""
                         {
-                                 "playerId": 3,
+                                 "personId": 3,
                                  "clubFromId": 1,
                                  "clubToId": 2,
                                  "transferFee": 2,
@@ -135,7 +135,7 @@ public class PlayerControllerTest {
 
     @Test
     public void testPlayerChangeStatus() throws Exception {
-        final ResultActions result = mockMvc.perform(get("/switch_status/2/BENCH")
+        final ResultActions result = mockMvc.perform(get("/api/players/switch_status/2/BENCH")
                 .accept(MediaType.APPLICATION_JSON));
         result.andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.status").value("BENCH"));

@@ -12,6 +12,11 @@
     <player id="6" club_id="2" rating="133"
             name="Cristiano Ronaldo" position="FORWARD" status="ROSTER"/>
 
+    <coach id="1" club_id="1" rating="150"
+            name="Pep Guardiola" />
+    <coach id="2" club_id="2" rating="150"
+            name="Zinedine Zidane" />
+
     <goal id="1" match_id="1" author_id="7"
           assist_id="2" goal_minute="2" goal_type="DEFAULT"/>
     <goal id="2" match_id="1" author_id="7"

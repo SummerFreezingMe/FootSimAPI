@@ -56,6 +56,9 @@
     <club id="2" name="Real Madrid" rating="1111"
           league_id="1" balance="3"/>
 
+    <season_stat id="1" season_id="1" club_id="1" club_points="0" wins="0"
+                 draws="0" defeats="0" goals_scored="0" goals_conceded="0"/>
+
     <season id="1" league_id="1" season_year="2015"/>
     <league  id="1" participants="20" name="La Liga"/>
     <match id="1" season_id="1" home_club_id="1" away_club_id="2"

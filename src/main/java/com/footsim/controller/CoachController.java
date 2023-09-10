@@ -1,11 +1,11 @@
 package com.footsim.controller;
 
 import com.footsim.domain.dto.CoachDTO;
-import com.footsim.domain.dto.PlayerDTO;
 import com.footsim.domain.dto.TransferDTO;
 import com.footsim.service.impl.CoachServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,8 +22,12 @@ public class CoachController {
 
     @PutMapping(value = "/update/{id}")
     @Operation(summary = "Изменяем существующих тренеров")
-    public CoachDTO updateCoach(@RequestBody CoachDTO coach) {
-        return coachService.update(coach);
+    public CoachDTO updateCoach(@RequestBody CoachDTO coach,
+                                @PathVariable("id") Long id) {
+        coach.setId(id);
+        return coachService.partialUpdate(coach).orElseThrow(
+                () -> new EntityNotFoundException("Coach not found with id:" + id)
+        );
     }
 
     @GetMapping(value = "/get/{id}")

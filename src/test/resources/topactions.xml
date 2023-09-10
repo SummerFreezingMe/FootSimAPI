@@ -12,6 +12,11 @@
     <player id="6" club_id="2" rating="133"
             name="Cristiano Ronaldo" position="FORWARD" status="ROSTER"/>
 
+    <coach id="1" club_id="1" rating="150"
+            name="Pep Guardiola" />
+    <coach id="2" club_id="2" rating="150"
+            name="Zinedine Zidane" />
+
     <goal id="1" match_id="1" author_id="7"
           assist_id="2" goal_minute="2" goal_type="DEFAULT"/>
     <goal id="2" match_id="1" author_id="7"
@@ -29,13 +34,33 @@
     <goal id="8" match_id="1" author_id="2"
              goal_minute="66" goal_type="AUTOGOAL"/>
 
-    <team id="1" name="Barcelona" rating="1111"
+    <foul id="1" match_id="1" player_id="2"
+          foul_minute="5" foul_type="YELLOW_CARD"/>
+    <foul id="2" match_id="1" player_id="5"
+          foul_minute="18" foul_type="NO_CARD"/>
+    <foul id="3" match_id="1" player_id="4"
+          foul_minute="25" foul_type="NO_CARD"/>
+    <foul id="4" match_id="1" player_id="3"
+          foul_minute="36" foul_type="NO_CARD"/>
+    <foul id="5" match_id="1" player_id="2"
+          foul_minute="49" foul_type="RED_CARD"/>
+    <foul id="6" match_id="1" player_id="7"
+          foul_minute="56" foul_type="NO_CARD"/>
+    <foul id="7" match_id="1" player_id="6"
+          foul_minute="82" foul_type="NO_CARD"/>
+    <foul id="8" match_id="1" player_id="5"
+          foul_minute="90" foul_type="YELLOW_CARD"/>
+
+    <club id="1" name="Barcelona" rating="1111"
           league_id="1" balance="2"/>
-    <team id="2" name="Real Madrid" rating="1111"
+    <club id="2" name="Real Madrid" rating="1111"
           league_id="1" balance="3"/>
+
+    <season_stat id="1" season_id="1" club_id="1" club_points="0" wins="0"
+                 draws="0" defeats="0" goals_scored="0" goals_conceded="0"/>
 
     <season id="1" league_id="1" season_year="2015"/>
     <league  id="1" participants="20" name="La Liga"/>
-    <match id="1" season_id="1" home_team_id="1" away_team_id="2"
+    <match id="1" season_id="1" home_club_id="1" away_club_id="2"
            home_goals="4" away_goals="4"/>
 </dataset>

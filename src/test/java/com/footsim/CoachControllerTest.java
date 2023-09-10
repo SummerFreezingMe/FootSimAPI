@@ -2,6 +2,7 @@ package com.footsim;
 
 import com.github.springtestdbunit.DbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
+import org.hamcrest.core.IsNull;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,92 +30,88 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         DependencyInjectionTestExecutionListener.class,
         DbUnitTestExecutionListener.class
 }, mergeMode = TestExecutionListeners.MergeMode.MERGE_WITH_DEFAULTS)
-public class PlayerControllerTest {
+public class CoachControllerTest {
+
     @Autowired
     private MockMvc mockMvc;
 
     Random r = new Random();
 
     @Test
-    public void testGetPlayerById() throws Exception {
-        final ResultActions result = mockMvc.perform(get("/api/players/get/7", 1)
+    public void testGetCoachById() throws Exception {
+        final ResultActions result = mockMvc.perform(get("/api/coaches/get/1", 1)
                 .accept(MediaType.APPLICATION_JSON));
 
         result.andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.clubId").value(1))
-                .andExpect(jsonPath("$.rating").value(111))
-                .andExpect(jsonPath("$.status").value("ROSTER"))
-                .andExpect(jsonPath("$.name").value("Lionel Messi"))
-                .andExpect(jsonPath("$.position").value("FORWARD"));
+                .andExpect(jsonPath("$.rating").value(150))
+                .andExpect(jsonPath("$.name").value("Pep Guardiola"));
     }
 
     @Test
-    public void testGetAllPlayers() throws Exception {
-        final ResultActions result = mockMvc.perform(get("/api/players/get_all", 1)
+    public void testGetAllCoaches() throws Exception {
+        final ResultActions result = mockMvc.perform(get("/api/coaches/get_all", 1)
                 .accept(MediaType.APPLICATION_JSON));
         result.andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
     }
 
     @Test
-    public void testUpdatePlayer() throws Exception {
-        final ResultActions result = mockMvc.perform(put("/api/players/update/2")
+    public void testUpdateCoach() throws Exception {
+        final ResultActions result = mockMvc.perform(put("/api/coaches/update/2")
                 .content("""
                         {
                           "id": 2,
-                          "clubId": 1,
+                          "clubId": 2,
                           "rating": 123,
-                          "name": "Ze Bolotniy",
-                          "position": "GOALKEEPER",
-                          "status": "BENCH"
+                          "name": "Stanislav Cherchesov"
                         }""")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON));
 
         result.andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.status").value("BENCH"));
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.clubId").value(2))
+                .andExpect(jsonPath("$.rating").value(123))
+                .andExpect(jsonPath("$.name").value("Stanislav Cherchesov"));
     }
 
     @Test
-    public void testAddPlayer() throws Exception {
+    public void testAddCoach() throws Exception {
         String str = String.valueOf(r.nextInt(200));
-        final ResultActions result = mockMvc.perform(post("/api/players/add")
+        final ResultActions result = mockMvc.perform(post("/api/coaches/add")
                 .content("""
                         {
-                          "id": 1,
-                          "clubId": 0,
-                          "rating": 0,
-                          "name": "%s",
-                          "position": "GOALKEEPER",
-                          "status": "ROSTER"
+                          "id": 3,
+                          "clubId": 1,
+                          "rating": 99,
+                          "name": "%s"
                         }""".formatted(str))
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON));
 
         result.andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.clubId").value(0))
-                .andExpect(jsonPath("$.rating").value(0))
-                .andExpect(jsonPath("$.status").value("ROSTER"))
-                .andExpect(jsonPath("$.name").value(str))
-                .andExpect(jsonPath("$.position").value("GOALKEEPER"));
+                .andExpect(jsonPath("$.clubId").value(1))
+                .andExpect(jsonPath("$.rating").value(99))
+                .andExpect(jsonPath("$.name").value(str));
     }
 
     @Test
-    public void testDeletePlayer() throws Exception {
-        final ResultActions result = mockMvc.perform(delete("/api/players/delete/1")
+    public void testDeleteCoach() throws Exception {
+        final ResultActions result = mockMvc.perform(delete("/api/coaches/delete/1")
                 .accept(MediaType.APPLICATION_JSON));
         result.andExpect(status().isOk());
     }
 
     @Test
-    public void testTransferPlayerSuccessful() throws Exception {
-        final ResultActions result = mockMvc.perform(post("/api/players/transfer")
+    public void testTransferCoachSuccessful() throws Exception {
+        final ResultActions result = mockMvc.perform(post("/api/coaches/transfer")
                 .content("""
                         {
-                                 "personId": 3,
+                                 "personId": 1,
                                  "clubFromId": 1,
                                  "clubToId": 2,
                                  "transferFee": 2,
@@ -123,24 +120,24 @@ public class PlayerControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON));
 
-        result.andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.clubId").value(2))
-                .andExpect(jsonPath("$.rating").value(133))
-                .andExpect(jsonPath("$.status").value("ROSTER"))
-                .andExpect(jsonPath("$.name").value("Neymar Jr."))
-                .andExpect(jsonPath("$.position").value("FORWARD"));
+        result.andExpect(status().isOk());
     }
 
 
     @Test
-    public void testPlayerChangeStatus() throws Exception {
-        final ResultActions result = mockMvc.perform(get("/api/players/switch_status/2/BENCH")
+    public void testCoachRelease() throws Exception {
+        final ResultActions result = mockMvc.perform(post("/api/coaches/release")
+                .content("""
+                        {
+                          "id": 1,
+                          "clubId": 1,
+                          "rating": 99,
+                          "name": "Pep Guardiola"
+                        }""")
+                .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON));
         result.andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.status").value("BENCH"));
+                .andExpect(jsonPath("$.clubId").value(IsNull.nullValue()));
     }
 
-
 }
-

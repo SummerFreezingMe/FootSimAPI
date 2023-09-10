@@ -101,7 +101,7 @@ public class PlayerServiceImpl implements PlayerService {
                 findById(transfer.getClubToId()).orElseThrow(
                         () -> new EntityNotFoundException("Player not found with id:" + transfer.getClubToId()));
         transferredPlayer.setClubId(transfer.getClubToId());
-        if (transfer.getTransferFee() > toClub.getBalance()) {
+        if (transfer.getTransferFee() <= toClub.getBalance()) {
             toClub.setBalance(toClub.getBalance() - transfer.getTransferFee());
             fromClub.setBalance(fromClub.getBalance() + transfer.getTransferFee());
             playerRepository.save(transferredPlayer);

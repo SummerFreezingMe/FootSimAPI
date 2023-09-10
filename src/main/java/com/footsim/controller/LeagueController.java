@@ -4,6 +4,7 @@ import com.footsim.domain.dto.LeagueDTO;
 import com.footsim.service.impl.LeagueServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,10 +24,14 @@ public class LeagueController {
         return leagueService.findOne(id);
     }
 
-    @PutMapping(value = "/update")
+    @PutMapping(value = "/update/{id}")
     @Operation(summary = "Изменяем существующую лигу")
-    public LeagueDTO updateLeague(@RequestBody LeagueDTO league) {
-        return leagueService.update(league);
+    public LeagueDTO updateLeague(@RequestBody LeagueDTO league,
+                                  @PathVariable("id") Long id) {
+        league.setId(id);
+        return leagueService.partialUpdate(league).orElseThrow(
+                () -> new EntityNotFoundException("League not found with id:" + id)
+        );
     }
 
     @PostMapping(value = "/add")

@@ -4,6 +4,7 @@ import com.footsim.domain.dto.FoulDTO;
 import com.footsim.service.impl.FoulServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,10 +37,14 @@ public class FoulController {
         foulService.delete(id);
     }
 
-    @PutMapping(value = "/update")
+    @PutMapping(value = "/update/{id}")
     @Operation(summary = "Изменяем существующий фол")
-    public FoulDTO updateFoul(@RequestBody FoulDTO foul) {
-        return foulService.update(foul);
+    public FoulDTO updateFoul(@RequestBody FoulDTO foul,
+                              @PathVariable("id") Long id) {
+        foul.setId(id);
+        return foulService.partialUpdate(foul).orElseThrow(
+                () -> new EntityNotFoundException("Foul not found with id:" + id)
+        );
     }
 
     @GetMapping(value = "/get_all")

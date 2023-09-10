@@ -1,0 +1,75 @@
+<dataset>
+    <player id="7" club_id="1" rating="190"
+            name="Lionel Messi" position="FORWARD" status="ROSTER"/>
+    <player id="2" club_id="1" rating="170"
+            name="Luis Suarez" position="FORWARD" status="ROSTER"/>
+    <player id="3" club_id="1" rating="175"
+            name="Neymar Jr." position="FORWARD" status="ROSTER"/>
+    <player id="4" club_id="1" rating="180"
+            name="Andrés Iniesta" position="MIDFIELDER" status="ROSTER"/>
+    <player id="5" club_id="1" rating="170"
+            name="Sergio Busquets" position="MIDFIELDER" status="ROSTER"/>
+    <player id="6" club_id="1" rating="165"
+            name="Ivan Rakitic" position="MIDFIELDER" status="ROSTER"/>
+    <player id="8" club_id="1" rating="160"
+            name="Jordi Alba" position="DEFENDER" status="ROSTER"/>
+    <player id="9" club_id="1" rating="170"
+            name="Gerard Piqué" position="DEFENDER" status="ROSTER"/>
+    <player id="10" club_id="1" rating="160"
+            name="Marc Bartra" position="DEFENDER" status="ROSTER"/>
+    <player id="11" club_id="1" rating="175"
+            name="Dani Alves" position="DEFENDER" status="ROSTER"/>
+    <player id="12" club_id="1" rating="175"
+            name="Marc-André ter Stegen" position="GOALKEEPER" status="ROSTER"/>
+
+
+
+
+    <player id="14" club_id="2" rating="180"
+            name="Gareth Bale" position="FORWARD" status="ROSTER"/>
+    <player id="15" club_id="2" rating="175"
+            name="Karim Benzema" position="FORWARD" status="ROSTER"/>
+    <player id="16" club_id="2" rating="185"
+            name="Cristiano Ronaldo" position="FORWARD" status="ROSTER"/>
+    <player id="17" club_id="2" rating="175"
+            name="James Rodríguez" position="MIDFIELDER" status="ROSTER"/>
+    <player id="18" club_id="2" rating="180"
+            name="Luka Modric" position="MIDFIELDER" status="ROSTER"/>
+    <player id="19" club_id="2" rating="180"
+            name="Toni Kroos" position="MIDFIELDER" status="ROSTER"/>
+    <player id="20" club_id="2" rating="175"
+            name="Marcelo" position="DEFENDER" status="ROSTER"/>
+    <player id="21" club_id="2" rating="180"
+            name="Sergio Ramos" position="DEFENDER" status="ROSTER"/>
+    <player id="22" club_id="2" rating="170"
+            name="Raphaël Varane" position="DEFENDER" status="ROSTER"/>
+    <player id="23" club_id="2" rating="165"
+            name="Daniel Carvajal" position="DEFENDER" status="ROSTER"/>
+    <player id="24" club_id="2" rating="175"
+            name="Iker Casillas" position="GOALKEEPER" status="ROSTER"/>
+
+
+
+
+
+    <coach id="1" club_id="1" rating="150"
+           name="Pep Guardiola" />
+    <coach id="2" club_id="2" rating="150"
+           name="Carlo Ancelotti" />
+
+
+    <club id="1" name="Barcelona" rating="1111"
+          league_id="1" balance="2"/>
+    <club id="2" name="Real Madrid" rating="1111"
+          league_id="1" balance="3"/>
+
+    <season_stat id="1" season_id="1" club_id="1" club_points="0" wins="0"
+                 draws="0" defeats="0" goals_scored="0" goals_conceded="0"/>
+    <season_stat id="2" season_id="1" club_id="2" club_points="0" wins="0"
+                 draws="0" defeats="0" goals_scored="0" goals_conceded="0"/>
+
+    <season id="1" league_id="1" season_year="2015"/>
+    <league  id="1" participants="20" name="La Liga"/>
+    <match id="1" season_id="1" home_club_id="1" away_club_id="2"
+           home_goals="4" away_goals="4"/>
+</dataset>

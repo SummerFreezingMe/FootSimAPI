@@ -132,4 +132,12 @@ public class SeasonStatControllerTest {
                 .accept(MediaType.APPLICATION_JSON));
         result.andExpect(status().isOk());
     }
+
+    //fails with 404 because there is generated stat for this season already
+    @Test
+    public void testInitSeasonStatFailed() throws Exception {
+        final ResultActions result = mockMvc.perform(get("/api/season_stats/init_season/1")
+                .accept(MediaType.APPLICATION_JSON));
+        result.andExpect(status().isNotFound());
+    }
 }

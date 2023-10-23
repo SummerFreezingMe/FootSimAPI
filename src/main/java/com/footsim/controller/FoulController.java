@@ -1,7 +1,7 @@
 package com.footsim.controller;
 
 import com.footsim.domain.dto.FoulDTO;
-import com.footsim.service.impl.FoulServiceImpl;
+import com.footsim.service.FoulService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
@@ -15,7 +15,7 @@ import java.util.List;
 @Tag(name = "Фолы", description = "Методы, взаимодействующие с фолами")
 @RequestMapping(value = "/api/fouls")
 public class FoulController {
-    private final FoulServiceImpl foulService;
+    private final FoulService foulService;
 
     @GetMapping(value = "/get/{id}")
     @Operation(summary = "Получаем экземпляр фола по его Id")

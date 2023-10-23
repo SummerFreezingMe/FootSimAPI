@@ -1,7 +1,7 @@
 package com.footsim.controller;
 
 import com.footsim.domain.dto.LeagueDTO;
-import com.footsim.service.impl.LeagueServiceImpl;
+import com.footsim.service.LeagueService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
@@ -15,7 +15,7 @@ import java.util.List;
 @Tag(name = "Лиги", description = "Методы, взаимодействующие с лигами/чемпионатами")
 @RequestMapping(value = "/api/leagues")
 public class LeagueController {
-    private final LeagueServiceImpl leagueService;
+    private final LeagueService leagueService;
 
     @GetMapping(value = "/get/{id}")
     @Operation(summary = "Получаем экземпляр чемпионата по его Id")

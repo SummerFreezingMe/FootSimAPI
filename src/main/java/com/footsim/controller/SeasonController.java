@@ -2,7 +2,7 @@ package com.footsim.controller;
 
 
 import com.footsim.domain.dto.SeasonDTO;
-import com.footsim.service.impl.SeasonServiceImpl;
+import com.footsim.service.SeasonService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
@@ -16,7 +16,7 @@ import java.util.List;
 @Tag(name = "Сезоны", description = "Методы, взаимодействующие с сезонами чемпионатов")
 @RequestMapping(value = "/api/seasons")
 public class SeasonController {
-    private final SeasonServiceImpl seasonService;
+    private final SeasonService seasonService;
 
     @GetMapping(value = "/get/{id}")
     @Operation(summary = "Получаем экземпляр сезона по его Id")

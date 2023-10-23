@@ -1,9 +1,8 @@
 package com.footsim.controller;
 
 import com.footsim.domain.dto.CoachDTO;
-import com.footsim.domain.dto.PlayerDTO;
 import com.footsim.domain.dto.TransferDTO;
-import com.footsim.service.impl.CoachServiceImpl;
+import com.footsim.service.CoachService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
@@ -17,7 +16,7 @@ import java.util.List;
 @Tag(name = "Тренеры", description = "Методы, взаимодействующие с тренерами")
 @RequestMapping("/api/coaches")
 public class CoachController {
-    private final CoachServiceImpl coachService;
+    private final CoachService coachService;
 
 
     @PutMapping(value = "/update/{id}")

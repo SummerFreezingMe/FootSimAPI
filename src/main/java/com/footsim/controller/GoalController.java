@@ -2,7 +2,7 @@ package com.footsim.controller;
 
 import com.footsim.domain.dto.GoalDTO;
 import com.footsim.domain.dto.TopActionsDTO;
-import com.footsim.service.impl.GoalServiceImpl;
+import com.footsim.service.GoalService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
@@ -16,7 +16,7 @@ import java.util.List;
 @Tag(name = "Голы", description = "Методы, взаимодействующие с голами")
 @RequestMapping(value = "/api/goals")
 public class GoalController {
-    private final GoalServiceImpl goalService;
+    private final GoalService goalService;
 
     @GetMapping(value = "/get/{id}")
     @Operation(summary = "Получаем экземпляр гола по его Id")

@@ -1,7 +1,7 @@
 package com.footsim.controller;
 
 import com.footsim.domain.dto.MatchDTO;
-import com.footsim.service.impl.MatchServiceImpl;
+import com.footsim.service.MatchService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
@@ -15,7 +15,7 @@ import java.util.List;
 @Tag(name = "Матчи", description = "Методы, взаимодействующие с матчами")
 @RequestMapping(value = "/api/matches")
 public class MatchController {
-    private final MatchServiceImpl matchService;
+    private final MatchService matchService;
 
     @PostMapping(value = "/add")
     @Operation(summary = "Добавляем новый матч")

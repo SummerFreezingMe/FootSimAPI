@@ -1,7 +1,7 @@
 package com.footsim.controller;
 
 import com.footsim.domain.dto.ClubDTO;
-import com.footsim.service.impl.ClubServiceImpl;
+import com.footsim.service.ClubService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
@@ -16,7 +16,7 @@ import java.util.List;
 @RequestMapping(value = "/api/clubs")
 public class ClubController {
 
-    private final ClubServiceImpl clubService;
+    private final ClubService clubService;
 
     @GetMapping(value = "/get/{id}")
     @Operation(summary = "Получаем экземпляр команды по его Id")

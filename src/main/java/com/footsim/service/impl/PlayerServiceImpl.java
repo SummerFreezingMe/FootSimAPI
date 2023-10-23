@@ -9,6 +9,7 @@ import com.footsim.mapper.PlayerMapper;
 import com.footsim.repository.ClubRepository;
 import com.footsim.repository.PlayerRepository;
 import com.footsim.service.PlayerService;
+import com.footsim.service.exceptions.NotEnoughMoneyException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -83,8 +84,8 @@ public class PlayerServiceImpl implements PlayerService {
         Player player = playerRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Player not found with id:" + id)
         );
-            player.setStatus(status);
-            playerRepository.save(player);
+        player.setStatus(status);
+        playerRepository.save(player);
         return playerMapper.toDto(player);
     }
 
@@ -100,12 +101,15 @@ public class PlayerServiceImpl implements PlayerService {
                 findById(transfer.getClubToId()).orElseThrow(
                         () -> new EntityNotFoundException("Player not found with id:" + transfer.getClubToId()));
         transferredPlayer.setClubId(transfer.getClubToId());
-        toClub.setBalance(toClub.getBalance() - transfer.getTransferFee());
-        fromClub.setBalance(fromClub.getBalance() + transfer.getTransferFee());
-        playerRepository.save(transferredPlayer);
-        clubRepository.save(toClub);
-        clubRepository.save(fromClub);
-        return playerMapper.toDto(transferredPlayer);
+        if (transfer.getTransferFee() <= toClub.getBalance()) {
+            toClub.setBalance(toClub.getBalance() - transfer.getTransferFee());
+            fromClub.setBalance(fromClub.getBalance() + transfer.getTransferFee());
+            playerRepository.save(transferredPlayer);
+            clubRepository.save(toClub);
+            clubRepository.save(fromClub);
+            return playerMapper.toDto(transferredPlayer);
+        }
+        else throw new NotEnoughMoneyException(fromClub);
     }
 
     @Override

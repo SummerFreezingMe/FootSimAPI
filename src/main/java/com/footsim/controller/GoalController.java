@@ -5,6 +5,7 @@ import com.footsim.domain.dto.TopActionsDTO;
 import com.footsim.service.GoalService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,10 +37,14 @@ public class GoalController {
         goalService.delete(id);
     }
 
-    @PutMapping(value = "/update")
+    @PutMapping(value = "/update/{id}")
     @Operation(summary = "Изменяем существующий гол")
-    public GoalDTO updateGoal(@RequestBody GoalDTO goal) {
-        return goalService.update(goal);
+    public GoalDTO updateGoal(@RequestBody GoalDTO goal,
+                              @PathVariable("id") Long id) {
+        goal.setId(id);
+        return goalService.partialUpdate(goal).orElseThrow(
+                () -> new EntityNotFoundException("Goal not found with id:" + id)
+        );
     }
     @GetMapping(value = "/get_all")
     @Operation(summary = "Отображаем все голы")

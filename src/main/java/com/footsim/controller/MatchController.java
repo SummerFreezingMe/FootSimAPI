@@ -4,6 +4,7 @@ import com.footsim.domain.dto.MatchDTO;
 import com.footsim.service.MatchService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,10 +36,14 @@ public class MatchController {
         matchService.delete(id);
     }
 
-    @PutMapping(value = "/update")
+    @PutMapping(value = "/update/{id}")
     @Operation(summary = "Изменяем существующий матч")
-    public MatchDTO updateMatch(@RequestBody MatchDTO match) {
-        return matchService.update(match);
+    public MatchDTO updateMatch(@RequestBody MatchDTO match,
+                                @PathVariable("id") Long id) {
+        match.setId(id);
+        return matchService.partialUpdate(match).orElseThrow(
+                () -> new EntityNotFoundException("Match not found with id:" + id)
+        );
     }
     @GetMapping(value = "/get_all")
     @Operation(summary = "Отображаем все матчи")

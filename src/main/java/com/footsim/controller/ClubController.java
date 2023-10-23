@@ -4,6 +4,7 @@ import com.footsim.domain.dto.ClubDTO;
 import com.footsim.service.ClubService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,9 +43,13 @@ public class ClubController {
         clubService.delete(id);
     }
 
-    @PutMapping(value = "/update")
+    @PutMapping(value = "/update/{id}")
     @Operation(summary = "Изменяем существующую команду")
-    public ClubDTO updateClub(@RequestBody ClubDTO club) {
-        return clubService.update(club);
+    public ClubDTO updateClub(@RequestBody ClubDTO club,
+                              @PathVariable("id") Long id) {
+        club.setId(id);
+        return clubService.partialUpdate(club).orElseThrow(
+                () -> new EntityNotFoundException("Club not found with id:" + id)
+        );
     }
 }

@@ -7,6 +7,7 @@ import com.footsim.domain.enumeration.PlayerStatus;
 import com.footsim.service.PlayerService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,8 +24,12 @@ public class PlayerController {
 
     @PutMapping(value = "/update/{id}")
     @Operation(summary = "Изменяем существующих игроков")
-    public PlayerDTO updatePlayer(@RequestBody PlayerDTO player) {
-        return playerService.update(player);
+    public PlayerDTO updatePlayer(@RequestBody PlayerDTO player,
+                                  @PathVariable("id") Long id) {
+        player.setId(id);
+        return playerService.partialUpdate(player).orElseThrow(
+                () -> new EntityNotFoundException("Player not found with id:" + id)
+        );
     }
 
     @GetMapping(value = "/get/{id}")

@@ -4,6 +4,7 @@ import com.footsim.domain.dto.SeasonStatDTO;
 import com.footsim.service.SeasonStatService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -42,10 +43,14 @@ public class SeasonStatController {
         seasonService.delete(id);
     }
 
-    @PutMapping(value = "/update")
+    @PutMapping(value = "/update/{id}")
     @Operation(summary = "Изменяем существующие сезоны")
-    public SeasonStatDTO updateSeason(@RequestBody SeasonStatDTO season) {
-        return seasonService.update(season);
+    public SeasonStatDTO updateSeason(@RequestBody SeasonStatDTO season,
+                                      @PathVariable("id") Long id) {
+        season.setId(id);
+        return seasonService.partialUpdate(season).orElseThrow(
+                () -> new EntityNotFoundException("SeasonStat not found with id:" + id)
+        );
     }
 
     @GetMapping(value = "/init_season/{id}")
